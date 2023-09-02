@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+          "@/*": [
+              "./src/*"
+          ]
+      },
+      "outDir": "./dist/",
+      "isolatedModules": true,
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "target": "ESNext",
+      "module": "ESNext",
+      "esModuleInterop": true,
+      "strict": true,
+      "jsx": "react",
+      "allowJs": true,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      // "declaration": true,
+      // "declarationDir": "types",
+      // "emitDeclarationOnly": true
+  },
+  "include": [
+      "./src/**/*.tsx",
+      "./src/**/*.ts",
+      "./custom.d.ts",
+  ],
+}
