@@ -6,10 +6,14 @@
   "repository": "git@github.com:ssh0le/date-picker.git",
   "author": "Bo <omuqqz@gmail.com>",
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx eslint --fix"
+    }
+  },
   "scripts": {
     "lint": "eslint .",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "storybook dev -p 6006"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.10",
@@ -38,6 +42,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-storybook": "^0.6.13",
+    "husky": "^8.0.3",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -50,5 +55,6 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  }
+  },
+  "dependencies": {}
 }
