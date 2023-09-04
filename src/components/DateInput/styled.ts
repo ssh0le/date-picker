@@ -12,14 +12,22 @@ export const LabelContainer = styled.label`
     font-weight: bold;
 `;
 
-export const InputContainer = styled.div`
+
+interface InputContainerProps {
+    isValid: boolean
+}
+
+export const InputContainer = styled.div<InputContainerProps>`
     display: flex;
-    justify-content: flex-start;
     gap: 8px;
-    border: 1px solid #dddddd;
+    border: 1px solid ${({ isValid }) => isValid ? '#dddddd' : 'red'};
     border-radius: 8px;
     padding: 11px 15px;
 `;
+
+export const Icon = styled.div`
+
+`
 
 export const ClearIcon = styled.img`
     cursor: pointer;
@@ -27,6 +35,8 @@ export const ClearIcon = styled.img`
 
 export const Input = styled.input`
     flex-grow: 1;
+    min-width: 0;
+    display: block;
     outline: none;
     border: none;
 `;

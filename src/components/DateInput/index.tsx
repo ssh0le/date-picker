@@ -1,29 +1,51 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useCallback, useState } from 'react';
 
-import { getInputIcon } from '@/helpers';
+import { datePattern, inputIcons } from '@/constants';
+import { convertToDate } from '@/helpers';
 
-import { ClearIcon, DateInputContainer, Input, InputContainer, LabelContainer } from './styled';
+import { DateInputProps } from './interfaces';
+import { DateInputContainer, Input, InputContainer, LabelContainer } from './styled';
 
-const DateInput: FC = () => {
+const { clear, calendar, ok } = inputIcons;
+
+const DateInput: FC<DateInputProps> = ({ label, onSubmit }) => {
     const [input, setInput] = useState<string>('');
+    const [isValid, setIsValid] = useState<boolean>(true);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setInput(e.target.value);
+        const value = e.target.value;
+        if (value === '' || (value?.length > 0 && /[0-9./\\]/g.test(value.at(-1)!))) {
+            setInput(e.target.value);
+            setIsValid(true);
+        }
     };
 
-    const handleClearClick = () => {
+    const handleClearClick = useCallback(() => {
         setInput('');
+    }, []);
+
+    const handleApplyClick = () => {
+        const date = convertToDate(input);
+        if (date) {
+            onSubmit(date);
+        } else {
+            setIsValid(false);
+        }
     };
 
     return (
         <DateInputContainer>
-            <LabelContainer>Date</LabelContainer>
-            <InputContainer>
-                <img src={getInputIcon('calendar')} />
-                <Input value={input} onChange={handleInputChange} placeholder="Choose date" />
-                {!!input.length && (
-                    <ClearIcon onClick={handleClearClick} src={getInputIcon('clear')} />
-                )}
+            <LabelContainer>{label}</LabelContainer>
+            <InputContainer isValid={isValid}>
+                <img src={calendar} />
+                <Input
+                    value={input}
+                    onChange={handleInputChange}
+                    pattern={datePattern}
+                    placeholder="Choose date (dd/mm/yyyy)"
+                />
+                {!!input.length && <img onClick={handleApplyClick} src={ok} />}
+                {!!input.length && <img onClick={handleClearClick} src={clear} />}
             </InputContainer>
         </DateInputContainer>
     );
