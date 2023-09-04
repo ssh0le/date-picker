@@ -3,19 +3,21 @@ import { CalendarStyles } from '@/interfaces/calendar';
 const lightBlue = '#2F80ED1A';
 const blue = '#2F80ED99';
 const hardBlue = '#2F80ED';
-const borderRadius = '8px';
 const lightGray = '#F1F1F1';
 const gray = '#AAAAAA';
+const orange = '#f93';
+const selectedBorderRadius = '8px';
+const defaultBorderRadius = '0';
 
-const leftBorderRadius = {
-    borderBottomLeftRadius: borderRadius,
-    borderTopLeftRadius: borderRadius,
-};
+const getLeftBorderRadius = (radius: string) => ({
+    borderBottomLeftRadius: radius,
+    borderTopLeftRadius: radius,
+});
 
-const rightBorderRadius = {
-    borderBottomRightRadius: borderRadius,
-    borderTopRightRadius: borderRadius,
-};
+const getRightBorderRadius = (radius: string) => ({
+    borderBottomRightRadius: radius,
+    borderTopRightRadius: radius,
+});
 
 export const defaultStyles: Required<CalendarStyles> = {
     innerDay: {
@@ -27,23 +29,28 @@ export const defaultStyles: Required<CalendarStyles> = {
     selectedDay: {
         color: hardBlue,
         backgroundColor: lightBlue,
+        ...getLeftBorderRadius(defaultBorderRadius),
+        ...getRightBorderRadius(defaultBorderRadius),
     },
     selectionHeadDay: {
         color: 'white',
         backgroundColor: blue,
-        ...leftBorderRadius,
+        ...getLeftBorderRadius(selectedBorderRadius),
     },
     selectionTailDay: {
         color: 'white',
         backgroundColor: hardBlue,
-        ...rightBorderRadius,
+        ...getRightBorderRadius(selectedBorderRadius),
     },
     today: {
         backgroundColor: lightGray,
-        ...leftBorderRadius,
-        ...rightBorderRadius,
+        ...getRightBorderRadius(selectedBorderRadius),
+        ...getLeftBorderRadius(selectedBorderRadius),
     },
     weekend: {
         color: 'red',
     },
+    holiday: {
+        color: orange,
+    }
 };

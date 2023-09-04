@@ -1,9 +1,7 @@
 import { FC } from 'react';
 
-import { CalendarStyles, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarStyles, CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
 import { BaseCalendarProps } from '@/interfaces/decorators';
-
-export type isSelectionFunc = (day: Date, currentDate: Date) => boolean;
 
 export interface WithCalendarProps {
     Component: FC<BaseCalendarProps>;
@@ -13,4 +11,6 @@ export interface WithCalendarProps {
     weekStartDay?: WeekStartDay;
     highlightWeekends?: boolean;
     styles?: CalendarStyles;
+    viewType?: CalendarViewType;
+    holidays?: Holiday[],
 }

@@ -1,20 +1,30 @@
-import React, { ComponentProps, FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+    ComponentProps,
+    FC,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react';
 
 import {
+    areEqualDates,
     areEqualMonthAndYear,
     getCalendar,
+    getDestructuredDate,
     getFormattedDate,
     getWeekDays,
+    isInRange,
     isToday,
     isWeekEnd,
     mergeWithDefaultStyles,
 } from '@/helpers';
-import { addMonthsToDate } from '@/helpers/addMonthsToDate';
+import { addMonthsToDate, addWeeksToDate } from '@/helpers';
 import { mergeObjects } from '@/helpers/mergeObjects';
-import { CalendarDayStyle, WeekStartDay } from '@/interfaces/calendar';
-import { CalendarDecorativeProps } from '@/interfaces/decorators';
+import { CalendarDayStyle, CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
+import { WithCalendarAdditionalProps, WithCalendarOmittedProps } from '@/interfaces/decorators';
 
-import { isSelectionFunc, WithCalendarProps } from './interfaces';
+import { WithCalendarProps } from './interfaces';
 
 const withCalendar = (props: WithCalendarProps) => {
     const {
@@ -24,35 +34,53 @@ const withCalendar = (props: WithCalendarProps) => {
         weekStartDay = WeekStartDay.Monday,
         styles,
         highlightWeekends,
+        viewType = CalendarViewType.Month,
+        holidays,
     } = props;
+
+    const weekDaysNames = getWeekDays(weekStartDay);
+
+    const mergedStyles = mergeWithDefaultStyles(styles);
+
+    const getConvertedHolidays = (currentDate: Date): { name: string; date: Date }[] => {
+        const [year] = getDestructuredDate(currentDate);
+        return (
+            holidays?.map(({ name, month, day }) => ({ name, date: new Date(year, month, day) })) ??
+            []
+        );
+    };
     const withCalendarComponent: FC<
-        Omit<ComponentProps<typeof Component>, keyof CalendarDecorativeProps> & {
-            isSelectionHead?: isSelectionFunc;
-            isSelectionTail?: isSelectionFunc;
-            isSelected?: isSelectionFunc;
-            initialDate: Date | null;
-        }
+        Omit<ComponentProps<typeof Component>, keyof WithCalendarOmittedProps> & WithCalendarAdditionalProps
     > = (nextProps) => {
-        console.log('with calendared render');
-        const { isSelectionHead, isSelectionTail, isSelected, initialDate } = nextProps;
+        const { isSelectionHead, isSelectionTail, isSelected, initialDate, renderDay } = nextProps;
         const [currentDate, setCurrentDate] = useState<Date>(initialDate ?? new Date());
-        const hasNext = maxDate === undefined || !areEqualMonthAndYear(currentDate, maxDate);
-        const hasPrev = minDate === undefined || !areEqualMonthAndYear(currentDate, minDate);
+
+        const days = useMemo(
+            () => getCalendar(currentDate, weekStartDay, viewType),
+            [currentDate, weekStartDay, viewType],
+        );
+
+        const firstDay = days.at(0)!;
+        const lastDay = days.at(-1)!;
 
         useEffect(() => {
-            if (initialDate && !areEqualMonthAndYear(initialDate, currentDate)) {
+            if (initialDate && !isInRange(initialDate, firstDay, lastDay)) {
                 setCurrentDate(initialDate);
             }
         }, [initialDate]);
 
-        const days = useMemo(
-            () => getCalendar(currentDate, weekStartDay),
-            [currentDate, weekStartDay],
+        const convertedHolidays = useMemo(
+            () => getConvertedHolidays(currentDate),
+            [currentDate.getFullYear()],
         );
 
-        const weekDaysNames = useMemo(() => getWeekDays(weekStartDay), [weekStartDay]);
-
-        const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
+        const filteredHolidays = useMemo(
+            () =>
+                convertedHolidays.filter(({date}) => {
+                    return isInRange(date, firstDay, lastDay);
+                }),
+            [days],
+        );
 
         const defineStyle = (day: Date): CalendarDayStyle => {
             const style: CalendarDayStyle = {};
@@ -64,6 +92,7 @@ const withCalendar = (props: WithCalendarProps) => {
                 selectionHeadDay,
                 selectionTailDay,
                 selectedDay,
+                holiday,
             } = mergedStyles;
             mergeObjects(style, innerDay);
             if (isToday(day)) {
@@ -72,7 +101,7 @@ const withCalendar = (props: WithCalendarProps) => {
             if (highlightWeekends && isWeekEnd(day)) {
                 mergeObjects(style, weekend);
             }
-            if (!areEqualMonthAndYear(currentDate, day)) {
+            if (viewType === CalendarViewType.Month && !areEqualMonthAndYear(currentDate, day)) {
                 mergeObjects(style, outerDay);
             }
             if (isSelected && isSelected(day, currentDate)) {
@@ -84,21 +113,45 @@ const withCalendar = (props: WithCalendarProps) => {
             if (isSelectionTail && isSelectionTail(day, currentDate)) {
                 mergeObjects(style, selectionTailDay);
             }
+            if (filteredHolidays.length) {
+                const dayHoliday = filteredHolidays.find(({date}) => areEqualDates(day, date));
+                if (dayHoliday) {
+                    mergeObjects(style, holiday);
+                }
+            }
             return style;
         };
 
         const title = getFormattedDate(currentDate);
 
-        const addMonthToCurrentDate = useCallback((month: number) => {
-            setCurrentDate((prevDate) => addMonthsToDate(prevDate, month));
-        }, []);
+        const getNextDate = useCallback(
+            (prevDate: Date, amount: number) => {
+                if (viewType === CalendarViewType.Month) {
+                    return addMonthsToDate(prevDate, amount);
+                } else {
+                    return addWeeksToDate(prevDate, amount);
+                }
+            },
+            [viewType],
+        );
 
-        const handleNextClick = useCallback(() => addMonthToCurrentDate(1), []);
-        const handlePrevClick = useCallback(() => addMonthToCurrentDate(-1), []);
+        const addToCurrentDate = useCallback(
+            (amount: 1 | -1) => {
+                setCurrentDate((prevDate) => getNextDate(prevDate, amount));
+            },
+            [getNextDate],
+        );
+
+        const handleNextClick = useCallback(() => addToCurrentDate(1), []);
+        const handlePrevClick = useCallback(() => addToCurrentDate(-1), []);
+
+        const hasNext = maxDate === undefined || lastDay < maxDate;
+        const hasPrev = minDate === undefined || firstDay > minDate;
 
         return (
             <Component
                 {...nextProps}
+                renderDay={renderDay}
                 days={days}
                 title={title}
                 weekDayNames={weekDaysNames}
