@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import { getHeaderIcon } from '@/helpers';
+import { headerIcons } from '@/constants';
 import { BaseCalendarProps } from '@/interfaces/decorators';
+import GlobalStyle from '@/styles/global';
 
 import {
     CalendarContent,
@@ -15,17 +16,30 @@ import {
     WeekDayContainer,
 } from './styled';
 
+const { next, prev } = headerIcons;
+
 const BaseCalendar: FC<BaseCalendarProps> = (props) => {
-    const { weekDayNames, hasNext, hasPrev, onNextClick, onPrevClick, days, title, defineStyle } =
-        props;
+    const {
+        weekDayNames,
+        hasNext,
+        hasPrev,
+        onNextClick,
+        onPrevClick,
+        days,
+        title,
+        defineStyle,
+        hasSelection,
+        onClearClick,
+    } = props;
 
     return (
         <CalendarWrapper>
+            <GlobalStyle />
             <CalendarContent>
                 <CalendarHeader>
-                    {hasPrev && <NavIcon onClick={onPrevClick} src={getHeaderIcon('prev')} />}
+                    {hasPrev && <NavIcon onClick={onPrevClick} src={prev} />}
                     <HeaderTitle>{title}</HeaderTitle>
-                    {hasNext && <NavIcon onClick={onNextClick} src={getHeaderIcon('next')} />}
+                    {hasNext && <NavIcon onClick={onNextClick} src={next} />}
                 </CalendarHeader>
                 <CalendarGrid>
                     {weekDayNames!.map((day, index) => (
@@ -43,7 +57,7 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
                     })}
                 </CalendarGrid>
             </CalendarContent>
-            {false && <ClearButton>Clear</ClearButton>}
+            {hasSelection && <ClearButton onClick={onClearClick}>Clear</ClearButton>}
         </CalendarWrapper>
     );
 };
