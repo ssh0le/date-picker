@@ -1,30 +1,15 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
+import React, { FC,  useMemo } from 'react';
 
-import { areEqualDates } from '@/helpers';
+import withPicker from '@/hocs/Pickers/withPicker';
 import withCalendar from '@/hocs/withCalendar';
+import { PickerProps } from '@/interfaces/pickers';
 
 import BaseCalendar from '../BaseCalendar';
-import DateInput from '../DateInput';
 
-import { CalendarProps } from './interfaces';
 import { DatePickerContainer } from './styled';
 
-const Calendar: FC<CalendarProps> = (props) => {
-    const { minDate, maxDate, styles, weekStartDay, highlightWeekends } = props;
-    const [selectedDay, setSelectedDay] = useState<null | Date>(null);
-
-    const handleDateSubmit = useCallback((day: Date) => {
-        setSelectedDay((prevDate) => areEqualDates(prevDate, day) ? prevDate : day);
-    }, []);
-
-    const isSelected = (day: Date) => {
-        if (!selectedDay) return false;
-        return selectedDay.getMonth() === day.getMonth() && selectedDay.getDate() === day.getDate();
-    };
-
-    const handleClearClick = () => {
-        setSelectedDay(null);
-    }
+const Calendar: FC<PickerProps> = (props) => {
+    const { minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays } = props;
 
     const WithCalendar = useMemo(
         () =>
@@ -35,19 +20,17 @@ const Calendar: FC<CalendarProps> = (props) => {
                 styles,
                 weekStartDay,
                 highlightWeekends,
+                viewType,
+                holidays,
             }),
-        [minDate, maxDate, styles, weekStartDay, highlightWeekends],
+        [minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays],
     );
+
+    const WithPicker = useMemo(() => withPicker({ Component: WithCalendar }), [WithCalendar]);
+
     return (
         <DatePickerContainer>
-            <DateInput label="Date" onSubmit={handleDateSubmit} />
-            <WithCalendar
-                isSelectionHead={isSelected}
-                isSelectionTail={isSelected}
-                initialDate={selectedDay}
-                onClearClick={handleClearClick}
-                hasSelection={Boolean(selectedDay)}
-            />
+            <WithPicker />
         </DatePickerContainer>
     );
 };

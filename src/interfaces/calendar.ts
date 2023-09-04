@@ -35,4 +35,11 @@ export interface CalendarStyles {
     selectionHeadDay?: CalendarDayStyle;
     today?: CalendarDayStyle;
     weekend?: CalendarDayStyle;
+    holiday?: CalendarDayStyle;
+}
+
+export interface Holiday {
+    name: string,
+    day: number,
+    month: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
 }
