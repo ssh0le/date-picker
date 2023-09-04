@@ -1,3 +1,4 @@
+export * from './addToDate';
 export * from './areEqualDates';
 export * from './areEqualMonthAndYear';
 export * from './convertToDate';
@@ -7,6 +8,7 @@ export * from './getFormattedDate';
 export * from './getObjectProperty';
 export * from './getWeekDayIndex';
 export * from './getWeekDays';
+export * from './isInRange';
 export * from './isToday';
 export * from './isWeekEnd';
 export * from './mergeWithDefaultStyles';

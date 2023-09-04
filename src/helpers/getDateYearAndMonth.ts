@@ -1,3 +1,3 @@
-export const getDateYearAndMonth = (date: Date): [number, number] => {
-    return [date.getFullYear(), date.getMonth()];
+export const getDestructuredDate = (date: Date): [number, number, number] => {
+    return [date.getFullYear(), date.getMonth(), date.getDate()];
 };

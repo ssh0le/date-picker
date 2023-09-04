@@ -1,3 +1,3 @@
-export const isInRange = (start: Date, end: Date, day: Date) {
-    
+export const isInRange = (date: Date, start: Date, end: Date): boolean => {
+    return date >= start && date <= end;
 }
