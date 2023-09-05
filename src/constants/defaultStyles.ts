@@ -52,5 +52,7 @@ export const defaultStyles: Required<CalendarStyles> = {
     },
     holiday: {
         color: orange,
+        borderRight: '3px solid ' + orange,
+        borderBottom: '3px solid ' + orange,
     }
 };

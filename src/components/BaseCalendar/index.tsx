@@ -30,7 +30,6 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
         hasSelection,
         defineStyle,
         onClearClick,
-        renderDay,
     } = props;
 
     return (
@@ -49,16 +48,12 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
                 </CalendarGrid>
                 <CalendarGrid>
                     {days!.map((day, index) => {
-                        if (!renderDay) {
-                            const styles = defineStyle(day);
-                            return (
-                                <DayContainer styles={styles} key={index}>
-                                    {day.getDate()}
-                                </DayContainer>
-                            );
-                        }
-                        const Day = renderDay(day);
-                        return <Day key={index} />;
+                        const styles = defineStyle && defineStyle(day);
+                        return (
+                            <DayContainer styles={styles} key={index}>
+                                {day.getDate()}
+                            </DayContainer>
+                        );
                     })}
                 </CalendarGrid>
             </CalendarContent>

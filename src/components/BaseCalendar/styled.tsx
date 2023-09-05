@@ -46,6 +46,7 @@ export const GridCell = styled.div`
     padding: 10px;
     width: 32px;
     height: 32px;
+    box-sizing: border-box;
 `;
 
 export const WeekDayContainer = styled(GridCell)`
