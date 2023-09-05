@@ -9,27 +9,23 @@ export interface WithCalendarOmittedProps {
     days: Date[];
     title: string;
     weekDayNames: string[];
-    defineStyle: (day: Date) => CalendarDayStyle;
     hasPrev: boolean;
     onNextClick: () => void;
     onPrevClick: () => void;
-    renderDay?: (day: Date) => ElementType;
 }
 
 
 export type isSelectionFunc = (day: Date, currentDate: Date) => boolean;
 
 export interface WithCalendarAdditionalProps {
-    isSelectionHead?: isSelectionFunc;
-    isSelectionTail?: isSelectionFunc;
-    isSelected?: isSelectionFunc;
     initialDate: Date | null;
-    renderDay?: (day: Date) => ElementType;
 }
 
-export type WithPickerOmittedProps = Omit<WithCalendarAdditionalProps, 'renderDay'> & Pick<BaseCalendarProps, 'onClearClick' | 'hasSelection'>
+export type WithPickerOmittedProps = WithCalendarAdditionalProps & Pick<BaseCalendarProps, 'onClearClick' | 'hasSelection'>
 
 export type BaseCalendarProps = WithCalendarOmittedProps & {
     onClearClick: () => void;
     hasSelection: boolean;
+    defineStyle?: (day: Date) => CalendarDayStyle;
+    renderDay?: (day: Date) => ElementType;
 };

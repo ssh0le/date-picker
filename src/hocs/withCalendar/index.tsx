@@ -1,12 +1,6 @@
-import React, {
-    ComponentProps,
-    FC,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-} from 'react';
+import React, { ComponentProps, FC, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { defaultStyles } from '@/constants';
 import {
     areEqualDates,
     areEqualMonthAndYear,
@@ -17,7 +11,6 @@ import {
     isInRange,
     isToday,
     isWeekEnd,
-    mergeWithDefaultStyles,
 } from '@/helpers';
 import { addMonthsToDate, addWeeksToDate } from '@/helpers';
 import { mergeObjects } from '@/helpers/mergeObjects';
@@ -32,7 +25,7 @@ const withCalendar = (props: WithCalendarProps) => {
         minDate,
         maxDate,
         weekStartDay = WeekStartDay.Monday,
-        styles,
+        styles = defaultStyles,
         highlightWeekends,
         viewType = CalendarViewType.Month,
         holidays,
@@ -40,19 +33,11 @@ const withCalendar = (props: WithCalendarProps) => {
 
     const weekDaysNames = getWeekDays(weekStartDay);
 
-    const mergedStyles = mergeWithDefaultStyles(styles);
-
-    const getConvertedHolidays = (currentDate: Date): { name: string; date: Date }[] => {
-        const [year] = getDestructuredDate(currentDate);
-        return (
-            holidays?.map(({ name, month, day }) => ({ name, date: new Date(year, month, day) })) ??
-            []
-        );
-    };
     const withCalendarComponent: FC<
-        Omit<ComponentProps<typeof Component>, keyof WithCalendarOmittedProps> & WithCalendarAdditionalProps
+        Omit<ComponentProps<typeof Component>, keyof WithCalendarOmittedProps> &
+            WithCalendarAdditionalProps
     > = (nextProps) => {
-        const { isSelectionHead, isSelectionTail, isSelected, initialDate, renderDay } = nextProps;
+        const { initialDate, renderDay, defineStyle } = nextProps;
         const [currentDate, setCurrentDate] = useState<Date>(initialDate ?? new Date());
 
         const days = useMemo(
@@ -69,31 +54,18 @@ const withCalendar = (props: WithCalendarProps) => {
             }
         }, [initialDate]);
 
-        const convertedHolidays = useMemo(
-            () => getConvertedHolidays(currentDate),
-            [currentDate.getFullYear()],
-        );
-
         const filteredHolidays = useMemo(
             () =>
-                convertedHolidays.filter(({date}) => {
-                    return isInRange(date, firstDay, lastDay);
+                (holidays ?? []).filter(({ month, day }) => {
+                    const [year] = getDestructuredDate(currentDate);
+                    return isInRange(new Date(year, month, day), firstDay, lastDay);
                 }),
             [days],
         );
 
-        const defineStyle = (day: Date): CalendarDayStyle => {
+        const defineComponentStyle = (day: Date): CalendarDayStyle => {
             const style: CalendarDayStyle = {};
-            const {
-                today,
-                weekend,
-                outerDay,
-                innerDay,
-                selectionHeadDay,
-                selectionTailDay,
-                selectedDay,
-                holiday,
-            } = mergedStyles;
+            const { today, weekend, outerDay, innerDay, holiday } = styles;
             mergeObjects(style, innerDay);
             if (isToday(day)) {
                 mergeObjects(style, today);
@@ -104,20 +76,18 @@ const withCalendar = (props: WithCalendarProps) => {
             if (viewType === CalendarViewType.Month && !areEqualMonthAndYear(currentDate, day)) {
                 mergeObjects(style, outerDay);
             }
-            if (isSelected && isSelected(day, currentDate)) {
-                mergeObjects(style, selectedDay);
-            }
-            if (isSelectionHead && isSelectionHead(day, currentDate)) {
-                mergeObjects(style, selectionHeadDay);
-            }
-            if (isSelectionTail && isSelectionTail(day, currentDate)) {
-                mergeObjects(style, selectionTailDay);
-            }
+
             if (filteredHolidays.length) {
-                const dayHoliday = filteredHolidays.find(({date}) => areEqualDates(day, date));
+                const [year] = getDestructuredDate(day);
+                const dayHoliday = filteredHolidays.find(({ month, day: hDay }) =>
+                    areEqualDates(day, new Date(year, month, hDay)),
+                );
                 if (dayHoliday) {
                     mergeObjects(style, holiday);
                 }
+            }
+            if (defineStyle) {
+                mergeObjects(style, defineStyle(day));
             }
             return style;
         };
@@ -157,7 +127,7 @@ const withCalendar = (props: WithCalendarProps) => {
                 weekDayNames={weekDaysNames}
                 onNextClick={handleNextClick}
                 onPrevClick={handlePrevClick}
-                defineStyle={defineStyle}
+                defineStyle={defineComponentStyle}
                 hasNext={hasNext}
                 hasPrev={hasPrev}
             />

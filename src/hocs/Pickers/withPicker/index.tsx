@@ -2,16 +2,17 @@ import React, { ComponentProps, FC, useCallback, useState } from 'react';
 
 import DateInput from '@/components/DateInput';
 import { areEqualDates } from '@/helpers';
+import { mergeObjects } from '@/helpers/mergeObjects';
 import { WithPickerOmittedProps } from '@/interfaces/decorators';
 
 import { WithPickerProps } from '../interfaces';
 
 const withPicker = (props: WithPickerProps) => {
-    const { Component } = props;
-    console.log('with picker');
-    const withCalendarComponent: FC<Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>> = (
-        nextProps,
-    ) => {
+    const { Component, styles } = props;
+    console.log(styles);
+    const withCalendarComponent: FC<
+        Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
+    > = (nextProps) => {
         const [selectedDay, setSelectedDay] = useState<null | Date>(null);
         const handleDateSubmit = useCallback((day: Date) => {
             setSelectedDay((prevDate) => (areEqualDates(prevDate, day) ? prevDate : day));
@@ -24,6 +25,19 @@ const withPicker = (props: WithPickerProps) => {
             );
         };
 
+        const defineComponentStyle = (day: Date) => {
+            const style = {};
+            if (styles) {
+                console.log('picker define style');
+                const { selectionHeadDay, selectionTailDay } = styles;
+                if (isSelected(day)) {
+                    mergeObjects(style, selectionHeadDay);
+                    mergeObjects(style, selectionTailDay);
+                }
+            }
+            return style;
+        };
+
         const handleClearClick = useCallback(() => {
             setSelectedDay(null);
         }, []);
@@ -34,9 +48,8 @@ const withPicker = (props: WithPickerProps) => {
                 <Component
                     {...nextProps}
                     initialDate={selectedDay}
+                    defineStyle={defineComponentStyle}
                     onClearClick={handleClearClick}
-                    isSelectionHead={isSelected}
-                    isSelectionTail={isSelected}
                     hasSelection={Boolean(selectedDay)}
                 />
             </>

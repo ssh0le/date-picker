@@ -10,7 +10,7 @@ export interface WithCalendarProps {
     maxDate?: Date;
     weekStartDay?: WeekStartDay;
     highlightWeekends?: boolean;
-    styles?: CalendarStyles;
+    styles?: Required<CalendarStyles>;
     viewType?: CalendarViewType;
     holidays?: Holiday[],
 }
