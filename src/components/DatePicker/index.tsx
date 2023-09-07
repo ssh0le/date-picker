@@ -3,6 +3,7 @@ import React, { FC, useMemo } from 'react';
 import { mergeWithDefaultStyles } from '@/helpers';
 import withPicker from '@/hocs/Pickers/withPicker';
 import withCalendar from '@/hocs/withCalendar';
+import withTodos from '@/hocs/withTodos';
 import { PickerProps } from '@/interfaces/pickers';
 
 import BaseCalendar from '../BaseCalendar';
@@ -29,11 +30,19 @@ const Calendar: FC<PickerProps> = (props) => {
         [minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays],
     );
 
-    const WithPicker = useMemo(() => withPicker({ Component: WithCalendar, styles: mergedStyles }), [WithCalendar]);
+    const WithPicker = useMemo(
+        () => withPicker({ Component: WithCalendar, styles: mergedStyles }),
+        [WithCalendar],
+    );
+
+    const WithTodo = useMemo(
+        () => withTodos({ Component: WithPicker, styles: mergedStyles }),
+        [WithPicker],
+    );
 
     return (
         <DatePickerContainer>
-            <WithPicker />
+            <WithTodo />
         </DatePickerContainer>
     );
 };

@@ -41,7 +41,7 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
                     <HeaderTitle>{title}</HeaderTitle>
                     {hasNext && <NavIcon onClick={onNextClick} src={next} />}
                 </CalendarHeader>
-                <Grid cols={7}>
+                <Grid cols={7} colWidth='32px'>
                     {weekDayNames!.map((day, index) => (
                         <WeekDayContainer key={index}>{day}</WeekDayContainer>
                     ))}
