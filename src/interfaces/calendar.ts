@@ -3,6 +3,7 @@ import { CSSProperties } from 'react';
 export enum CalendarViewType {
     Week,
     Month,
+    Year,
 }
 
 export enum WeekStartDay {
@@ -36,6 +37,7 @@ export interface CalendarStyles {
     today?: CalendarDayStyle;
     weekend?: CalendarDayStyle;
     holiday?: CalendarDayStyle;
+    withTodoDay?: CalendarDayStyle;
 }
 
 export interface Holiday {

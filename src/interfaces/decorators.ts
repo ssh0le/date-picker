@@ -1,31 +1,45 @@
-import { ElementType } from 'react';
-
 import { CalendarDayStyle } from './calendar';
 
-// export type Decorator<P> = (props: P) => FC;
-
-export interface WithCalendarOmittedProps {
+export type BaseCalendarProps = {
     hasNext: boolean;
-    days: Date[];
-    title: string;
-    weekDayNames: string[];
     hasPrev: boolean;
+    days: Date[];
+    title: string | number;
+    weekDayNames: string[];
     onNextClick: () => void;
     onPrevClick: () => void;
-}
+    onDayClick: (day: Date) => () => void;
+    onClearClick: () => void;
+    hasSelection: boolean;
+    defineStyle: (day: Date) => CalendarDayStyle;
+    // renderDay: (day: Date, index: number) => JSX.Element;
+    renderBody: () => JSX.Element;
+};
+
+export type WithCalendarOmittedProps = Pick<BaseCalendarProps, 'hasNext'
+    | 'hasPrev'
+    | 'days'
+    | 'title'
+    | 'weekDayNames'
+    | 'onNextClick'
+    | 'onPrevClick'
+    | 'onDayClick'
+    | 'renderBody'
+    | 'defineStyle'>
 
 
-export type isSelectionFunc = (day: Date, currentDate: Date) => boolean;
 
 export interface WithCalendarAdditionalProps {
     initialDate: Date | null;
+    onDayClick?: (day: Date) => void;
+    defineStyle?: (day: Date) => CalendarDayStyle;
 }
 
-export type WithPickerOmittedProps = WithCalendarAdditionalProps & Pick<BaseCalendarProps, 'onClearClick' | 'hasSelection'>
+export type WithPickerOmittedProps = Pick<BaseCalendarProps, 'onClearClick' | 'hasSelection'> & {
+    initialDate: Date,
+}
 
-export type BaseCalendarProps = WithCalendarOmittedProps & {
-    onClearClick: () => void;
-    hasSelection: boolean;
-    defineStyle?: (day: Date) => CalendarDayStyle;
-    renderDay?: (day: Date) => ElementType;
-};
+export type WithTodosOmittedProps = {
+    onDayClick?: (day: Date) => void;
+}
+
