@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useCallback, useState } from 'react';
 
 import { datePattern, inputIcons } from '@/constants';
 import { convertToDate } from '@/helpers';
@@ -51,4 +51,7 @@ const DateInput: FC<DateInputProps> = ({ label, onSubmit }) => {
     );
 };
 
-export default DateInput;
+export default memo(
+    DateInput,
+    ({ onSubmit: prevOnSubmit }, { onSubmit }) => prevOnSubmit === onSubmit,
+);

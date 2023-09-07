@@ -4,13 +4,13 @@ import { headerIcons } from '@/constants';
 import { BaseCalendarProps } from '@/interfaces/decorators';
 import GlobalStyle from '@/styles/global';
 
+import { Grid } from '../shared/Grid';
+
 import {
     CalendarContent,
-    CalendarGrid,
     CalendarHeader,
     CalendarWrapper,
     ClearButton,
-    DayContainer,
     HeaderTitle,
     NavIcon,
     WeekDayContainer,
@@ -25,11 +25,11 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
         hasPrev,
         onNextClick,
         onPrevClick,
-        days,
+        // days,
         title,
         hasSelection,
-        defineStyle,
         onClearClick,
+        renderBody
     } = props;
 
     return (
@@ -41,21 +41,15 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
                     <HeaderTitle>{title}</HeaderTitle>
                     {hasNext && <NavIcon onClick={onNextClick} src={next} />}
                 </CalendarHeader>
-                <CalendarGrid>
+                <Grid cols={7}>
                     {weekDayNames!.map((day, index) => (
                         <WeekDayContainer key={index}>{day}</WeekDayContainer>
                     ))}
-                </CalendarGrid>
-                <CalendarGrid>
-                    {days!.map((day, index) => {
-                        const styles = defineStyle && defineStyle(day);
-                        return (
-                            <DayContainer styles={styles} key={index}>
-                                {day.getDate()}
-                            </DayContainer>
-                        );
-                    })}
-                </CalendarGrid>
+                </Grid>
+                {/* <Grid cols={7}> 
+                    {days!.map((day, index) => renderDay(day, index))}
+                </Grid> */}
+                {renderBody()}
             </CalendarContent>
             {hasSelection && <ClearButton onClick={onClearClick}>Clear</ClearButton>}
         </CalendarWrapper>
