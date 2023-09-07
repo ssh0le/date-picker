@@ -5,7 +5,6 @@ export * from './convertToDate';
 export * from './getCalendar';
 export * from './getDateYearAndMonth';
 export * from './getFormattedDate';
-export * from './getObjectProperty';
 export * from './getWeekDayIndex';
 export * from './getWeekDays';
 export * from './isInRange';

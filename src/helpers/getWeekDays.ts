@@ -1,11 +1,14 @@
 import { weekDays } from '@/constants';
-import { WeekStartDay } from '@/interfaces/calendar';
+import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
 
-export const getWeekDays = (startDay: WeekStartDay) => {
+export const getWeekDays = (startDay: WeekStartDay, viewType: CalendarViewType) => {
+    if (viewType === CalendarViewType.Year) {
+        return [];
+    }
     const weekDaysCopy = weekDays.slice();
     if (startDay === WeekStartDay.Monday) {
         weekDaysCopy.push(weekDaysCopy.shift()!);
         return weekDaysCopy;
-    } 
+    }
     return weekDaysCopy;
 };

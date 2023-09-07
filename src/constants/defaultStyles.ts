@@ -54,5 +54,8 @@ export const defaultStyles: Required<CalendarStyles> = {
         color: orange,
         borderRight: '3px solid ' + orange,
         borderBottom: '3px solid ' + orange,
+    },
+    withTodoDay: {
+        borderBottom: '1px solid black',
     }
 };
