@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Calendar from '@/components/DatePicker';
+import DatePicker from '@/components/DatePicker';
 import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
 
 const meta = {
     title: 'Example/Calendar',
-    component: Calendar,
+    component: DatePicker,
     tags: ['autodocs'],
-} satisfies Meta<typeof Calendar>;
+} satisfies Meta<typeof DatePicker>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -52,9 +52,9 @@ export const HolidaysByWeek: Story = {
     args: {
         holidays,
         weekStartDay: WeekStartDay.Sunday,
-        viewType: CalendarViewType.Week,
-        minDate: new Date(2023, 0, 1, 0, 0),
-        maxDate: new Date(2024, 0, 0, 0, 0),
+        viewType: CalendarViewType.Year,
+        minDate: new Date(2022, 0, 1, 0, 0),
+        maxDate: new Date(2025, 0, 0, 0, 0),
     },
 };
 

@@ -103,7 +103,10 @@ const withCalendar = (props: WithCalendarProps) => {
             return style;
         };
 
-        const title = viewType === CalendarViewType.Year ? currentDate.getFullYear() : getShortFormattedDate(currentDate);
+        const title =
+            viewType === CalendarViewType.Year
+                ? currentDate.getFullYear()
+                : getShortFormattedDate(currentDate);
 
         const getNextDate = useCallback(
             (prevDate: Date, amount: number) => {
@@ -128,31 +131,25 @@ const withCalendar = (props: WithCalendarProps) => {
         const handleNextClick = useCallback(() => addToCurrentDate(1), []);
         const handlePrevClick = useCallback(() => addToCurrentDate(-1), []);
 
-        const hasNext = maxDate === undefined || lastDay < maxDate || !areEqualMonthAndYear(lastDay, maxDate);
-        const hasPrev = minDate === undefined || firstDay > minDate;
+        const defineHasNext = (date: Date, limit: Date | undefined, isNext: boolean) => {
+            if (!limit) {
+                return true;
+            }
+            if (viewType === CalendarViewType.Year) {
+                return !areEqualMonthAndYear(date, limit);
+            } else {
+                return isNext ? date < limit : date > limit;
+            }
+        };
 
-        // const renderItem = (day: Date, index: number) => {
-        //     if (viewType !== CalendarViewType.Year) {
-        //         const styles = defineComponentStyle(day);
-        //         return (
-        //             <DayContainer key={index} onClick={handleDayClick(day)} styles={styles}>
-        //                 {day.getDate()}
-        //             </DayContainer>
-        //         );
-        //     } else {
-        //         const styles = defineComponentStyle(day);
-        //         return (
-        //             <DayContainer key={index} onClick={handleDayClick(day)} styles={styles}>
-        //                 {day.getDate()}
-        //             </DayContainer>
-        //         );
-        //     }
-        // };
+        const hasNext = defineHasNext(lastDay, maxDate, true);
+        const hasPrev = defineHasNext(firstDay, minDate, false);
+        console.log(hasPrev, hasNext);
 
         const renderBody = () => {
             if (viewType !== CalendarViewType.Year) {
                 return (
-                    <Grid cols={7} colWidth='32px'>
+                    <Grid cols={7} colWidth="32px">
                         {days.map((day, index) => (
                             <DayContainer
                                 key={index}
@@ -165,7 +162,7 @@ const withCalendar = (props: WithCalendarProps) => {
                 );
             } else {
                 return (
-                    <Grid cols={3} colWidth='1fr'>
+                    <Grid cols={3} colWidth="1fr">
                         {days.map((day, index) => (
                             <MonthWrapper key={index}>{getMonthShortName(day)}</MonthWrapper>
                         ))}
@@ -177,7 +174,6 @@ const withCalendar = (props: WithCalendarProps) => {
         return (
             <Component
                 {...nextProps}
-                // renderDay={renderItem}
                 renderBody={renderBody}
                 onDayClick={handleDayClick}
                 days={days}

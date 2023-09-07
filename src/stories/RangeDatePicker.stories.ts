@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Calendar from '@/components/RangeDatePicker';
+import RangeDatePicker from '@/components/RangeDatePicker';
 import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
 
 const meta = {
     title: 'Example/Range',
-    component: Calendar,
+    component: RangeDatePicker,
     tags: ['autodocs'],
-} satisfies Meta<typeof Calendar>;
+} satisfies Meta<typeof RangeDatePicker>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

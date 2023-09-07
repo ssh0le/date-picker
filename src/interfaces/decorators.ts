@@ -12,7 +12,6 @@ export type BaseCalendarProps = {
     onClearClick: () => void;
     hasSelection: boolean;
     defineStyle: (day: Date) => CalendarDayStyle;
-    // renderDay: (day: Date, index: number) => JSX.Element;
     renderBody: () => JSX.Element;
 };
 

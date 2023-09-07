@@ -25,6 +25,10 @@ type DayCssProperties =
     | 'borderBottomLeftRadius'
     | 'borderBottomRightRadius';
 
+type AfterProperties = 'color' | 'top' | 'left' | 'right' | 'bottom';
+
+export type AfterCalendarDayStyle = Pick<CSSProperties, AfterProperties>
+
 export type CalendarDayStyle = Pick<CSSProperties, DayCssProperties>;
 
 export interface CalendarStyles {
