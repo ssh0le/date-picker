@@ -1,16 +1,17 @@
 import React, { ComponentProps, FC, useCallback, useState } from 'react';
 
 import DateInput from '@/components/DateInput';
+import { mergeObjects } from '@/helpers/mergeObjects';
 import { WithPickerOmittedProps } from '@/interfaces/decorators';
 
 import { WithPickerProps } from '../interfaces';
 
 const withRangePicker = (props: WithPickerProps) => {
-    const { Component } = props;
-    console.log('with range picker');
+    const { Component, styles } = props;
     const withRangePickerComponent: FC<
         Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
     > = (nextProps) => {
+        const { defineStyle } = nextProps;
         const [selectedFrom, setSelectedFrom] = useState<null | Date>(null);
         const [selectedTo, setSelectedTo] = useState<null | Date>(null);
 
@@ -47,17 +48,33 @@ const withRangePicker = (props: WithPickerProps) => {
             return day < selectedTo && day > selectedFrom;
         };
 
+        const defineComponentStyle = (day: Date) => {
+            const style = {};
+            if (defineStyle) {
+                mergeObjects(style, defineStyle(day));
+            }
+            const { selectionHeadDay, selectionTailDay, selectedDay } = styles;
+            if (isSelected(day)) {
+                mergeObjects(style, selectedDay);
+            }
+            if (isHead(day)) {
+                mergeObjects(style, selectionHeadDay);
+            }
+            if (isTail(day)) {
+                mergeObjects(style, selectionTailDay);
+            }
+            return style;
+        };
+
         return (
             <>
                 <DateInput label="From" onSubmit={handleFromDateSubmit} />
                 <DateInput label="To" onSubmit={handleToDateSubmit} />
                 <Component
                     {...nextProps}
-                    isSelected={isSelected}
-                    isSelectionHead={isHead}
-                    isSelectionTail={isTail}
+                    defineStyle={defineComponentStyle}
                     initialDate={selectedTo}
-                    hasSelection={Boolean(selectedTo) && Boolean(selectedFrom)}
+                    hasSelection={Boolean(selectedTo) || Boolean(selectedFrom)}
                     onClearClick={handleClearClick}
                 />
             </>

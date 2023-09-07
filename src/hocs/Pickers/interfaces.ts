@@ -1,9 +1,8 @@
 import { FC } from "react";
 
-import { CalendarStyles } from "@/interfaces/calendar";
-import { BaseCalendarProps, WithCalendarAdditionalProps, WithCalendarOmittedProps } from "@/interfaces/decorators";
+import { CalendarDayStyle, CalendarStyles } from "@/interfaces/calendar";
 
 export interface WithPickerProps {
-    Component: FC<Omit<BaseCalendarProps, keyof WithCalendarOmittedProps> & WithCalendarAdditionalProps>;
+    Component: FC<{ initialDate: Date | null, defineStyle?: (day: Date) => CalendarDayStyle, hasSelection: boolean, onClearClick: () => void }>;
     styles: Required<CalendarStyles>;
 }

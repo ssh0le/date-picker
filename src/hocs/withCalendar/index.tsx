@@ -1,12 +1,15 @@
 import React, { ComponentProps, FC, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { DayContainer } from '@/components/BaseCalendar/styled';
+import { Grid } from '@/components/shared/Grid';
 import { defaultStyles } from '@/constants';
 import {
     areEqualDates,
     areEqualMonthAndYear,
     getCalendar,
     getDestructuredDate,
-    getFormattedDate,
+    getMonthShortName,
+    getShortFormattedDate,
     getWeekDays,
     isInRange,
     isToday,
@@ -18,6 +21,7 @@ import { CalendarDayStyle, CalendarViewType, WeekStartDay } from '@/interfaces/c
 import { WithCalendarAdditionalProps, WithCalendarOmittedProps } from '@/interfaces/decorators';
 
 import { WithCalendarProps } from './interfaces';
+import { MonthWrapper } from './styled';
 
 const withCalendar = (props: WithCalendarProps) => {
     const {
@@ -31,18 +35,27 @@ const withCalendar = (props: WithCalendarProps) => {
         holidays,
     } = props;
 
-    const weekDaysNames = getWeekDays(weekStartDay);
+    const weekDaysNames = getWeekDays(weekStartDay, viewType);
 
     const withCalendarComponent: FC<
         Omit<ComponentProps<typeof Component>, keyof WithCalendarOmittedProps> &
             WithCalendarAdditionalProps
     > = (nextProps) => {
-        const { initialDate, renderDay, defineStyle } = nextProps;
+        const { initialDate, defineStyle, onDayClick } = nextProps;
         const [currentDate, setCurrentDate] = useState<Date>(initialDate ?? new Date());
 
+        const handleDayClick = useCallback(
+            (day: Date) => () => {
+                if (onDayClick) {
+                    onDayClick(day);
+                }
+            },
+            [onDayClick],
+        );
+
         const days = useMemo(
-            () => getCalendar(currentDate, weekStartDay, viewType),
-            [currentDate, weekStartDay, viewType],
+            () => getCalendar(currentDate, weekStartDay, viewType, minDate, maxDate),
+            [currentDate, weekStartDay, viewType, minDate, maxDate],
         );
 
         const firstDay = days.at(0)!;
@@ -54,14 +67,13 @@ const withCalendar = (props: WithCalendarProps) => {
             }
         }, [initialDate]);
 
-        const filteredHolidays = useMemo(
-            () =>
-                (holidays ?? []).filter(({ month, day }) => {
-                    const [year] = getDestructuredDate(currentDate);
-                    return isInRange(new Date(year, month, day), firstDay, lastDay);
-                }),
-            [days],
-        );
+        const filteredHolidays = useMemo(() => {
+            if (viewType === CalendarViewType.Year) return [];
+            const [year] = getDestructuredDate(firstDay);
+            return (holidays ?? []).filter(({ month, day }) =>
+                isInRange(new Date(year, month, day, 0, 0), firstDay, lastDay),
+            );
+        }, [days]);
 
         const defineComponentStyle = (day: Date): CalendarDayStyle => {
             const style: CalendarDayStyle = {};
@@ -76,7 +88,6 @@ const withCalendar = (props: WithCalendarProps) => {
             if (viewType === CalendarViewType.Month && !areEqualMonthAndYear(currentDate, day)) {
                 mergeObjects(style, outerDay);
             }
-
             if (filteredHolidays.length) {
                 const [year] = getDestructuredDate(day);
                 const dayHoliday = filteredHolidays.find(({ month, day: hDay }) =>
@@ -92,12 +103,14 @@ const withCalendar = (props: WithCalendarProps) => {
             return style;
         };
 
-        const title = getFormattedDate(currentDate);
+        const title = viewType === CalendarViewType.Year ? currentDate.getFullYear() : getShortFormattedDate(currentDate);
 
         const getNextDate = useCallback(
             (prevDate: Date, amount: number) => {
                 if (viewType === CalendarViewType.Month) {
                     return addMonthsToDate(prevDate, amount);
+                } else if (viewType === CalendarViewType.Year) {
+                    return addMonthsToDate(prevDate, amount * 12);
                 } else {
                     return addWeeksToDate(prevDate, amount);
                 }
@@ -115,13 +128,58 @@ const withCalendar = (props: WithCalendarProps) => {
         const handleNextClick = useCallback(() => addToCurrentDate(1), []);
         const handlePrevClick = useCallback(() => addToCurrentDate(-1), []);
 
-        const hasNext = maxDate === undefined || lastDay < maxDate;
+        const hasNext = maxDate === undefined || lastDay < maxDate || !areEqualMonthAndYear(lastDay, maxDate);
         const hasPrev = minDate === undefined || firstDay > minDate;
+
+        // const renderItem = (day: Date, index: number) => {
+        //     if (viewType !== CalendarViewType.Year) {
+        //         const styles = defineComponentStyle(day);
+        //         return (
+        //             <DayContainer key={index} onClick={handleDayClick(day)} styles={styles}>
+        //                 {day.getDate()}
+        //             </DayContainer>
+        //         );
+        //     } else {
+        //         const styles = defineComponentStyle(day);
+        //         return (
+        //             <DayContainer key={index} onClick={handleDayClick(day)} styles={styles}>
+        //                 {day.getDate()}
+        //             </DayContainer>
+        //         );
+        //     }
+        // };
+
+        const renderBody = () => {
+            if (viewType !== CalendarViewType.Year) {
+                return (
+                    <Grid cols={7} colWidth='32px'>
+                        {days.map((day, index) => (
+                            <DayContainer
+                                key={index}
+                                onClick={handleDayClick(day)}
+                                styles={defineComponentStyle(day)}>
+                                {day.getDate()}
+                            </DayContainer>
+                        ))}
+                    </Grid>
+                );
+            } else {
+                return (
+                    <Grid cols={3} colWidth='1fr'>
+                        {days.map((day, index) => (
+                            <MonthWrapper key={index}>{getMonthShortName(day)}</MonthWrapper>
+                        ))}
+                    </Grid>
+                );
+            }
+        };
 
         return (
             <Component
                 {...nextProps}
-                renderDay={renderDay}
+                // renderDay={renderItem}
+                renderBody={renderBody}
+                onDayClick={handleDayClick}
                 days={days}
                 title={title}
                 weekDayNames={weekDaysNames}

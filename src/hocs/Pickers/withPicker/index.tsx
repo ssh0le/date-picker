@@ -9,10 +9,10 @@ import { WithPickerProps } from '../interfaces';
 
 const withPicker = (props: WithPickerProps) => {
     const { Component, styles } = props;
-    console.log(styles);
     const withCalendarComponent: FC<
         Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
     > = (nextProps) => {
+        const { defineStyle } = nextProps;
         const [selectedDay, setSelectedDay] = useState<null | Date>(null);
         const handleDateSubmit = useCallback((day: Date) => {
             setSelectedDay((prevDate) => (areEqualDates(prevDate, day) ? prevDate : day));
@@ -27,8 +27,10 @@ const withPicker = (props: WithPickerProps) => {
 
         const defineComponentStyle = (day: Date) => {
             const style = {};
+            if (defineStyle) {
+                mergeObjects(style, defineStyle(day));
+            }
             if (styles) {
-                console.log('picker define style');
                 const { selectionHeadDay, selectionTailDay } = styles;
                 if (isSelected(day)) {
                     mergeObjects(style, selectionHeadDay);
