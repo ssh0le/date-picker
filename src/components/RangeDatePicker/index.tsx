@@ -9,7 +9,7 @@ import BaseCalendar from '../BaseCalendar';
 
 import { RangeDatePickerContainer } from './styled';
 
-const Calendar: FC<PickerProps> = (props) => {
+const RangeDatePicker: FC<PickerProps> = (props) => {
     const { minDate, maxDate, styles, weekStartDay, highlightWeekends, holidays, viewType } = props;
 
     const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
@@ -45,4 +45,4 @@ const Calendar: FC<PickerProps> = (props) => {
     );
 };
 
-export default Calendar;
+export default RangeDatePicker;

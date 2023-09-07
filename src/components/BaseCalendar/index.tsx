@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 
 import { headerIcons } from '@/constants';
 import { BaseCalendarProps } from '@/interfaces/decorators';
@@ -56,4 +56,4 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
     );
 };
 
-export default BaseCalendar;
+export default memo(BaseCalendar);

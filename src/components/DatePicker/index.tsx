@@ -10,7 +10,7 @@ import BaseCalendar from '../BaseCalendar';
 
 import { DatePickerContainer } from './styled';
 
-const Calendar: FC<PickerProps> = (props) => {
+const DatePicker: FC<PickerProps> = (props) => {
     const { minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays } = props;
 
     const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
@@ -47,4 +47,4 @@ const Calendar: FC<PickerProps> = (props) => {
     );
 };
 
-export default Calendar;
+export default DatePicker;
