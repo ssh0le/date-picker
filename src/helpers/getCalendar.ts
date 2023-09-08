@@ -1,9 +1,9 @@
 import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
 
+import { addMonthsToDate } from './addToDate';
 import { getDestructuredDate } from './getDateYearAndMonth';
 import { getDayOfWeekIndex } from './getWeekDayIndex';
-
-import { addMonthsToDate, isInRange } from '.';
+import { isInRange } from './isInRange'
 
 const daysInWeek = 7;
 
@@ -40,6 +40,7 @@ const getCalendarByWeek = (date: Date, weekStart: WeekStartDay): Date[] => {
     const week = [];
     const weekDayIndex = getDayOfWeekIndex(date, weekStart);
     const startOfWeek = addDaysToDate(date, -weekDayIndex);
+    startOfWeek.setHours(0, 0, 0);
     while (week.length < daysInWeek) {
         week.push(addDaysToDate(startOfWeek, week.length));
     }

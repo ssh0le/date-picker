@@ -46,15 +46,15 @@ export const ViewByWeek: Story = {
     },
 };
 
-const holidays: Holiday[] = [{name: 'h1', day: 31, month: 11}, {name: 'h2', day: 15, month: 11}]
+const holidays: Holiday[] = [{name: 'h0', day: 1, month: 0}, {name: 'h1', day: 31, month: 11}, {name: 'h2', day: 15, month: 11}]
 
-export const HolidaysByWeek: Story = {
+export const HolidaysByYear: Story = {
     args: {
         holidays,
         weekStartDay: WeekStartDay.Sunday,
         viewType: CalendarViewType.Year,
-        minDate: new Date(2022, 0, 1, 0, 0),
-        maxDate: new Date(2025, 0, 0, 0, 0),
+        minDate: new Date(2022, 7, 1, 0, 0),
+        maxDate: new Date(2025, 4, 0, 0, 0),
     },
 };
 

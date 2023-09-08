@@ -34,11 +34,13 @@ export const defaultStyles: Required<CalendarStyles> = {
     },
     selectionHeadDay: {
         color: 'white',
+        border: 'none',
         backgroundColor: blue,
         ...getLeftBorderRadius(selectedBorderRadius),
     },
     selectionTailDay: {
         color: 'white',
+        border: 'none',
         backgroundColor: hardBlue,
         ...getRightBorderRadius(selectedBorderRadius),
     },

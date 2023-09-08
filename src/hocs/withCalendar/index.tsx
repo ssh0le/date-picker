@@ -71,9 +71,9 @@ const withCalendar = (props: WithCalendarProps) => {
             if (viewType === CalendarViewType.Year) return [];
             const [year] = getDestructuredDate(firstDay);
             return (holidays ?? []).filter(({ month, day }) =>
-                isInRange(new Date(year, month, day, 0, 0), firstDay, lastDay),
+                isInRange(new Date(year, month, day, 1, 0, 0), firstDay, lastDay),
             );
-        }, [days]);
+        }, [days, viewType]);
 
         const defineComponentStyle = (day: Date): CalendarDayStyle => {
             const style: CalendarDayStyle = {};
@@ -144,7 +144,6 @@ const withCalendar = (props: WithCalendarProps) => {
 
         const hasNext = defineHasNext(lastDay, maxDate, true);
         const hasPrev = defineHasNext(firstDay, minDate, false);
-        console.log(hasPrev, hasNext);
 
         const renderBody = () => {
             if (viewType !== CalendarViewType.Year) {

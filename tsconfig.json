@@ -6,25 +6,26 @@
               "./src/*"
           ]
       },
-      "outDir": "./dist/",
+      "outDir": "lib",
       "isolatedModules": true,
       "sourceMap": true,
       "noImplicitAny": true,
       "target": "ESNext",
       "module": "ESNext",
+      "declaration": true,
       "esModuleInterop": true,
       "strict": true,
       "jsx": "react",
       "allowJs": true,
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
-      // "declaration": true,
-      // "declarationDir": "types",
-      // "emitDeclarationOnly": true
+      "declarationDir": "lib",
+      "skipLibCheck": true,
   },
   "include": [
       "./src/**/*.tsx",
       "./src/**/*.ts",
+      "./src/**/*.d.ts",
       "./custom.d.ts",
   ],
 }
