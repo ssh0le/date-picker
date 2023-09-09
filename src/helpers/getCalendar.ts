@@ -26,7 +26,7 @@ const addDaysToDate = (date: Date, days: number): Date => {
 const getCalendarByMonth = (date: Date, weekStart: WeekStartDay): Date[] => {
     const calendar = [];
     const [year, month] = getDestructuredDate(date);
-    const startOfMonth: Date = new Date(year, month, 1, 0, 0);
+    const startOfMonth: Date = new Date(year, month, 1, 0, 0, 0, 0);
     const weekDayIndex = getDayOfWeekIndex(startOfMonth, weekStart);
     const begin: Date = addDaysToDate(startOfMonth, -weekDayIndex);
     const end: number = new Date(year, month + 1, 0).getDate() + weekDayIndex;
@@ -40,7 +40,7 @@ const getCalendarByWeek = (date: Date, weekStart: WeekStartDay): Date[] => {
     const week = [];
     const weekDayIndex = getDayOfWeekIndex(date, weekStart);
     const startOfWeek = addDaysToDate(date, -weekDayIndex);
-    startOfWeek.setHours(0, 0, 0);
+    startOfWeek.setHours(0, 0, 0, 0);
     while (week.length < daysInWeek) {
         week.push(addDaysToDate(startOfWeek, week.length));
     }
