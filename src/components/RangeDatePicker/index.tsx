@@ -6,6 +6,7 @@ import withCalendar from '@/hocs/withCalendar';
 import { PickerProps } from '@/interfaces/pickers';
 
 import BaseCalendar from '../BaseCalendar';
+import ErrorBoundary from '../ErrorBoundary';
 
 import { RangeDatePickerContainer } from './styled';
 
@@ -37,9 +38,11 @@ const RangeDatePicker: FC<PickerProps> = (props) => {
     );
 
     return (
-        <RangeDatePickerContainer>
-            <WithRangePicker styles={mergedStyles}/>
-        </RangeDatePickerContainer>
+        <ErrorBoundary>
+            <RangeDatePickerContainer>
+                <WithRangePicker styles={mergedStyles} />
+            </RangeDatePickerContainer>
+        </ErrorBoundary>
     );
 };
 

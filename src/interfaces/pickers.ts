@@ -5,6 +5,7 @@ export interface PickerProps {
     maxDate?: Date;
     styles?: CalendarStyles;
     highlightWeekends?: boolean;
+    highlightHolidays?: boolean;
     weekStartDay?: WeekStartDay;
     initialDate?: Date,
     viewType?: CalendarViewType,

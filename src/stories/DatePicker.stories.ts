@@ -1,8 +1,7 @@
-import { DatePicker } from '@richigo/date-picker-lib';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import DatePicker from '@/components/DatePicker';
 import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
-
 
 const meta = {
     title: 'Example/Calendar',
@@ -64,6 +63,16 @@ export const HolidaysByMonth: Story = {
         holidays,
         highlightWeekends: true,
         weekStartDay: WeekStartDay.Sunday,
+        minDate: new Date(2023, 0, 1, 0, 0),
+        maxDate: new Date(2024, 0, 0, 0, 0),
+    },
+};
+
+export const HolidaysByWeek: Story = {
+    args: {
+        holidays,
+        viewType: CalendarViewType.Week,
+        weekStartDay: WeekStartDay.Monday,
         minDate: new Date(2023, 0, 1, 0, 0),
         maxDate: new Date(2024, 0, 0, 0, 0),
     },
