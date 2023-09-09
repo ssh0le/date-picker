@@ -20,7 +20,6 @@ const RangeDatePicker: FC<PickerProps> = (props) => {
                 Component: BaseCalendar,
                 minDate,
                 maxDate,
-                styles: mergedStyles,
                 weekStartDay,
                 highlightWeekends,
                 holidays,
@@ -33,14 +32,13 @@ const RangeDatePicker: FC<PickerProps> = (props) => {
         () =>
             withRangePicker({
                 Component: WithCalendar,
-                styles: mergedStyles,
             }),
         [],
     );
 
     return (
         <RangeDatePickerContainer>
-            <WithRangePicker/>
+            <WithRangePicker styles={mergedStyles}/>
         </RangeDatePickerContainer>
     );
 };

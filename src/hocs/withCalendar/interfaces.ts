@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { CalendarStyles, CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
 import { BaseCalendarProps } from '@/interfaces/decorators';
 
 export interface WithCalendarProps {
@@ -10,7 +10,7 @@ export interface WithCalendarProps {
     maxDate?: Date;
     weekStartDay?: WeekStartDay;
     highlightWeekends?: boolean;
-    styles?: Required<CalendarStyles>;
+    highlightHolidays?: boolean;
     viewType?: CalendarViewType;
     holidays?: Holiday[],
 }

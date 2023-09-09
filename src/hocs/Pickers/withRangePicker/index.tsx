@@ -7,11 +7,11 @@ import { WithPickerOmittedProps } from '@/interfaces/decorators';
 import { WithPickerProps } from '../interfaces';
 
 const withRangePicker = (props: WithPickerProps) => {
-    const { Component, styles } = props;
+    const { Component } = props;
     const withRangePickerComponent: FC<
         Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
     > = (nextProps) => {
-        const { defineStyle } = nextProps;
+        const { defineStyle, styles  } = nextProps;
         const [selectedFrom, setSelectedFrom] = useState<null | Date>(null);
         const [selectedTo, setSelectedTo] = useState<null | Date>(null);
 

@@ -1,9 +1,8 @@
-import { CalendarDayStyle } from './calendar';
+import { CalendarDayStyle, CalendarStyles } from './calendar';
 
 export type BaseCalendarProps = {
     hasNext: boolean;
     hasPrev: boolean;
-    days: Date[];
     title: string | number;
     weekDayNames?: string[];
     onNextClick: () => void;
@@ -11,30 +10,28 @@ export type BaseCalendarProps = {
     onDayClick: (day: Date) => () => void;
     onClearClick: () => void;
     hasSelection: boolean;
-    defineStyle: (day: Date) => CalendarDayStyle;
     renderBody: () => JSX.Element;
 };
 
 export type WithCalendarOmittedProps = Pick<BaseCalendarProps, 'hasNext'
     | 'hasPrev'
-    | 'days'
     | 'title'
     | 'weekDayNames'
     | 'onNextClick'
     | 'onPrevClick'
     | 'onDayClick'
-    | 'renderBody'
-    | 'defineStyle'>
+    | 'renderBody'>
 
-export interface WithCalendarAdditionalProps {
-    initialDate: Date | null;
+export type asd = Omit<BaseCalendarProps, keyof WithCalendarOmittedProps>;
+
+export type WithCalendarAdditionalProps = {
+    initialDate?: Date | null;
+    styles: Required<CalendarStyles>;
     onDayClick?: (day: Date) => void;
     defineStyle?: (day: Date) => CalendarDayStyle;
-}
+} & Partial<Pick<BaseCalendarProps, 'onClearClick' | 'hasSelection'>>
 
-export type WithPickerOmittedProps = Pick<BaseCalendarProps, 'onClearClick' | 'hasSelection'> & {
-    initialDate: Date,
-}
+export type WithPickerOmittedProps = Pick<BaseCalendarProps, 'onClearClick'> & Pick<BaseCalendarProps, "hasSelection">;
 
 export type WithTodosOmittedProps = {
     onDayClick?: (day: Date) => void;

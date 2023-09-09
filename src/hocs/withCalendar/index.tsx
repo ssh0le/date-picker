@@ -2,7 +2,6 @@ import React, { ComponentProps, FC, useCallback, useEffect, useMemo, useState } 
 
 import { DayContainer } from '@/components/BaseCalendar/styled';
 import { Grid } from '@/components/shared/Grid';
-import { defaultStyles } from '@/constants';
 import {
     addMonthsToDate,
     addWeeksToDate,
@@ -30,8 +29,8 @@ const withCalendar = (props: WithCalendarProps) => {
         minDate,
         maxDate,
         weekStartDay = WeekStartDay.Monday,
-        styles = defaultStyles,
         highlightWeekends,
+        highlightHolidays,
         viewType = CalendarViewType.Month,
         holidays,
     } = props;
@@ -42,7 +41,7 @@ const withCalendar = (props: WithCalendarProps) => {
         Omit<ComponentProps<typeof Component>, keyof WithCalendarOmittedProps> &
             WithCalendarAdditionalProps
     > = (nextProps) => {
-        const { initialDate, defineStyle, onDayClick } = nextProps;
+        const { initialDate, defineStyle, onDayClick, styles } = nextProps;
         const [currentDate, setCurrentDate] = useState<Date>(initialDate ?? new Date());
 
         const handleDayClick = useCallback(
@@ -69,11 +68,15 @@ const withCalendar = (props: WithCalendarProps) => {
         }, [initialDate]);
 
         const filteredHolidays = useMemo(() => {
-            if (viewType === CalendarViewType.Year) return [];
+            if (viewType === CalendarViewType.Year || !highlightHolidays) return [];
             const [firstYear, firstMonth] = getDestructuredDate(firstDay);
             const [lastYear] = getDestructuredDate(lastDay);
             return (holidays ?? []).filter(({ month, day }) =>
-                isInRange(new Date(month < firstMonth ? lastYear : firstYear, month, day, 0, 0, 0, 0), firstDay, lastDay),
+                isInRange(
+                    new Date(month < firstMonth ? lastYear : firstYear, month, day, 0, 0, 0, 0),
+                    firstDay,
+                    lastDay,
+                ),
             );
         }, [days, viewType]);
 
@@ -93,7 +96,7 @@ const withCalendar = (props: WithCalendarProps) => {
             if (viewType === CalendarViewType.Month && !areEqualMonthAndYear(currentDate, day)) {
                 mergeObjects(style, outerDay);
             }
-            if (filteredHolidays.length) {
+            if (highlightHolidays && filteredHolidays.length) {
                 const [year] = getDestructuredDate(day);
                 const dayHoliday = filteredHolidays.find(({ month, day: hDay }) =>
                     areEqualDates(day, new Date(year, month, hDay)),
@@ -180,12 +183,10 @@ const withCalendar = (props: WithCalendarProps) => {
                 {...nextProps}
                 renderBody={renderBody}
                 onDayClick={handleDayClick}
-                days={days}
                 title={title}
                 weekDayNames={weekDaysNames}
                 onNextClick={handleNextClick}
                 onPrevClick={handlePrevClick}
-                defineStyle={defineComponentStyle}
                 hasNext={hasNext}
                 hasPrev={hasPrev}
             />

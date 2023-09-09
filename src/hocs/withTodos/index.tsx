@@ -11,10 +11,11 @@ import { WithTodoProps } from './interfaces';
 const storageKey = 'todos';
 
 const withTodos = (props: WithTodoProps) => {
-    const { Component, styles } = props;
+    const { Component } = props;
     const withCalendarComponent: FC<
         Omit<ComponentProps<typeof Component>, keyof WithTodosOmittedProps>
     > = (nextProps) => {
+        const { styles } = nextProps;
         const [selectedDay, setSelectedDay] = useState<Date | null>(null);
         const [todos, setTodos] = useState<Todo[]>(() => {
             return JSON.parse(localStorage.getItem(storageKey) ?? '[]').map((todo: Todo) => ({

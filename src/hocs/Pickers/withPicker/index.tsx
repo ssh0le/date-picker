@@ -8,11 +8,11 @@ import { WithPickerOmittedProps } from '@/interfaces/decorators';
 import { WithPickerProps } from '../interfaces';
 
 const withPicker = (props: WithPickerProps) => {
-    const { Component, styles } = props;
+    const { Component } = props;
     const withCalendarComponent: FC<
         Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
     > = (nextProps) => {
-        const { defineStyle } = nextProps;
+        const { defineStyle, styles } = nextProps;
         const [selectedDay, setSelectedDay] = useState<null | Date>(null);
         const handleDateSubmit = useCallback((day: Date) => {
             setSelectedDay((prevDate) => (areEqualDates(prevDate, day) ? prevDate : day));
