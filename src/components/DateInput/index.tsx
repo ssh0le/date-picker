@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, memo, useCallback, useState } from 'react';
 
-import { datePattern, inputIcons } from '@/constants';
+import { inputIcons } from '@/constants';
 import { convertToDate } from '@/helpers';
 
 import { DateInputProps } from './interfaces';
@@ -41,11 +41,14 @@ const DateInput: FC<DateInputProps> = ({ label, onSubmit }) => {
                 <Input
                     value={input}
                     onChange={handleInputChange}
-                    pattern={datePattern}
                     placeholder="Choose date (dd/mm/yyyy)"
                 />
-                {!!input.length && <img onClick={handleApplyClick} src={ok} />}
-                {!!input.length && <img onClick={handleClearClick} src={clear} />}
+                {!!input.length && (
+                    <>
+                        <img onClick={handleApplyClick} src={ok} />
+                        <img onClick={handleClearClick} src={clear} />
+                    </>
+                )}
             </InputContainer>
         </DateInputContainer>
     );

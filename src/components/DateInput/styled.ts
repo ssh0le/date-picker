@@ -10,6 +10,7 @@ export const DateInputContainer = styled.div`
 export const LabelContainer = styled.label`
     font-size: 15px;
     font-weight: bold;
+    text-align: left;
 `;
 
 

@@ -8,6 +8,7 @@ import {
     DayTodoListWrapper,
     Icon,
     InputContainer,
+    ListHeader,
     NoTaskContainer,
     TodoContainer,
     TodoInput,
@@ -35,7 +36,7 @@ const TodoList: FC<TodoListProps> = ({ items, onDelete, onAdd, header }) => {
 
     return (
         <DayTodoListWrapper>
-            {header}
+            <ListHeader>{header}</ListHeader>
             <InputContainer>
                 <TodoInput value={todo} onChange={handleTodoChange} />
                 <AddButton onClick={handleAddClick}>Add</AddButton>

@@ -11,6 +11,10 @@ export const InputContainer = styled.div`
     justify-content: space-between;
 `
 
+export const ListHeader = styled.div`
+    text-align: left;
+`
+
 export const TodoInput = styled.input`
     padding: 5px;
     font-size: 14px;

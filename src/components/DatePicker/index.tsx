@@ -11,7 +11,7 @@ import BaseCalendar from '../BaseCalendar';
 import { DatePickerContainer } from './styled';
 
 const DatePicker: FC<PickerProps> = (props) => {
-    const { minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays } = props;
+    const { minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays, highlightHolidays } = props;
 
     const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
 
@@ -23,10 +23,11 @@ const DatePicker: FC<PickerProps> = (props) => {
                 maxDate,
                 weekStartDay,
                 highlightWeekends,
+                highlightHolidays,
                 viewType,
                 holidays,
             }),
-        [minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays],
+        [minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays, highlightHolidays],
     );
     const WithPicker = useMemo(() => withPicker({ Component: WithCalendar }), [WithCalendar]);
 
@@ -35,14 +36,6 @@ const DatePicker: FC<PickerProps> = (props) => {
     return (
         <DatePickerContainer>
             <WithTodo styles={mergedStyles} />
-            <WithCalendar
-                onClearClick={function (): void {
-                    throw new Error('Function not implemented.');
-                }}
-                hasSelection={false}
-                styles={mergedStyles}
-            />
-            <WithPicker styles={mergedStyles} />
         </DatePickerContainer>
     );
 };
