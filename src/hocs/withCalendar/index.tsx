@@ -4,6 +4,8 @@ import { DayContainer } from '@/components/BaseCalendar/styled';
 import { Grid } from '@/components/shared/Grid';
 import { defaultStyles } from '@/constants';
 import {
+    addMonthsToDate,
+    addWeeksToDate,
     areEqualDates,
     areEqualMonthAndYear,
     getCalendar,
@@ -15,7 +17,6 @@ import {
     isToday,
     isWeekEnd,
 } from '@/helpers';
-import { addMonthsToDate, addWeeksToDate } from '@/helpers';
 import { mergeObjects } from '@/helpers/mergeObjects';
 import { CalendarDayStyle, CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
 import { WithCalendarAdditionalProps, WithCalendarOmittedProps } from '@/interfaces/decorators';
@@ -77,6 +78,9 @@ const withCalendar = (props: WithCalendarProps) => {
 
         const defineComponentStyle = (day: Date): CalendarDayStyle => {
             const style: CalendarDayStyle = {};
+            if (viewType === CalendarViewType.Year) {
+                return style;
+            }
             const { today, weekend, outerDay, innerDay, holiday } = styles;
             mergeObjects(style, innerDay);
             if (isToday(day)) {
@@ -148,12 +152,12 @@ const withCalendar = (props: WithCalendarProps) => {
         const renderBody = () => {
             if (viewType !== CalendarViewType.Year) {
                 return (
-                    <Grid cols={7} colWidth="32px">
+                    <Grid $cols={7} $colWidth="32px">
                         {days.map((day, index) => (
                             <DayContainer
                                 key={index}
                                 onClick={handleDayClick(day)}
-                                styles={defineComponentStyle(day)}>
+                                $styles={defineComponentStyle(day)}>
                                 {day.getDate()}
                             </DayContainer>
                         ))}
@@ -161,7 +165,7 @@ const withCalendar = (props: WithCalendarProps) => {
                 );
             } else {
                 return (
-                    <Grid cols={3} colWidth="1fr">
+                    <Grid $cols={3} $colWidth="1fr">
                         {days.map((day, index) => (
                             <MonthWrapper key={index}>{getMonthShortName(day)}</MonthWrapper>
                         ))}

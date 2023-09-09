@@ -14,13 +14,13 @@ export const LabelContainer = styled.label`
 
 
 interface InputContainerProps {
-    isValid: boolean
+    $isValid: boolean
 }
 
 export const InputContainer = styled.div<InputContainerProps>`
     display: flex;
     gap: 8px;
-    border: 1px solid ${({ isValid }) => isValid ? '#dddddd' : 'red'};
+    border: 1px solid ${({ $isValid }) => $isValid ? '#dddddd' : 'red'};
     border-radius: 8px;
     padding: 11px 15px;
 `;

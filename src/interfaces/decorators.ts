@@ -5,7 +5,7 @@ export type BaseCalendarProps = {
     hasPrev: boolean;
     days: Date[];
     title: string | number;
-    weekDayNames: string[];
+    weekDayNames?: string[];
     onNextClick: () => void;
     onPrevClick: () => void;
     onDayClick: (day: Date) => () => void;
@@ -25,8 +25,6 @@ export type WithCalendarOmittedProps = Pick<BaseCalendarProps, 'hasNext'
     | 'onDayClick'
     | 'renderBody'
     | 'defineStyle'>
-
-
 
 export interface WithCalendarAdditionalProps {
     initialDate: Date | null;

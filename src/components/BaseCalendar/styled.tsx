@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { AfterCalendarDayStyle, CalendarDayStyle } from '@/interfaces/calendar';
+import { CalendarDayStyle } from '@/interfaces/calendar';
 
 export const CalendarWrapper = styled.div`
     border-radius: 10px;
@@ -54,8 +54,7 @@ export const WeekDayContainer = styled(GridCell)`
 `;
 
 interface DayContainerProps {
-    styles?: CalendarDayStyle;
-    after?: AfterCalendarDayStyle;
+    $styles?: CalendarDayStyle;
 }
 
 export const DayContainer = styled(GridCell)<DayContainerProps>`
@@ -64,12 +63,7 @@ export const DayContainer = styled(GridCell)<DayContainerProps>`
     -ms-user-select: none;
     user-select: none;
     position: relative;
-    ${({ after }) => after && `&::after {
-        position: absolute;
-        content: '•';
-        ${after}
-    }`}
-    ${(props) => props.styles}
+    ${(props) => props.$styles}
 `;
 
 export const ClearButton = styled.button`

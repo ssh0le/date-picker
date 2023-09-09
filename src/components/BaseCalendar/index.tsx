@@ -29,7 +29,7 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
         title,
         hasSelection,
         onClearClick,
-        renderBody
+        renderBody,
     } = props;
 
     return (
@@ -41,14 +41,13 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
                     <HeaderTitle>{title}</HeaderTitle>
                     {hasNext && <NavIcon onClick={onNextClick} src={next} />}
                 </CalendarHeader>
-                <Grid cols={7} colWidth='32px'>
-                    {weekDayNames!.map((day, index) => (
-                        <WeekDayContainer key={index}>{day}</WeekDayContainer>
-                    ))}
-                </Grid>
-                {/* <Grid cols={7}> 
-                    {days!.map((day, index) => renderDay(day, index))}
-                </Grid> */}
+                {weekDayNames?.length && (
+                    <Grid $cols={7} $colWidth="32px">
+                        {weekDayNames.map((day, index) => (
+                            <WeekDayContainer key={index}>{day}</WeekDayContainer>
+                        ))}
+                    </Grid>
+                )}
                 {renderBody()}
             </CalendarContent>
             {hasSelection && <ClearButton onClick={onClearClick}>Clear</ClearButton>}

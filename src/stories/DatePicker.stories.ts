@@ -1,7 +1,8 @@
+import { DatePicker } from '@richigo/date-picker-lib';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import DatePicker from '@/components/DatePicker';
 import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
+
 
 const meta = {
     title: 'Example/Calendar',

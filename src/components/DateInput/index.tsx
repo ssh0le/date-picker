@@ -36,7 +36,7 @@ const DateInput: FC<DateInputProps> = ({ label, onSubmit }) => {
     return (
         <DateInputContainer>
             <LabelContainer>{label}</LabelContainer>
-            <InputContainer isValid={isValid}>
+            <InputContainer $isValid={isValid}>
                 <img src={calendar} />
                 <Input
                     value={input}
