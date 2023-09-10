@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 
-import { CalendarDayStyle } from '@/interfaces/calendar';
+import { CalendarColors, CalendarDayStyle } from '@/interfaces/calendar';
 
-export const CalendarWrapper = styled.div`
+interface CalendarWrapperProps {
+    $colors: CalendarColors;
+}
+
+export const CalendarWrapper = styled.div<CalendarWrapperProps>`
     border-radius: 10px;
     border: 1px solid #e1e1e1;
     width: 250px;
+    ${({ $colors }) => $colors}
 `;
 
 export const CalendarContent = styled.div`

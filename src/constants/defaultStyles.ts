@@ -59,5 +59,9 @@ export const defaultStyles: Required<CalendarStyles> = {
     },
     withTodoDay: {
         borderBottom: '1px solid black',
+    },
+    calendar: {
+        color: 'black',
+        backgroundColor: 'white',
     }
 };

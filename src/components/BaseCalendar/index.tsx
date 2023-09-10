@@ -28,12 +28,13 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
         // days,
         title,
         hasSelection,
+        colors,
         onClearClick,
         renderBody,
     } = props;
 
     return (
-        <CalendarWrapper>
+        <CalendarWrapper $colors={colors}>
             <GlobalStyle />
             <CalendarContent>
                 <CalendarHeader>

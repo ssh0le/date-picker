@@ -188,6 +188,7 @@ const withCalendar = (props: WithCalendarProps) => {
                 onNextClick={handleNextClick}
                 onPrevClick={handlePrevClick}
                 hasNext={hasNext}
+                colors={styles.calendar}
                 hasPrev={hasPrev}
             />
         );

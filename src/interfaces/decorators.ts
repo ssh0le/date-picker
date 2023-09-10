@@ -1,4 +1,4 @@
-import { CalendarDayStyle, CalendarStyles } from './calendar';
+import { CalendarColors, CalendarDayStyle, CalendarStyles } from './calendar';
 
 export type BaseCalendarProps = {
     hasNext: boolean;
@@ -11,6 +11,7 @@ export type BaseCalendarProps = {
     onClearClick: () => void;
     hasSelection: boolean;
     renderBody: () => JSX.Element;
+    colors: CalendarColors;
 };
 
 export type WithCalendarOmittedProps = Pick<BaseCalendarProps, 'hasNext'
@@ -20,6 +21,7 @@ export type WithCalendarOmittedProps = Pick<BaseCalendarProps, 'hasNext'
     | 'onNextClick'
     | 'onPrevClick'
     | 'onDayClick'
+    | 'colors'
     | 'renderBody'>
 
 export type asd = Omit<BaseCalendarProps, keyof WithCalendarOmittedProps>;
