@@ -1,33 +1,34 @@
-const babel = require('@rollup/plugin-babel');
-const peerDepsExternal = require('rollup-plugin-peer-deps-external');
-const resolve = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
-const typescript = require('@rollup/plugin-typescript');
-const postcss = require('rollup-plugin-postcss');
-const dts = require('rollup-plugin-dts');
-const svgr = require('@svgr/rollup');
-const alias = require('@rollup/plugin-alias');
-const path = require('path');
-const packageJson = require('./package.json');
-const replace = require('rollup-plugin-replace');
-const url = require('@rollup/plugin-url');
+import alias from '@rollup/plugin-alias';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import url from '@rollup/plugin-url';
+import svgr from '@svgr/rollup';
+import { resolve as _resolve } from 'path';
+import { dts } from 'rollup-plugin-dts';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import postcss from 'rollup-plugin-postcss';
+import replace from 'rollup-plugin-replace';
+
+import { main, module as _module } from './package.json';
 
 const Resolver = resolve({
     extensions: ['.mjs', '.ts', '.tsx', '.json', '.js', '.jsx'],
     browser: true,
 });
 
-module.exports = [
+export default [
     {
         input: 'src/index.ts',
         output: [
             {
-                file: packageJson.main,
+                file: main,
                 format: 'cjs',
                 sourcemap: true,
             },
             {
-                file: packageJson.module,
+                file: _module,
                 format: 'esm',
                 sourcemap: true,
             },
@@ -38,7 +39,7 @@ module.exports = [
                 entries: [
                     {
                         find: '@',
-                        replacement: path.resolve(__dirname, 'src'),
+                        replacement: _resolve(__dirname, 'src'),
                     },
                 ],
                 Resolver,
@@ -71,7 +72,7 @@ module.exports = [
     {
         input: ['src/index.ts'],
         output: [{ file: 'lib/index.d.ts', format: 'es' }],
-        plugins: [dts.default()],
+        plugins: [dts()],
         external: [/\.css$/, 'styled-components'],
     },
 ];
