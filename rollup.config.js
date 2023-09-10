@@ -39,6 +39,7 @@ export default [
                 entries: [
                     {
                         find: '@',
+                        // eslint-disable-next-line no-undef
                         replacement: _resolve(__dirname, 'src'),
                     },
                 ],

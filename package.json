@@ -17,7 +17,9 @@
     "lint": "eslint .",
     "storybook": "storybook dev -p 6006",
     "test": "jest",
-    "build": "rollup -c --bundleConfigAsCjs"
+    "build": "rollup -c --bundleConfigAsCjs",
+    "build-storybook": "storybook build",
+    "lint:fix": "eslint --fix"
   },
   "files": [
     "lib"
