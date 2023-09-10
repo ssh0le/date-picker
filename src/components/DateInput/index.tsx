@@ -39,14 +39,23 @@ const DateInput: FC<DateInputProps> = ({ label, onSubmit }) => {
             <InputContainer $isValid={isValid}>
                 <img src={calendar} />
                 <Input
+                    data-testid={`input-${label}`}
                     value={input}
                     onChange={handleInputChange}
                     placeholder="Choose date (dd/mm/yyyy)"
                 />
                 {!!input.length && (
                     <>
-                        <img onClick={handleApplyClick} src={ok} />
-                        <img onClick={handleClearClick} src={clear} />
+                        <img
+                            data-testid={`input-apply-${label}`}
+                            onClick={handleApplyClick}
+                            src={ok}
+                        />
+                        <img
+                            data-testid={`input-clear-${label}`}
+                            onClick={handleClearClick}
+                            src={clear}
+                        />
                     </>
                 )}
             </InputContainer>

@@ -19,6 +19,7 @@ const DatePicker: FC<PickerProps> = (props) => {
         weekStartDay,
         highlightWeekends,
         viewType,
+        initialDate,
         holidays,
         highlightHolidays,
     } = props;
@@ -54,8 +55,8 @@ const DatePicker: FC<PickerProps> = (props) => {
 
     return (
         <ErrorBoundary>
-            <DatePickerContainer>
-                <WithTodo styles={mergedStyles} />
+            <DatePickerContainer data-testid="date-picker">
+                <WithTodo styles={mergedStyles} initialDate={initialDate} />
             </DatePickerContainer>
         </ErrorBoundary>
     );

@@ -39,7 +39,7 @@ const RangeDatePicker: FC<PickerProps> = (props) => {
 
     return (
         <ErrorBoundary>
-            <RangeDatePickerContainer>
+            <RangeDatePickerContainer data-testid="date-picker">
                 <WithRangePicker styles={mergedStyles} />
             </RangeDatePickerContainer>
         </ErrorBoundary>

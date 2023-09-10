@@ -12,8 +12,8 @@ const withPicker = (props: WithPickerProps) => {
     const withCalendarComponent: FC<
         Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
     > = (nextProps) => {
-        const { defineStyle, styles } = nextProps;
-        const [selectedDay, setSelectedDay] = useState<null | Date>(null);
+        const { defineStyle, styles, initialDate } = nextProps;
+        const [selectedDay, setSelectedDay] = useState<null | Date>(initialDate ?? null);
         const handleDateSubmit = useCallback((day: Date) => {
             setSelectedDay((prevDate) => (areEqualDates(prevDate, day) ? prevDate : day));
         }, []);

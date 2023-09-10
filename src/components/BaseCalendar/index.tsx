@@ -38,12 +38,12 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
             <GlobalStyle />
             <CalendarContent>
                 <CalendarHeader>
-                    {hasPrev && <NavIcon onClick={onPrevClick} src={prev} />}
-                    <HeaderTitle>{title}</HeaderTitle>
-                    {hasNext && <NavIcon onClick={onNextClick} src={next} />}
+                    {hasPrev && <NavIcon data-testid="prev" onClick={onPrevClick} src={prev} />}
+                    <HeaderTitle data-testid='title'>{title}</HeaderTitle>
+                    {hasNext && <NavIcon data-testid="next" onClick={onNextClick} src={next} />}
                 </CalendarHeader>
-                {(weekDayNames && !!weekDayNames.length) && (
-                    <Grid $cols={7} $colWidth="32px">
+                {weekDayNames && !!weekDayNames.length && (
+                    <Grid data-testid="header" $cols={7} $colWidth="32px">
                         {weekDayNames.map((day, index) => (
                             <WeekDayContainer key={index}>{day}</WeekDayContainer>
                         ))}
@@ -51,7 +51,7 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
                 )}
                 {renderBody()}
             </CalendarContent>
-            {hasSelection && <ClearButton onClick={onClearClick}>Clear</ClearButton>}
+            {hasSelection && <ClearButton data-testid='clear' onClick={onClearClick}>Clear</ClearButton>}
         </CalendarWrapper>
     );
 };

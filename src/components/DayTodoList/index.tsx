@@ -38,22 +38,23 @@ const TodoList: FC<TodoListProps> = ({ items, onDelete, onAdd, header }) => {
         <DayTodoListWrapper>
             <ListHeader>{header}</ListHeader>
             <InputContainer>
-                <TodoInput value={todo} onChange={handleTodoChange} />
-                <AddButton onClick={handleAddClick}>Add</AddButton>
+                <TodoInput data-testid='todo-input' value={todo} onChange={handleTodoChange} />
+                <AddButton data-testid='todo-add' onClick={handleAddClick}>Add</AddButton>
             </InputContainer>
             <TodoListContainer>
                 {Boolean(items.length) &&
                     items.map(({ name, id }) => (
                         <TodoContainer key={id}>
-                            <TodoTitle>{name}</TodoTitle>
+                            <TodoTitle data-testid={`todo-${name}`}>{name}</TodoTitle>
                             <Icon
                                 src={deleteIcon}
+                                data-testid={`delete-todo-${name}`}
                                 alt="Delete todo"
                                 onClick={createDeleteHandler(id)}
                             />
                         </TodoContainer>
                     ))}
-                {!items.length && <NoTaskContainer>No todos</NoTaskContainer>}
+                {!items.length && <NoTaskContainer data-testid='no-todo'>No todos</NoTaskContainer>}
             </TodoListContainer>
         </DayTodoListWrapper>
     );

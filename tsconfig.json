@@ -6,19 +6,15 @@
                 "./src/*"
             ]
         },
-        "rootDir": "src",
-        // "declarationMap": true,
+        "rootDir": ".",
         "sourceMap": true,
         "noImplicitAny": true,
         "target": "es5",
-        // "outDir": "lib",
         "lib": [
             "dom",
             "dom.iterable",
             "esnext"
         ],
-        // "declaration": true,
-        // "declarationDir": "lib",
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
@@ -30,11 +26,12 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react"
+        "jsx": "react",
     },
     "include": [
         "src",
-        "src/custom.d.ts"
+        "src/custom.d.ts",
+        "tests"
     ],
     "exclude": [
         "node_modules",

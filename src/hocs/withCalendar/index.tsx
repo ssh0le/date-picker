@@ -153,10 +153,12 @@ const withCalendar = (props: WithCalendarProps) => {
         const hasNext = defineHasNext(lastDay, maxDate, true);
         const hasPrev = defineHasNext(firstDay, minDate, false);
 
+        const handleMonthClick = (day: Date) => () => setCurrentDate(day);
+
         const renderBody = () => {
             if (viewType !== CalendarViewType.Year) {
                 return (
-                    <Grid $cols={7} $colWidth="32px">
+                    <Grid data-testid="days-grid" $cols={7} $colWidth="32px">
                         {days.map((day, index) => (
                             <DayContainer
                                 key={index}
@@ -169,9 +171,11 @@ const withCalendar = (props: WithCalendarProps) => {
                 );
             } else {
                 return (
-                    <Grid $cols={3} $colWidth="1fr">
+                    <Grid data-testid="month-grid" $cols={3} $colWidth="1fr">
                         {days.map((day, index) => (
-                            <MonthWrapper key={index}>{getMonthShortName(day)}</MonthWrapper>
+                            <MonthWrapper onClick={handleMonthClick(day)} key={index}>
+                                {getMonthShortName(day)}
+                            </MonthWrapper>
                         ))}
                     </Grid>
                 );

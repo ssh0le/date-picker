@@ -49,11 +49,11 @@ const getCalendarByWeek = (date: Date, weekStart: WeekStartDay): Date[] => {
 
 export const getCalendarByYear = (date: Date, minDate?: Date, maxDate?: Date): Date[] => {
     const [year, month] = getDestructuredDate(date);
-    const start = new Date(year, 0, 1, 0, 0);
-    const min = minDate ?? new Date(year - 1, month, 1, 0, 0);
-    const max = maxDate ?? new Date(year + 1, month, 1, 0, 0);
+    const start = new Date(year, 0, 1, 0, 0, 0, 0);
+    const min = new Date(minDate ?? new Date(year - 1, month, 1, 0, 0, 0, 0));
+    const max = new Date(maxDate ?? new Date(year + 1, month, 1, 0, 0));
     const months = [];
-    max.setHours(23, 59);
+    max.setHours(23, 59, 0, 0);
     for (let i = 0; i < 12; i++) {
         const nextDate = addMonthsToDate(start, i);
         if (isInRange(nextDate, min, max)) {
