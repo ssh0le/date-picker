@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-// import DatePicker from '@/components/DatePicker';
+import DatePicker from '@/components/DatePicker';
 import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
 
-import { DatePicker } from '../../lib/esm/index'
+// import { DatePicker } from '../../lib/esm/index'
 
 const meta = {
     title: 'Example/Calendar',
@@ -20,6 +20,7 @@ export const Monday: Story = {
         minDate: new Date(2023, 0, 1, 0, 0),
         maxDate: new Date(2024, 0, 0, 0, 0),
         initialDate: new Date(2023, 2, 9),
+        onSelect: (day) => console.log('from-user: ', day)
     },
 };
 
@@ -76,6 +77,17 @@ export const HolidaysByWeek: Story = {
         holidays,
         highlightHolidays: true,
         viewType: CalendarViewType.Week,
+        weekStartDay: WeekStartDay.Monday,
+        minDate: new Date(2023, 0, 1, 0, 0),
+        maxDate: new Date(2024, 0, 0, 0, 0),
+    },
+};
+
+export const WithTodos: Story = {
+    args: {
+        holidays,
+        withTodo: true,
+        highlightHolidays: true,
         weekStartDay: WeekStartDay.Monday,
         minDate: new Date(2023, 0, 1, 0, 0),
         maxDate: new Date(2024, 0, 0, 0, 0),
