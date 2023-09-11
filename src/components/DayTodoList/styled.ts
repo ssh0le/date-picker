@@ -42,6 +42,7 @@ export const TodoContainer = styled.li`
 export const TodoTitle = styled.span`
     width: 150px;
     overflow-wrap: break-word;
+    text-align: center;
 `
 
 export const Icon = styled.img`

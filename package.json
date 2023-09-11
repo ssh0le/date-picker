@@ -1,6 +1,6 @@
 {
   "name": "@richigo/date-picker-lib",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "calendar library",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -89,7 +89,8 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^6.0.7"
   },
   "dependencies": {}
 }

@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import DatePicker from '@/components/DatePicker';
+// import DatePicker from '@/components/DatePicker';
 import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
 
-// import { DatePicker } from '../../lib/esm/index'
+import { DatePicker } from '../../lib/esm/index'
 
 const meta = {
     title: 'Example/Calendar',
