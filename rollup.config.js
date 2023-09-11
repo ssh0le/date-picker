@@ -18,6 +18,17 @@ const Resolver = resolve({
     browser: true,
 });
 
+const resolveAliases = () =>
+    alias({
+        entries: [
+            {
+                find: '@',
+                replacement: _resolve(__dirname, 'src'),
+            },
+        ],
+        Resolver,
+    });
+
 export default [
     {
         input: 'src/index.ts',
@@ -35,16 +46,11 @@ export default [
         ],
         plugins: [
             peerDepsExternal(),
-            alias({
-                entries: [
-                    {
-                        find: '@',
-                        // eslint-disable-next-line no-undef
-                        replacement: _resolve(__dirname, 'src'),
-                    },
-                ],
-                Resolver,
+            typescript({
+                tsconfig: './tsconfig.json',
+                exclude: ['src/**/*.test.(tsx|ts)', '**/stories/*'],
             }),
+            resolveAliases(),
             babel({
                 exclude: 'node_modules/**',
                 presets: ['@babel/preset-react'],
@@ -61,10 +67,6 @@ export default [
             }),
             svgr({ icon: true }),
             commonjs(),
-            typescript({
-                tsconfig: './tsconfig.json',
-                exclude: ['src/**/*.test.(tsx|ts)', '**/stories/*'],
-            }),
             postcss({
                 extensions: ['.css'],
             }),
@@ -73,7 +75,10 @@ export default [
     {
         input: ['src/index.ts'],
         output: [{ file: 'lib/index.d.ts', format: 'es' }],
-        plugins: [dts()],
+        plugins: [
+            resolveAliases(),
+            dts(),
+        ],
         external: [/\.css$/, 'styled-components'],
     },
 ];
