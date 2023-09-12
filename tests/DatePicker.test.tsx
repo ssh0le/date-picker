@@ -3,10 +3,10 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import DatePicker from '@/components/DatePicker';
-import { getCalendar, getShortFormattedDate } from '@/helpers';
-import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
+import { getShortFormattedDate } from '@/helpers';
 
 import '@testing-library/jest-dom';
+import { randomClick } from './helpers/randomClick';
 import { testPicker } from './helpers/testPicker';
 
 const initialDate = new Date(2023, 8, 10);
@@ -79,10 +79,7 @@ describe('Date picker', () => {
             render(<DatePicker initialDate={initialDate} withTodo/>);
         });
         it('displays todo list widget', () => {
-            const daysGrid = screen.getByTestId(daysGridId);
-            const calendar = getCalendar(initialDate, WeekStartDay.Monday, CalendarViewType.Month);
-            const rnd = Math.floor(calendar.length * Math.random());
-            fireEvent.click(daysGrid.children[rnd]);
+            randomClick(daysGridId);
             expect(screen.getByTestId(todoAddButtonId)).toBeInTheDocument();
             expect(screen.getByTestId(noTodoId)).toBeInTheDocument();
         });
@@ -91,20 +88,14 @@ describe('Date picker', () => {
             fireEvent.click(screen.getByTestId(todoAddButtonId));
         };
         it('adds todos', async () => {
-            const daysGrid = screen.getByTestId(daysGridId);
-            const calendar = getCalendar(initialDate, WeekStartDay.Monday, CalendarViewType.Month);
-            const rnd = Math.floor(calendar.length * Math.random());
-            fireEvent.click(daysGrid.children[rnd]);
+            randomClick(daysGridId);
             const newTodo = 'Test add todo';
             await addTodo(newTodo);
             expect(screen.getByTestId(todoId(newTodo))).toBeInTheDocument();
         });
 
         it('delets todos', async () => {
-            const daysGrid = screen.getByTestId(daysGridId);
-            const calendar = getCalendar(initialDate, WeekStartDay.Monday, CalendarViewType.Month);
-            const rnd = Math.floor(calendar.length * Math.random());
-            fireEvent.click(daysGrid.children[rnd]);
+            randomClick(daysGridId);
             const newTodo = 'Test delete todo';
             await addTodo(newTodo);
             fireEvent.click(screen.getByTestId(deleteTodoButtonId(newTodo)));
