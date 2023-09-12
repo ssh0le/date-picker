@@ -1,6 +1,7 @@
 import React, { ComponentProps, FC, useCallback, useEffect, useState } from 'react';
 
 import DateInput from '@/components/DateInput';
+import { areEqualDates } from '@/helpers';
 import { mergeObjects } from '@/helpers/mergeObjects';
 import { WithPickerOmittedProps } from '@/interfaces/decorators';
 
@@ -15,19 +16,24 @@ const withRangePicker = (props: WithPickerProps) => {
         const [selectedFrom, setSelectedFrom] = useState<null | Date>(null);
         const [selectedTo, setSelectedTo] = useState<null | Date>(null);
 
+        const setDateToAll = (day: Date) => {
+            setSelectedFrom(day);
+            setSelectedTo(day);
+        };
+
         useEffect(() => {
-            console.log('hello', initialDate)
             if (initialDate) {
-                console.log('has')
-                const newDate = new Date(initialDate);
-                setSelectedFrom(newDate);
-                setSelectedTo(newDate);
+                setDateToAll(new Date(initialDate));
             }
-        }, [initialDate])
+        }, [initialDate]);
 
         const handleFromDateSubmit = useCallback((day: Date) => {
             setSelectedFrom(day);
         }, []);
+
+        const handleDayClick = (day: Date) => {
+            setDateToAll(day);
+        };
 
         const handleToDateSubmit = useCallback((day: Date) => {
             setSelectedTo(day);
@@ -38,20 +44,16 @@ const withRangePicker = (props: WithPickerProps) => {
             setSelectedFrom(null);
         };
 
-        const isHead = (day: Date) => {
-            if (!selectedFrom) return false;
-            return (
-                selectedFrom.getMonth() === day.getMonth() &&
-                selectedFrom.getDate() === day.getDate()
-            );
-        };
+        const isEnd = (day: Date | null, end: Date | null) => {
+            if (!day || !end) {
+                return false;
+            }
+            return areEqualDates(day, end);
+        }
 
-        const isTail = (day: Date) => {
-            if (!selectedTo) return false;
-            return (
-                selectedTo.getMonth() === day.getMonth() && selectedTo.getDate() === day.getDate()
-            );
-        };
+        const isHead = (day: Date) => isEnd(day, selectedFrom);
+
+        const isTail = (day: Date) => isEnd(day, selectedTo);
 
         const isSelected = (day: Date) => {
             if (!selectedFrom || !selectedTo) return false;
@@ -86,6 +88,7 @@ const withRangePicker = (props: WithPickerProps) => {
                     initialDate={selectedTo}
                     hasSelection={Boolean(selectedTo) || Boolean(selectedFrom)}
                     onClearClick={handleClearClick}
+                    onDayClick={handleDayClick}
                 />
             </>
         );
