@@ -7,7 +7,9 @@ export const mergeWithDefaultStyles = (
     if (!styles) return defaultStyles;
     const mergedStyles = JSON.parse(JSON.stringify(defaultStyles));
     Object.keys(styles).forEach((key) => {
-        mergedStyles[key] = { ...mergedStyles[key], ...styles[key] };
+        if (styles[key]) {
+            mergedStyles[key] = { ...styles[key] }
+        }
     });
     return mergedStyles;
 };

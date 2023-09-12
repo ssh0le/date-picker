@@ -40,11 +40,11 @@ export interface CalendarStyles {
     weekend?: CalendarDayStyle;
     holiday?: CalendarDayStyle;
     withTodoDay?: CalendarDayStyle;
-    calendar: CalendarColors;
+    calendar?: CalendarColors;
 }
 
 export interface Holiday {
     name: string,
     day: number,
-    month: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
+    month: number,
 }

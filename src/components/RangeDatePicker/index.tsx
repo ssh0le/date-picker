@@ -19,12 +19,12 @@ const RangeDatePicker: FC<
         styles,
         weekStartDay,
         highlightWeekends,
+        highlightHolidays,
         holidays,
         viewType,
         initialDate,
         onSelect
     } = props;
-
     const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
     const WithCalendar = useMemo(
         () =>
@@ -34,10 +34,11 @@ const RangeDatePicker: FC<
                 maxDate,
                 weekStartDay,
                 highlightWeekends,
+                highlightHolidays,
                 holidays,
                 viewType,
             }),
-        [minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType, holidays],
+        [minDate, maxDate, styles, weekStartDay, highlightHolidays, highlightWeekends, viewType, holidays],
     );
 
     const WithRangePicker = withRangePicker({

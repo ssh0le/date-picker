@@ -74,6 +74,7 @@ const withRangePicker = (props: WithPickerProps) => {
         const defineComponentStyle = (day: Date) => {
             const style = {};
             if (defineStyle) {
+                console.log('merged');
                 mergeObjects(style, defineStyle(day));
             }
             const { selectionHeadDay, selectionTailDay, selectedDay } = styles;
