@@ -3,7 +3,6 @@ import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
 import { addMonthsToDate } from './addToDate';
 import { getDestructuredDate } from './getDateYearAndMonth';
 import { getDayOfWeekIndex } from './getWeekDayIndex';
-import { isInRange } from './isInRange'
 
 const daysInWeek = 7;
 
@@ -48,17 +47,16 @@ const getCalendarByWeek = (date: Date, weekStart: WeekStartDay): Date[] => {
 }
 
 export const getCalendarByYear = (date: Date, minDate?: Date, maxDate?: Date): Date[] => {
-    const [year, month] = getDestructuredDate(date);
+    const year = date.getFullYear();
     const start = new Date(year, 0, 1, 0, 0, 0, 0);
-    const min = new Date(minDate ?? new Date(year - 1, month, 1, 0, 0, 0, 0));
-    const max = new Date(maxDate ?? new Date(year + 1, month, 1, 0, 0));
+    const [minYear, minMonth] = minDate ? getDestructuredDate(minDate) : [year, 0];
+    const [maxYear, maxMonth] = maxDate ? getDestructuredDate(maxDate) : [year, 11];
+    const min = year === minYear ? minMonth : 0;
+    const max = year === maxYear ? maxMonth : 11;
     const months = [];
-    max.setHours(23, 59, 0, 0);
-    for (let i = 0; i < 12; i++) {
+    for (let i = min; i <= max; i++) {
         const nextDate = addMonthsToDate(start, i);
-        if (isInRange(nextDate, min, max)) {
-            months.push(nextDate);
-        }
+        months.push(nextDate);
     }
     return months;
 }

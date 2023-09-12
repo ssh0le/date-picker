@@ -139,9 +139,16 @@ const withCalendar = (props: WithCalendarProps) => {
         const handleNextClick = useCallback(() => addToCurrentDate(1), []);
         const handlePrevClick = useCallback(() => addToCurrentDate(-1), []);
 
-        const defineHasNext = (date: Date, limit: Date | undefined, isNext: boolean) => {
+        const defineHasNext = (
+            date: Date | undefined,
+            limit: Date | undefined,
+            isNext: boolean,
+        ) => {
             if (!limit) {
                 return true;
+            }
+            if (!date) {
+                return false;
             }
             if (viewType === CalendarViewType.Year) {
                 return !areEqualMonthAndYear(new Date(date), new Date(limit));
@@ -159,7 +166,7 @@ const withCalendar = (props: WithCalendarProps) => {
             if (maxDate && minDate && minDate > maxDate) {
                 return (
                     <Grid data-testid="no-items-grid" $cols={1} $colWidth="1fr">
-                        <WrongDatesMessage data-testid='wrong-dates'>
+                        <WrongDatesMessage data-testid="wrong-dates">
                             Incorrect minimum and maximum date range.
                         </WrongDatesMessage>
                     </Grid>
