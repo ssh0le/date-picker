@@ -15,18 +15,31 @@ Second, RangeDatePicker can pick range between two dates.
 ## API
 
 Date pickers receive following props:
-```
-interface PickerProps {
-    minDate?: Date;
-    maxDate?: Date;
-    styles?: CalendarStyles;
-    highlightWeekends?: boolean;
-    highlightHolidays?: boolean;
-    weekStartDay?: WeekStartDay;
-    initialDate?: Date;
-    viewType?: CalendarViewType;
-    holidays?: Holiday[];
-}
+```ts
+    //Common props for all pickers
+    interface PickerProps {
+        minDate?: Date;
+        maxDate?: Date;
+        styles?: CalendarStyles;
+        highlightWeekends?: boolean;
+        highlightHolidays?: boolean;
+        weekStartDay?: WeekStartDay;
+        initialDate?: Date;
+        viewType?: CalendarViewType;
+        holidays?: Holiday[];
+
+    }
+
+    //DatePicker
+    interface DatePickerProps extends PickerProps {
+        withTodo?: boolean;
+        onSelect?: (day: Date | null) => void
+    }
+
+    //RangeDatePicker
+    interface RangeDatePickerProps extends PickerProps {
+        onSelect?: (from: Date | null, to: Date | null) => void;
+    }
 ```
 
 ### minDate and maxDate
@@ -36,7 +49,7 @@ These props define range of date within which the calendar will navigate.
 ### styles
 
 Both components can receive prop **styles**:
-```
+```ts
 interface CalendarStyles {
     // for days that are included in the current month
     innerDay?: CalendarDayStyle;
@@ -57,14 +70,14 @@ interface CalendarStyles {
     //style for day that has todos
     withTodoDay?: CalendarDayStyle;
     //style for calendar
-    calendar: CalendarColors;
+    calendar?: CalendarColors;
 }
 ```
 This way you can set styles for days and calendar.
 
 Styles for days are consist of some React [CSSProperties](https://use-form.netlify.app/interfaces/_node_modules__types_react_index_d_.react.cssproperties.html).
 For define day style you have to use object with following properties:
-```
+```ts
     import { CSSProperties } from 'react';
 
     type DayCssProperties =
@@ -85,7 +98,7 @@ For define day style you have to use object with following properties:
 ```
 
 To style calendar itself you need to pass next object:
-```
+```ts
     import { CSSProperties } from 'react';
     
     export type CalendarColors = Pick<CSSProperties, "color" | "backgroundColor">;
@@ -109,7 +122,7 @@ This prop is used for setting start date of your calendar.
 ### weekStartDay
 Sets start date of the week.
 Accept *WeekStartDay* enum:
-```
+```ts
     enum WeekStartDay {
         Sunday = 0,
         Monday = 1
@@ -119,20 +132,38 @@ Accept *WeekStartDay* enum:
 ### viewType
 Sets display type of calendar.
 Accept *CalendarViewType* enum:
-```
+```ts
     enum CalendarViewType {
         Week = 0,
         Month = 1,
         Year = 2
     }
 ```
-### viewType
+### holidays
 This prop allows you to set holidays that will be displayed.
-Accepts array of *Holiday*:
+Accepts array of *Holiday*'s:
+```ts
+    interface Holiday {
+        name: string;
+        day: number;
+        month: number; // zero-based!
+    }
 ```
-interface Holiday {
-    name: string;
-    day: number;
-    month: number; // zero-based!
-}
+
+### onSelect
+*onSelect* event triggers on every date selection.
+For *DatePicker*:
+```ts
+    onSelect?: (day: Date | null) => void
 ```
+
+For *RangeDatePicker*:
+```ts
+    onSelect?: (from: Date | null, to: Date | null) => void
+```
+
+### withTodo
+Add todo list to Picker. This prop is available only for *DatePicker*.
+
+## Demo
+Interactive [example](https://ssh0le.github.io/date-picker-demo/) of library usage 

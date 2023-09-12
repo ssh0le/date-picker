@@ -3,16 +3,14 @@ import React, { FC, useMemo } from 'react';
 import { mergeWithDefaultStyles } from '@/helpers';
 import withRangePicker from '@/hocs/Pickers/withRangePicker';
 import withCalendar from '@/hocs/withCalendar';
-import { PickerProps } from '@/interfaces/pickers';
 
 import BaseCalendar from '../BaseCalendar';
 import ErrorBoundary from '../ErrorBoundary';
 
+import { RangeDatePickerProps } from './interfaces';
 import { RangeDatePickerContainer } from './styled';
 
-const RangeDatePicker: FC<
-    PickerProps & { onSelect?: (from: Date | null, to: Date | null) => void }
-> = (props) => {
+const RangeDatePicker: FC<RangeDatePickerProps> = (props) => {
     const {
         minDate,
         maxDate,
@@ -23,7 +21,7 @@ const RangeDatePicker: FC<
         holidays,
         viewType,
         initialDate,
-        onSelect
+        onSelect,
     } = props;
     const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
     const WithCalendar = useMemo(
@@ -38,7 +36,16 @@ const RangeDatePicker: FC<
                 holidays,
                 viewType,
             }),
-        [minDate, maxDate, styles, weekStartDay, highlightHolidays, highlightWeekends, viewType, holidays],
+        [
+            minDate,
+            maxDate,
+            styles,
+            weekStartDay,
+            highlightHolidays,
+            highlightWeekends,
+            viewType,
+            holidays,
+        ],
     );
 
     const WithRangePicker = withRangePicker({
@@ -48,7 +55,11 @@ const RangeDatePicker: FC<
     return (
         <ErrorBoundary>
             <RangeDatePickerContainer data-testid="date-picker">
-                <WithRangePicker styles={mergedStyles} initialDate={initialDate} onSelect={onSelect}/>
+                <WithRangePicker
+                    styles={mergedStyles}
+                    initialDate={initialDate}
+                    onSelect={onSelect}
+                />
             </RangeDatePickerContainer>
         </ErrorBoundary>
     );
