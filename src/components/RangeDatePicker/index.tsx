@@ -10,8 +10,20 @@ import ErrorBoundary from '../ErrorBoundary';
 
 import { RangeDatePickerContainer } from './styled';
 
-const RangeDatePicker: FC<PickerProps> = (props) => {
-    const { minDate, maxDate, styles, weekStartDay, highlightWeekends, holidays, viewType, initialDate } = props;
+const RangeDatePicker: FC<
+    PickerProps & { onSelect?: (from: Date | null, to: Date | null) => void }
+> = (props) => {
+    const {
+        minDate,
+        maxDate,
+        styles,
+        weekStartDay,
+        highlightWeekends,
+        holidays,
+        viewType,
+        initialDate,
+        onSelect
+    } = props;
 
     const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
     const WithCalendar = useMemo(
@@ -35,7 +47,7 @@ const RangeDatePicker: FC<PickerProps> = (props) => {
     return (
         <ErrorBoundary>
             <RangeDatePickerContainer data-testid="date-picker">
-                <WithRangePicker styles={mergedStyles} initialDate={initialDate}/>
+                <WithRangePicker styles={mergedStyles} initialDate={initialDate} onSelect={onSelect}/>
             </RangeDatePickerContainer>
         </ErrorBoundary>
     );

@@ -10,15 +10,25 @@ import { WithPickerProps } from '../interfaces';
 const withRangePicker = (props: WithPickerProps) => {
     const { Component } = props;
     const withRangePickerComponent: FC<
-        Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
+        Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps> & {
+            onSelect?: (from: Date | null, to: Date | null) => void;
+        }
     > = (nextProps) => {
-        const { defineStyle, styles, initialDate } = nextProps;
+        const { defineStyle, styles, initialDate, onSelect } = nextProps;
         const [selectedFrom, setSelectedFrom] = useState<null | Date>(null);
         const [selectedTo, setSelectedTo] = useState<null | Date>(null);
 
-        const setDateToAll = (day: Date) => {
-            setSelectedFrom(day);
-            setSelectedTo(day);
+        const handleSelectDate = useCallback((from: Date | null, to: Date | null) => {
+            if (onSelect) {
+                onSelect(from, to);
+            }
+        }, [onSelect]);
+
+        const setDateToAll = (day: Date | null) => {
+            const toggleDate = (prevDate: Date | null) => (prevDate === day ? null : day);
+            setSelectedFrom(toggleDate);
+            setSelectedTo(toggleDate);
+            handleSelectDate(day, day);
         };
 
         useEffect(() => {
@@ -26,30 +36,31 @@ const withRangePicker = (props: WithPickerProps) => {
                 setDateToAll(new Date(initialDate));
             }
         }, [initialDate]);
-
-        const handleFromDateSubmit = useCallback((day: Date) => {
-            setSelectedFrom(day);
-        }, []);
-
+        
         const handleDayClick = (day: Date) => {
             setDateToAll(day);
         };
 
+        const handleClearClick = () => {
+            setDateToAll(null);
+        };
+
+        const handleFromDateSubmit = useCallback((day: Date) => {
+            setSelectedFrom(day);
+            handleSelectDate(day, selectedTo)
+        }, [handleSelectDate, selectedTo]);
+
         const handleToDateSubmit = useCallback((day: Date) => {
             setSelectedTo(day);
-        }, []);
-
-        const handleClearClick = () => {
-            setSelectedTo(null);
-            setSelectedFrom(null);
-        };
+            handleSelectDate(selectedFrom, day);
+        }, [handleSelectDate, selectedFrom]);
 
         const isEnd = (day: Date | null, end: Date | null) => {
             if (!day || !end) {
                 return false;
             }
             return areEqualDates(day, end);
-        }
+        };
 
         const isHead = (day: Date) => isEnd(day, selectedFrom);
 

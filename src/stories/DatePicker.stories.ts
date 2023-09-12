@@ -83,6 +83,17 @@ export const HolidaysByWeek: Story = {
     },
 };
 
+export const WithBug: Story = {
+    args: {
+        holidays,
+        highlightHolidays: true,
+        viewType: CalendarViewType.Year,
+        weekStartDay: WeekStartDay.Monday,
+        minDate: new Date(2023, 6, 3, 0, 0),
+        maxDate: new Date(2023, 7, 1, 0, 0),
+    },
+};
+
 export const WithTodos: Story = {
     args: {
         holidays,
