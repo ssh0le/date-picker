@@ -1,4 +1,4 @@
-import React, { ComponentProps, FC, useCallback, useState } from 'react';
+import React, { ComponentProps, FC, useCallback, useEffect, useState } from 'react';
 
 import DateInput from '@/components/DateInput';
 import { mergeObjects } from '@/helpers/mergeObjects';
@@ -11,13 +11,23 @@ const withRangePicker = (props: WithPickerProps) => {
     const withRangePickerComponent: FC<
         Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
     > = (nextProps) => {
-        const { defineStyle, styles  } = nextProps;
+        const { defineStyle, styles, initialDate } = nextProps;
         const [selectedFrom, setSelectedFrom] = useState<null | Date>(null);
         const [selectedTo, setSelectedTo] = useState<null | Date>(null);
 
-        const handleFromDateSubmit = (day: Date) => {
+        useEffect(() => {
+            console.log('hello', initialDate)
+            if (initialDate) {
+                console.log('has')
+                const newDate = new Date(initialDate);
+                setSelectedFrom(newDate);
+                setSelectedTo(newDate);
+            }
+        }, [initialDate])
+
+        const handleFromDateSubmit = useCallback((day: Date) => {
             setSelectedFrom(day);
-        };
+        }, []);
 
         const handleToDateSubmit = useCallback((day: Date) => {
             setSelectedTo(day);
