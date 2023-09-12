@@ -4,14 +4,14 @@ import { mergeWithDefaultStyles } from '@/helpers';
 import withPicker from '@/hocs/Pickers/withPicker';
 import withCalendar from '@/hocs/withCalendar';
 import withTodos from '@/hocs/withTodos';
-import { PickerProps } from '@/interfaces/pickers';
 
 import BaseCalendar from '../BaseCalendar';
 import ErrorBoundary from '../ErrorBoundary';
 
+import { DatePickerProps } from './interfaces';
 import { DatePickerContainer } from './styled';
 
-const DatePicker: FC<PickerProps> = (props) => {
+const DatePicker: FC<DatePickerProps> = (props) => {
     const {
         minDate,
         maxDate,
@@ -22,6 +22,8 @@ const DatePicker: FC<PickerProps> = (props) => {
         initialDate,
         holidays,
         highlightHolidays,
+        withTodo = false,
+        onSelect,
     } = props;
 
     const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
@@ -51,12 +53,15 @@ const DatePicker: FC<PickerProps> = (props) => {
     );
     const WithPicker = useMemo(() => withPicker({ Component: WithCalendar }), [WithCalendar]);
 
-    const WithTodo = useMemo(() => withTodos({ Component: WithPicker }), [WithPicker]);
+    const WithTodo = useMemo(
+        () => (withTodo ? withTodos({ Component: WithPicker }) : WithPicker),
+        [WithPicker, withTodo],
+    );
 
     return (
         <ErrorBoundary>
             <DatePickerContainer data-testid="date-picker">
-                <WithTodo styles={mergedStyles} initialDate={initialDate} />
+                <WithTodo styles={mergedStyles} initialDate={initialDate} onSelect={onSelect} />
             </DatePickerContainer>
         </ErrorBoundary>
     );

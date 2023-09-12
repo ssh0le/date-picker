@@ -14,7 +14,6 @@ const RangeDatePicker: FC<PickerProps> = (props) => {
     const { minDate, maxDate, styles, weekStartDay, highlightWeekends, holidays, viewType } = props;
 
     const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
-
     const WithCalendar = useMemo(
         () =>
             withCalendar({
@@ -26,21 +25,17 @@ const RangeDatePicker: FC<PickerProps> = (props) => {
                 holidays,
                 viewType,
             }),
-        [minDate, maxDate, styles, weekStartDay, highlightWeekends],
+        [minDate, maxDate, styles, weekStartDay, highlightWeekends, viewType],
     );
 
-    const WithRangePicker = useMemo(
-        () =>
-            withRangePicker({
-                Component: WithCalendar,
-            }),
-        [],
-    );
+    const WithRangePicker = withRangePicker({
+        Component: WithCalendar,
+    });
 
     return (
         <ErrorBoundary>
             <RangeDatePickerContainer data-testid="date-picker">
-                <WithRangePicker styles={mergedStyles} />
+                <WithRangePicker styles={mergedStyles}/>
             </RangeDatePickerContainer>
         </ErrorBoundary>
     );
