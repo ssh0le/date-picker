@@ -21,7 +21,7 @@ import { CalendarDayStyle, CalendarViewType, WeekStartDay } from '@/interfaces/c
 import { WithCalendarAdditionalProps, WithCalendarOmittedProps } from '@/interfaces/decorators';
 
 import { WithCalendarProps } from './interfaces';
-import { MonthWrapper } from './styled';
+import { MonthWrapper, WrongDatesMessage } from './styled';
 
 const withCalendar = (props: WithCalendarProps) => {
     const {
@@ -42,7 +42,7 @@ const withCalendar = (props: WithCalendarProps) => {
             WithCalendarAdditionalProps
     > = (nextProps) => {
         const { initialDate, defineStyle, onDayClick, styles } = nextProps;
-        const [currentDate, setCurrentDate] = useState<Date>(initialDate ?? new Date());
+        const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
         const handleDayClick = useCallback(
             (day: Date) => () => {
@@ -144,7 +144,7 @@ const withCalendar = (props: WithCalendarProps) => {
                 return true;
             }
             if (viewType === CalendarViewType.Year) {
-                return !areEqualMonthAndYear(date, limit);
+                return !areEqualMonthAndYear(new Date(date), new Date(limit));
             } else {
                 return isNext ? date < limit : date > limit;
             }
@@ -156,6 +156,15 @@ const withCalendar = (props: WithCalendarProps) => {
         const handleMonthClick = (day: Date) => () => setCurrentDate(day);
 
         const renderBody = () => {
+            if (maxDate && minDate && minDate > maxDate) {
+                return (
+                    <Grid data-testid="no-items-grid" $cols={1} $colWidth="1fr">
+                        <WrongDatesMessage data-testid='wrong-dates'>
+                            Incorrect minimum and maximum date range.
+                        </WrongDatesMessage>
+                    </Grid>
+                );
+            }
             if (viewType !== CalendarViewType.Year) {
                 return (
                     <Grid data-testid="days-grid" $cols={7} $colWidth="32px">

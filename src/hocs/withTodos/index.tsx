@@ -13,9 +13,11 @@ const storageKey = 'todos';
 const withTodos = (props: WithTodoProps) => {
     const { Component } = props;
     const withCalendarComponent: FC<
-        Omit<ComponentProps<typeof Component>, keyof WithTodosOmittedProps>
+        Omit<ComponentProps<typeof Component>, keyof WithTodosOmittedProps> & {
+            onDayClick?: (day: Date | null) => void;
+        }
     > = (nextProps) => {
-        const { styles } = nextProps;
+        const { styles, onDayClick } = nextProps;
         const [selectedDay, setSelectedDay] = useState<Date | null>(null);
         const [todos, setTodos] = useState<Todo[]>(() => {
             return JSON.parse(localStorage.getItem(storageKey) ?? '[]').map((todo: Todo) => ({
@@ -33,8 +35,15 @@ const withTodos = (props: WithTodoProps) => {
         }, [todos, selectedDay]);
 
         const handleDayClick = useCallback((day: Date) => {
-            setSelectedDay((prevSelectedDay) => (areEqualDates(day, prevSelectedDay) ? null : day));
-        }, []);
+            setSelectedDay((prevSelectedDay) => areEqualDates(day, prevSelectedDay) ? null : day);
+            if (onDayClick) {
+                onDayClick(day);
+            }
+        }, [onDayClick]);
+
+        const handleClearClick = useCallback(() => {
+            setSelectedDay(null);
+        }, [])
 
         const defineComponentStyle = (day: Date) => {
             const style = {};
@@ -66,6 +75,7 @@ const withTodos = (props: WithTodoProps) => {
                     {...nextProps}
                     onDayClick={handleDayClick}
                     defineStyle={defineComponentStyle}
+                    onClearClick={handleClearClick}
                 />
                 {!!selectedDay && (
                     <DayTodoList

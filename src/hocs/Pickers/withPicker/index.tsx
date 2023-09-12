@@ -1,4 +1,4 @@
-import React, { ComponentProps, FC, useCallback, useState } from 'react';
+import React, { ComponentProps, FC, useCallback, useEffect, useState } from 'react';
 
 import DateInput from '@/components/DateInput';
 import { areEqualDates } from '@/helpers';
@@ -10,13 +10,47 @@ import { WithPickerProps } from '../interfaces';
 const withPicker = (props: WithPickerProps) => {
     const { Component } = props;
     const withCalendarComponent: FC<
-        Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps>
+        Omit<ComponentProps<typeof Component>, keyof WithPickerOmittedProps> & {
+            onSelect?: (day: Date | null) => void;
+            onDayClick?: (day: Date) => void;
+            onClearClick?: () => void;
+        }
     > = (nextProps) => {
-        const { defineStyle, styles, initialDate } = nextProps;
+        const { defineStyle, styles, initialDate, onSelect, onDayClick, onClearClick } = nextProps;
         const [selectedDay, setSelectedDay] = useState<null | Date>(initialDate ?? null);
-        const handleDateSubmit = useCallback((day: Date) => {
-            setSelectedDay((prevDate) => (areEqualDates(prevDate, day) ? prevDate : day));
-        }, []);
+
+        useEffect(() => {
+            if (initialDate) {
+                setSelectedDay(new Date(initialDate));
+            }
+        }, [initialDate])
+
+        const handleDateSelect = useCallback(
+            (day: Date | null) => {
+                if (onSelect) {
+                    onSelect(day);
+                }
+            },
+            [onSelect],
+        );
+
+        const handleDateSubmit = useCallback(
+            (day: Date) => {
+                setSelectedDay((prevDate) => areEqualDates(prevDate, day) ? null : day);
+                handleDateSelect(day);
+            },
+            [handleDateSelect],
+        );
+
+        const handleDayClick = useCallback(
+            (day: Date) => {
+                handleDateSubmit(day)
+                if (onDayClick) {
+                    onDayClick(day);
+                }
+            },
+            [onDayClick],
+        );
 
         const isSelected = (day: Date) => {
             if (!selectedDay) return false;
@@ -42,13 +76,18 @@ const withPicker = (props: WithPickerProps) => {
 
         const handleClearClick = useCallback(() => {
             setSelectedDay(null);
-        }, []);
+            handleDateSelect(null);
+            if (onClearClick) {
+                onClearClick();
+            }
+        }, [handleDateSelect]);
 
         return (
             <>
                 <DateInput label="Date" onSubmit={handleDateSubmit} />
                 <Component
                     {...nextProps}
+                    onDayClick={handleDayClick}
                     initialDate={selectedDay}
                     defineStyle={defineComponentStyle}
                     onClearClick={handleClearClick}

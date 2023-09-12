@@ -15,6 +15,7 @@ const titleId = 'title';
 const prevId = 'prev';
 const nextId = 'next';
 const headerId = 'header';
+const wrongMessageId = 'wrong-dates';
 
 export const testPicker = (Picker: FC<PickerProps>, pickerId: string) => {
     it('should render without props', () => {
@@ -85,5 +86,11 @@ export const testPicker = (Picker: FC<PickerProps>, pickerId: string) => {
             expect(screen.queryByTestId(nextId)).not.toBeInTheDocument();
             expect(screen.queryByTestId(prevId)).not.toBeInTheDocument();
         });
+        it('should display message on wrong min and max dates', () => {
+            render(
+                <Picker initialDate={initialDate} minDate={addMonthsToDate(initialDate, 1)} maxDate={addMonthsToDate(initialDate, -1)} />,
+            );
+            expect(screen.queryByTestId(wrongMessageId)).toBeInTheDocument();
+        })
     });
 };

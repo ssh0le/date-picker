@@ -76,7 +76,7 @@ describe('Date picker', () => {
             jest.spyOn(Storage.prototype, 'setItem').mockImplementation(
                 (key, value) => (storage[key] = value),
             );
-            render(<DatePicker initialDate={initialDate} />);
+            render(<DatePicker initialDate={initialDate} withTodo/>);
         });
         it('displays todo list widget', () => {
             const daysGrid = screen.getByTestId(daysGridId);
