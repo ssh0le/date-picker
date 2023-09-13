@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import RangeDatePicker from '@/components/RangeDatePicker';
-import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
+
+import { holidays } from './holidays';
 
 const meta = {
-    title: 'Example/Range',
+    title: 'Example/RangeDatePicker',
     component: RangeDatePicker,
     tags: ['autodocs'],
 } satisfies Meta<typeof RangeDatePicker>;
@@ -29,15 +31,21 @@ export const Sunday: Story = {
     },
 };
 
+export const ViewByWeek: Story = {
+    args: {
+        highlightWeekends: true,
+        viewType: CalendarViewType.Week,
+        weekStartDay: WeekStartDay.Sunday,
+        minDate: new Date(2023, 0, 1, 0, 0),
+        maxDate: new Date(2024, 0, 0, 0, 0),
+    },
+};
 
-const holidays: Holiday[] = [{name: 'h1', day: 31, month: 11}, {name: 'h2', day: 15, month: 11}]
-
-export const HolidaysByWeek: Story = {
+export const Holidays: Story = {
     args: {
         holidays,
         highlightHolidays: true,
         weekStartDay: WeekStartDay.Sunday,
-        viewType: CalendarViewType.Week,
         minDate: new Date(2023, 0, 1, 0, 0),
         maxDate: new Date(2024, 0, 0, 0, 0),
     },

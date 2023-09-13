@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import DatePicker from '@/components/DatePicker';
-import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
 
-// import { DatePicker } from '../../lib/esm/index'
+import { holidays } from './holidays';
 
 const meta = {
-    title: 'Example/Calendar',
+    title: 'Example/DatePicker',
     component: DatePicker,
     tags: ['autodocs'],
 } satisfies Meta<typeof DatePicker>;
@@ -20,7 +20,6 @@ export const Monday: Story = {
         minDate: new Date(2023, 0, 1, 0, 0),
         maxDate: new Date(2024, 0, 0, 0, 0),
         initialDate: new Date(2023, 2, 9),
-        onSelect: (day) => console.log('from-user: ', day)
     },
 };
 
@@ -50,8 +49,6 @@ export const ViewByWeek: Story = {
     },
 };
 
-const holidays: Holiday[] = [{name: 'h0', day: 1, month: 0}, {name: 'h1', day: 31, month: 11}, {name: 'h2', day: 15, month: 11}]
-
 export const ViewByYear: Story = {
     args: {
         weekStartDay: WeekStartDay.Sunday,
@@ -61,7 +58,7 @@ export const ViewByYear: Story = {
     },
 };
 
-export const HolidaysByMonth: Story = {
+export const Holidays: Story = {
     args: {
         holidays,
         highlightHolidays: true,
@@ -80,17 +77,6 @@ export const HolidaysByWeek: Story = {
         weekStartDay: WeekStartDay.Monday,
         minDate: new Date(2023, 0, 1, 0, 0),
         maxDate: new Date(2024, 0, 0, 0, 0),
-    },
-};
-
-export const WithBug: Story = {
-    args: {
-        holidays,
-        highlightHolidays: true,
-        viewType: CalendarViewType.Year,
-        weekStartDay: WeekStartDay.Monday,
-        minDate: new Date(2023, 6, 3, 0, 0),
-        maxDate: new Date(2023, 7, 1, 0, 0),
     },
 };
 
