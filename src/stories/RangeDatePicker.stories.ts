@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import RangeDatePicker from '@/components/RangeDatePicker';
-import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarViewType, WeekStartDay } from '@/types/calendar';
 
 import { holidays } from './holidays';
 

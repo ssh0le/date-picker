@@ -3,7 +3,7 @@ import React, { ComponentProps, FC, useCallback, useEffect, useState } from 'rea
 import DateInput from '@/components/DateInput';
 import { areEqualDates } from '@/helpers';
 import { mergeObjects } from '@/helpers/mergeObjects';
-import { WithPickerOmittedProps } from '@/interfaces/decorators';
+import { WithPickerOmittedProps } from '@/types/decorators';
 
 import { WithPickerProps } from '../interfaces';
 

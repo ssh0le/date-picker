@@ -1,4 +1,4 @@
-import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarViewType, WeekStartDay } from '@/types/calendar';
 
 import { addMonthsToDate } from './addToDate';
 import { getDestructuredDate } from './getDateYearAndMonth';

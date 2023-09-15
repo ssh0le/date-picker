@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { CalendarColors, CalendarDayStyle } from '@/interfaces/calendar';
+import { CalendarColors, CalendarDayStyle } from '@/types/calendar';
 
 interface CalendarWrapperProps {
     $colors: CalendarColors;

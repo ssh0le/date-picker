@@ -1,4 +1,4 @@
-import { CalendarStyles, CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarStyles, CalendarViewType, Holiday, WeekStartDay } from '@/types/calendar';
 
 export interface PickerProps {
     minDate?: Date;

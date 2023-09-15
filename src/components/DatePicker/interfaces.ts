@@ -1,4 +1,4 @@
-import { PickerProps } from "@/interfaces/pickers";
+import { PickerProps } from "@/types/pickers";
 
 export interface DatePickerProps extends PickerProps {
     withTodo?: boolean;

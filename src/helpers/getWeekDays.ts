@@ -1,5 +1,5 @@
 import { weekDays } from '@/constants';
-import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarViewType, WeekStartDay } from '@/types/calendar';
 
 export const getWeekDays = (startDay: WeekStartDay, viewType: CalendarViewType) => {
     if (viewType === CalendarViewType.Year) {

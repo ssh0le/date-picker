@@ -2,8 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import React, { FC } from 'react';
 
 import { addMonthsToDate, getCalendar, getShortFormattedDate } from '@/helpers';
-import { CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
-import { PickerProps } from '@/interfaces/pickers';
+import { CalendarViewType, WeekStartDay } from '@/types/calendar';
+import { PickerProps } from '@/types/pickers';
 
 import '@testing-library/jest-dom';
 import { randomClick } from './randomClick';

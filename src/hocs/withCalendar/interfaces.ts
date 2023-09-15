@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
-import { BaseCalendarProps } from '@/interfaces/decorators';
+import { CalendarViewType, Holiday, WeekStartDay } from '@/types/calendar';
+import { BaseCalendarProps } from '@/types/decorators';
 
 export interface WithCalendarProps {
     Component: FC<BaseCalendarProps>;

@@ -1,4 +1,4 @@
-import { WeekStartDay } from '@/interfaces/calendar';
+import { WeekStartDay } from '@/types/calendar';
 
 const daysInWeek = 7;
 

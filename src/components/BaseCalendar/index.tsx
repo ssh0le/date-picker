@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 
 import { headerIcons } from '@/constants';
-import { BaseCalendarProps } from '@/interfaces/decorators';
+import { BaseCalendarProps } from '@/types/decorators';
 import GlobalStyle from '@/styles/global';
 
 import { Grid } from '../shared/Grid';

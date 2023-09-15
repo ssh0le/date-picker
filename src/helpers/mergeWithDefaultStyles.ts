@@ -1,5 +1,5 @@
 import { defaultStyles } from '@/constants';
-import { CalendarStyles } from '@/interfaces/calendar';
+import { CalendarStyles } from '@/types/calendar';
 
 export const mergeWithDefaultStyles = (
     styles: CalendarStyles | undefined,

@@ -17,8 +17,8 @@ import {
     isWeekEnd,
 } from '@/helpers';
 import { mergeObjects } from '@/helpers/mergeObjects';
-import { CalendarDayStyle, CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
-import { WithCalendarAdditionalProps, WithCalendarOmittedProps } from '@/interfaces/decorators';
+import { CalendarDayStyle, CalendarViewType, Holiday, WeekStartDay } from '@/types/calendar';
+import { WithCalendarAdditionalProps, WithCalendarOmittedProps } from '@/types/decorators';
 import { fetchHolidays } from '@/utils/fetchHolidays';
 
 import { WithCalendarProps } from './interfaces';

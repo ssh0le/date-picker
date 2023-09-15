@@ -3,8 +3,8 @@ import React, { ComponentProps, FC, useCallback, useEffect, useMemo, useState } 
 import DayTodoList from '@/components/DayTodoList';
 import { areEqualDates, getLongFormattedDate } from '@/helpers';
 import { mergeObjects } from '@/helpers/mergeObjects';
-import { WithTodosOmittedProps } from '@/interfaces/decorators';
-import { Todo } from '@/interfaces/todos';
+import { WithTodosOmittedProps } from '@/types/decorators';
+import { TodoTask } from '@/types/todos';
 
 import { WithTodoProps } from './interfaces';
 
@@ -19,8 +19,8 @@ const withTodos = (props: WithTodoProps) => {
     > = (nextProps) => {
         const { styles, onDayClick } = nextProps;
         const [selectedDay, setSelectedDay] = useState<Date | null>(null);
-        const [todos, setTodos] = useState<Todo[]>(() => {
-            return JSON.parse(localStorage.getItem(storageKey) ?? '[]').map((todo: Todo) => ({
+        const [todos, setTodos] = useState<TodoTask[]>(() => {
+            return JSON.parse(localStorage.getItem(storageKey) ?? '[]').map((todo: TodoTask) => ({
                 ...todo,
                 date: new Date(todo.date),
             }));

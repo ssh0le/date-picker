@@ -1,4 +1,4 @@
-import { CalendarStyles } from '@/interfaces/calendar';
+import { CalendarStyles } from '@/types/calendar';
 
 const lightBlue = '#2F80ED1A';
 const blue = '#2F80ED99';

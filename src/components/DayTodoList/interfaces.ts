@@ -1,7 +1,7 @@
-import { Todo } from "@/interfaces/todos";
+import { TodoTask } from "@/types/todos";
 
 export interface TodoListProps {
-    items: Todo[];
+    items: TodoTask[];
     header: string,
     onDelete: (id: number) => void;
     onAdd: (todo: string) => void;

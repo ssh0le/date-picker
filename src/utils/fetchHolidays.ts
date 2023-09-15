@@ -1,5 +1,5 @@
 import { apiUrl } from '@/constants';
-import { HolidayResponse } from '@/interfaces/holidays';
+import { HolidayResponse } from '@/types/holidays';
 
 import { Holiday } from '..';
 
