@@ -17,8 +17,9 @@ import {
     isWeekEnd,
 } from '@/helpers';
 import { mergeObjects } from '@/helpers/mergeObjects';
-import { CalendarDayStyle, CalendarViewType, WeekStartDay } from '@/interfaces/calendar';
+import { CalendarDayStyle, CalendarViewType, Holiday, WeekStartDay } from '@/interfaces/calendar';
 import { WithCalendarAdditionalProps, WithCalendarOmittedProps } from '@/interfaces/decorators';
+import { fetchHolidays } from '@/utils/fetchHolidays';
 
 import { WithCalendarProps } from './interfaces';
 import { MonthWrapper, WrongDatesMessage } from './styled';
@@ -29,10 +30,10 @@ const withCalendar = (props: WithCalendarProps) => {
         minDate,
         maxDate,
         weekStartDay = WeekStartDay.Monday,
-        highlightWeekends,
-        highlightHolidays,
+        highlightWeekends = false,
+        highlightHolidays = false,
         viewType = CalendarViewType.Month,
-        holidays,
+        holidays: userHolidays,
     } = props;
 
     const weekDaysNames = getWeekDays(weekStartDay, viewType);
@@ -43,6 +44,21 @@ const withCalendar = (props: WithCalendarProps) => {
     > = (nextProps) => {
         const { initialDate, defineStyle, onDayClick, styles } = nextProps;
         const [currentDate, setCurrentDate] = useState<Date>(new Date());
+        const [holidays, setHolidays] = useState<Holiday[]>([]);
+
+        useEffect(() => {
+            if (highlightHolidays) {
+                const getHolidays = async () => {
+                    if (!userHolidays) {
+                        const response = await fetchHolidays();
+                        setHolidays(response ?? []);
+                    } else {
+                        setHolidays(userHolidays);
+                    }
+                };
+                getHolidays();
+            }
+        }, [userHolidays, highlightHolidays]);
 
         const handleDayClick = useCallback(
             (day: Date) => () => {

@@ -60,7 +60,6 @@ export const ViewByYear: Story = {
 
 export const Holidays: Story = {
     args: {
-        holidays,
         highlightHolidays: true,
         highlightWeekends: true,
         weekStartDay: WeekStartDay.Sunday,
