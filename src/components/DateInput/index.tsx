@@ -8,24 +8,23 @@ import { DateInputContainer, Input, InputContainer, LabelContainer } from './sty
 
 const { clear, calendar, ok } = inputIcons;
 
-const DateInput: FC<DateInputProps> = ({ label, onSubmit }) => {
-    const [input, setInput] = useState<string>('');
+const DateInput: FC<DateInputProps> = ({ label, onSubmit, onChange, value }) => {
     const [isValid, setIsValid] = useState<boolean>(true);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        if (value === '' || (value?.length > 0 && /[0-9./\\]/g.test(value.at(-1)!))) {
-            setInput(e.target.value);
+        if (value === '' || (value?.length > 0 && /^[0-9./\\]*$/g.test(value))) {
+            onChange(value);
             setIsValid(true);
         }
     };
 
     const handleClearClick = useCallback(() => {
-        setInput('');
+        onChange('');
     }, []);
 
     const handleApplyClick = () => {
-        const date = convertToDate(input);
+        const date = convertToDate(value);
         if (date) {
             onSubmit(date);
         } else {
@@ -40,11 +39,11 @@ const DateInput: FC<DateInputProps> = ({ label, onSubmit }) => {
                 <img src={calendar} />
                 <Input
                     data-testid={`input-${label}`}
-                    value={input}
+                    value={value}
                     onChange={handleInputChange}
                     placeholder="Choose date (dd/mm/yyyy)"
                 />
-                {!!input.length && (
+                {!!value.length && (
                     <>
                         <img
                             data-testid={`input-apply-${label}`}
@@ -63,7 +62,4 @@ const DateInput: FC<DateInputProps> = ({ label, onSubmit }) => {
     );
 };
 
-export default memo(
-    DateInput,
-    ({ onSubmit: prevOnSubmit }, { onSubmit }) => prevOnSubmit === onSubmit,
-);
+export default memo(DateInput);

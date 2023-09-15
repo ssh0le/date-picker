@@ -18,12 +18,15 @@ const withPicker = (props: WithPickerProps) => {
     > = (nextProps) => {
         const { defineStyle, styles, initialDate, onSelect, onDayClick, onClearClick } = nextProps;
         const [selectedDay, setSelectedDay] = useState<null | Date>(initialDate ?? null);
+        const [inputDate, setInputDate] = useState<string>('');
 
         useEffect(() => {
             if (initialDate) {
                 setSelectedDay(new Date(initialDate));
             }
-        }, [initialDate])
+        }, [initialDate]);
+
+        const handleInputChange = (input: string) => setInputDate(input);
 
         const handleDateSelect = useCallback(
             (day: Date | null) => {
@@ -36,7 +39,7 @@ const withPicker = (props: WithPickerProps) => {
 
         const handleDateSubmit = useCallback(
             (day: Date) => {
-                setSelectedDay((prevDate) => areEqualDates(prevDate, day) ? null : day);
+                setSelectedDay((prevDate) => (areEqualDates(prevDate, day) ? null : day));
                 handleDateSelect(day);
             },
             [handleDateSelect],
@@ -44,7 +47,7 @@ const withPicker = (props: WithPickerProps) => {
 
         const handleDayClick = useCallback(
             (day: Date) => {
-                handleDateSubmit(day)
+                handleDateSubmit(day);
                 if (onDayClick) {
                     onDayClick(day);
                 }
@@ -77,6 +80,7 @@ const withPicker = (props: WithPickerProps) => {
         const handleClearClick = useCallback(() => {
             setSelectedDay(null);
             handleDateSelect(null);
+            setInputDate('');
             if (onClearClick) {
                 onClearClick();
             }
@@ -84,14 +88,19 @@ const withPicker = (props: WithPickerProps) => {
 
         return (
             <>
-                <DateInput label="Date" onSubmit={handleDateSubmit} />
+                <DateInput
+                    label="Date"
+                    onSubmit={handleDateSubmit}
+                    value={inputDate}
+                    onChange={handleInputChange}
+                />
                 <Component
                     {...nextProps}
                     onDayClick={handleDayClick}
                     initialDate={selectedDay}
                     defineStyle={defineComponentStyle}
                     onClearClick={handleClearClick}
-                    hasSelection={Boolean(selectedDay)}
+                    hasSelection={Boolean(selectedDay) || !!inputDate.length}
                 />
             </>
         );
