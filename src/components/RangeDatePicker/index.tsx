@@ -6,63 +6,63 @@ import withCalendar from '@/hocs/withCalendar';
 
 import BaseCalendar from '../BaseCalendar';
 import ErrorBoundary from '../ErrorBoundary';
+import { PickerContainer } from '../shared/PickerContainer';
 
 import { RangeDatePickerProps } from './interfaces';
-import { RangeDatePickerContainer } from './styled';
 
 const RangeDatePicker: FC<RangeDatePickerProps> = (props) => {
-    const {
+  const {
+    minDate,
+    maxDate,
+    styles,
+    weekStartDay,
+    highlightWeekends,
+    highlightHolidays,
+    holidays,
+    viewType,
+    initialDate,
+    onSelect,
+  } = props;
+  const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
+  const WithCalendar = useMemo(
+    () =>
+      withCalendar({
+        Component: BaseCalendar,
         minDate,
         maxDate,
-        styles,
         weekStartDay,
         highlightWeekends,
         highlightHolidays,
         holidays,
         viewType,
-        initialDate,
-        onSelect,
-    } = props;
-    const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
-    const WithCalendar = useMemo(
-        () =>
-            withCalendar({
-                Component: BaseCalendar,
-                minDate,
-                maxDate,
-                weekStartDay,
-                highlightWeekends,
-                highlightHolidays,
-                holidays,
-                viewType,
-            }),
-        [
-            minDate,
-            maxDate,
-            styles,
-            weekStartDay,
-            highlightHolidays,
-            highlightWeekends,
-            viewType,
-            holidays,
-        ],
-    );
+      }),
+    [
+      minDate,
+      maxDate,
+      styles,
+      weekStartDay,
+      highlightHolidays,
+      highlightWeekends,
+      viewType,
+      holidays,
+    ],
+  );
 
-    const WithRangePicker = withRangePicker({
-        Component: WithCalendar,
-    });
+  const WithRangePicker = withRangePicker({
+    Component: WithCalendar,
+  });
 
-    return (
-        <ErrorBoundary>
-            <RangeDatePickerContainer data-testid="date-picker">
-                <WithRangePicker
-                    styles={mergedStyles}
-                    initialDate={initialDate}
-                    onSelect={onSelect}
-                />
-            </RangeDatePickerContainer>
-        </ErrorBoundary>
-    );
+  return (
+    <ErrorBoundary>
+      <PickerContainer data-testid="date-picker">
+        <WithRangePicker
+          styles={mergedStyles}
+          initialDate={initialDate}
+          onSelect={onSelect}
+        />
+      </PickerContainer>
+    </ErrorBoundary>
+  );
 };
 
 export default RangeDatePicker;

@@ -7,64 +7,71 @@ import withTodos from '@/hocs/withTodos';
 
 import BaseCalendar from '../BaseCalendar';
 import ErrorBoundary from '../ErrorBoundary';
+import { PickerContainer } from '../shared/PickerContainer';
 
 import { DatePickerProps } from './interfaces';
-import { DatePickerContainer } from './styled';
 
 const DatePicker: FC<DatePickerProps> = (props) => {
-    const {
+  const {
+    minDate,
+    maxDate,
+    styles,
+    weekStartDay,
+    highlightWeekends,
+    viewType,
+    initialDate,
+    holidays,
+    highlightHolidays,
+    withTodo = false,
+    onSelect,
+  } = props;
+
+  const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
+
+  const WithCalendar = useMemo(
+    () =>
+      withCalendar({
+        Component: BaseCalendar,
         minDate,
         maxDate,
-        styles,
         weekStartDay,
         highlightWeekends,
-        viewType,
-        initialDate,
-        holidays,
         highlightHolidays,
-        withTodo = false,
-        onSelect,
-    } = props;
+        viewType,
+        holidays,
+      }),
+    [
+      minDate,
+      maxDate,
+      styles,
+      weekStartDay,
+      highlightWeekends,
+      viewType,
+      holidays,
+      highlightHolidays,
+    ],
+  );
+  const WithPicker = useMemo(
+    () => withPicker({ Component: WithCalendar }),
+    [WithCalendar],
+  );
 
-    const mergedStyles = useMemo(() => mergeWithDefaultStyles(styles), [styles]);
+  const WithTodo = useMemo(
+    () => (withTodo ? withTodos({ Component: WithPicker }) : WithPicker),
+    [WithPicker, withTodo],
+  );
 
-    const WithCalendar = useMemo(
-        () =>
-            withCalendar({
-                Component: BaseCalendar,
-                minDate,
-                maxDate,
-                weekStartDay,
-                highlightWeekends,
-                highlightHolidays,
-                viewType,
-                holidays,
-            }),
-        [
-            minDate,
-            maxDate,
-            styles,
-            weekStartDay,
-            highlightWeekends,
-            viewType,
-            holidays,
-            highlightHolidays,
-        ],
-    );
-    const WithPicker = useMemo(() => withPicker({ Component: WithCalendar }), [WithCalendar]);
-
-    const WithTodo = useMemo(
-        () => (withTodo ? withTodos({ Component: WithPicker }) : WithPicker),
-        [WithPicker, withTodo],
-    );
-
-    return (
-        <ErrorBoundary>
-            <DatePickerContainer data-testid="date-picker">
-                <WithTodo styles={mergedStyles} initialDate={initialDate} onSelect={onSelect} />
-            </DatePickerContainer>
-        </ErrorBoundary>
-    );
+  return (
+    <ErrorBoundary>
+      <PickerContainer data-testid="date-picker">
+        <WithTodo
+          styles={mergedStyles}
+          initialDate={initialDate}
+          onSelect={onSelect}
+        />
+      </PickerContainer>
+    </ErrorBoundary>
+  );
 };
 
 export default DatePicker;
