@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 
 import { mergeWithDefaultStyles } from '@/helpers';
 import withPicker from '@/hocs/Pickers/withPicker';
@@ -74,4 +74,4 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   );
 };
 
-export default DatePicker;
+export default memo(DatePicker);

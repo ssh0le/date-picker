@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 
 import { mergeWithDefaultStyles } from '@/helpers';
 import withRangePicker from '@/hocs/Pickers/withRangePicker';
@@ -65,4 +65,4 @@ const RangeDatePicker: FC<RangeDatePickerProps> = (props) => {
   );
 };
 
-export default RangeDatePicker;
+export default memo(RangeDatePicker);
