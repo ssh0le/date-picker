@@ -1,9 +1,11 @@
 import React, { FC, memo, useMemo } from 'react';
+import { ThemeProvider } from 'styled-components';
 
 import { mergeWithDefaultStyles } from '@/helpers';
 import withPicker from '@/hocs/Pickers/withPicker';
 import withCalendar from '@/hocs/withCalendar';
 import withTodos from '@/hocs/withTodos';
+import { theme } from '@/styles/theme';
 
 import BaseCalendar from '../BaseCalendar';
 import ErrorBoundary from '../ErrorBoundary';
@@ -63,13 +65,15 @@ const DatePicker: FC<DatePickerProps> = (props) => {
 
   return (
     <ErrorBoundary>
-      <PickerContainer data-testid="date-picker">
-        <WithTodo
-          styles={mergedStyles}
-          initialDate={initialDate}
-          onSelect={onSelect}
-        />
-      </PickerContainer>
+      <ThemeProvider theme={theme}>
+        <PickerContainer data-testid="date-picker">
+          <WithTodo
+            styles={mergedStyles}
+            initialDate={initialDate}
+            onSelect={onSelect}
+          />
+        </PickerContainer>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 };

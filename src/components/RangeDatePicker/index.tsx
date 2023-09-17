@@ -1,8 +1,10 @@
 import React, { FC, memo, useMemo } from 'react';
+import { ThemeProvider } from 'styled-components';
 
 import { mergeWithDefaultStyles } from '@/helpers';
 import withRangePicker from '@/hocs/Pickers/withRangePicker';
 import withCalendar from '@/hocs/withCalendar';
+import { theme } from '@/styles/theme';
 
 import BaseCalendar from '../BaseCalendar';
 import ErrorBoundary from '../ErrorBoundary';
@@ -54,13 +56,15 @@ const RangeDatePicker: FC<RangeDatePickerProps> = (props) => {
 
   return (
     <ErrorBoundary>
-      <PickerContainer data-testid="date-picker">
-        <WithRangePicker
-          styles={mergedStyles}
-          initialDate={initialDate}
-          onSelect={onSelect}
-        />
-      </PickerContainer>
+      <ThemeProvider theme={theme}>
+        <PickerContainer data-testid="date-picker">
+          <WithRangePicker
+            styles={mergedStyles}
+            initialDate={initialDate}
+            onSelect={onSelect}
+          />
+        </PickerContainer>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 };

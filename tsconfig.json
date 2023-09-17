@@ -32,6 +32,7 @@
     "include": [
         "src",
         "src/custom.d.ts",
+        "src/styled.d.ts",
         "tests"
     ],
     "exclude": [

@@ -6,7 +6,7 @@ export const ErrorBoundaryContainer = styled.section`
     justify-content: center;
     flex-direction: column;
     width: fit-content;
-    gap: 10px;
+    gap: ${({theme}) => theme.gap.l}px;
 `
 
 export const ErrorMessageContainer = styled.p`
@@ -15,7 +15,7 @@ export const ErrorMessageContainer = styled.p`
 `
 
 export const ReloadButton = styled.button`
-    padding: 5px;
+    padding: ${({theme}) => theme.padding.m}px;
     border: 1px solid black;
     border-radius: 5px;
 `

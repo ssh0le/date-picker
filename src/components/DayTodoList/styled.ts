@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const DayTodoListWrapper = styled.div`
   display: flex;
-  gap: 8px;
+  gap: ${({theme}) => theme.gap.m}px;
   flex-direction: column;
 `;
 
@@ -16,8 +16,8 @@ export const ListHeader = styled.div`
 `;
 
 export const TodoInput = styled.input`
-  padding: 5px;
-  font-size: 14px;
+  padding: ${({theme}) => theme.padding.m}px;
+  font-size: ${({ theme }) => theme.fontSize.s}px;
 `;
 
 export const AddButton = styled.button`
@@ -30,7 +30,7 @@ export const TodoListContainer = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${({theme}) => theme.gap.m}px;
 `;
 
 export const TodoContainer = styled.li`

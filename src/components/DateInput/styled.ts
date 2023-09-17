@@ -5,19 +5,19 @@ import { InputContainerProps } from './interfaces';
 export const DateInputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 250px;
-  gap: 8px;
+  width: ${({ theme }) => theme.width.m}px;
+  gap: ${({ theme }) => theme.gap.m}px;
 `;
 
 export const LabelContainer = styled.label`
-  font-size: 15px;
+  font-size: ${({ theme }) => theme.fontSize.m}px;
   font-weight: bold;
   text-align: left;
 `;
 
 export const InputContainer = styled.div<InputContainerProps>`
   display: flex;
-  gap: 8px;
+  gap: ${({ theme }) => theme.gap.m}px;
   border: 1px solid ${({ $isValid }) => ($isValid ? '#dddddd' : 'red')};
   border-radius: 8px;
   padding: 11px 15px;

@@ -9,18 +9,18 @@ import { CalendarWrapperProps, DayContainerProps } from './interfaces';
 export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   border-radius: 10px;
   border: 1px solid #e1e1e1;
-  width: 250px;
+  width: ${({ theme }) => theme.width.m}px;
   ${({ $colors }) => $colors}
 `;
 
 export const CalendarContent = styled.div`
-  padding: 10px;
+  padding: ${({ theme }) => theme.padding.l}px;
 `;
 
 export const CalendarHeader = styled.div`
   display: grid;
   grid-template-columns: 16px 1fr 16px;
-  padding: 5px 0;
+  padding: ${({ theme }) => theme.padding.m}px 0;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -30,7 +30,7 @@ export const CalendarHeader = styled.div`
 export const HeaderTitle = styled.span`
   display: block;
   text-align: center;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSize.s}px;
   font-weight: bold;
   grid-column: 2;
 `;
@@ -58,6 +58,6 @@ export const ClearButton = styled.button`
   background-color: transparent;
   border: none;
   border-top: 1px solid #e1e1e1;
-  padding: 10px 0;
+  padding: ${({ theme }) => theme.padding.l}px 0;
   outline: none;
 `;
