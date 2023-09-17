@@ -1,4 +1,4 @@
-import calendar from '@/assets/icons/calendar.svg';
+import calendar from '@/assets/icons/calendarIcon.svg';
 import clearIcon from '@/assets/icons/clearIcon.svg';
 import confirmIcon from '@/assets/icons/confirmIcon.svg';
 import leftArrows from '@/assets/icons/leftArrows.svg';
