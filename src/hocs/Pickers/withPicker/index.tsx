@@ -83,18 +83,17 @@ const withPicker = (props: WithPickerProps) => {
     };
 
     const defineComponentStyle = (day: Date) => {
-      const style = {};
+      const appliedStyle = [];
       if (defineStyle) {
-        mergeObjects(style, defineStyle(day));
+        appliedStyle.push(defineStyle(day));
       }
       if (styles) {
         const { selectionHeadDay, selectionTailDay } = styles;
         if (isSelected(day)) {
-          mergeObjects(style, selectionHeadDay);
-          mergeObjects(style, selectionTailDay);
+          appliedStyle.push(selectionHeadDay, selectionTailDay);
         }
       }
-      return style;
+      return mergeObjects(...appliedStyle);
     };
 
     const handleClearClick = useCallback(() => {

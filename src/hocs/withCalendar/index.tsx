@@ -127,19 +127,19 @@ const withCalendar = (props: WithCalendarProps) => {
     }, [days, viewType]);
 
     const defineComponentStyle = (day: Date): CalendarDayStyle => {
-      const style: CalendarDayStyle = {};
+      const appliedStyles = [];
       if (viewType === CalendarViewType.Year) {
-        return style;
+        return {};
       }
       const { today, weekend, outerDay, innerDay, holiday } = styles;
       const isInnerDay = areEqualMonthAndYear(currentDate, day);
       if (isInnerDay || viewType !== CalendarViewType.Month) {
-        mergeObjects(style, innerDay);
+        appliedStyles.push(innerDay);
         if (isToday(day)) {
-          mergeObjects(style, today);
+          appliedStyles.push(today);
         }
         if (highlightWeekends && isWeekEnd(day)) {
-          mergeObjects(style, weekend);
+          appliedStyles.push(weekend);
         }
         if (highlightHolidays && filteredHolidays.length) {
           const [year] = getDestructuredDate(day);
@@ -147,17 +147,17 @@ const withCalendar = (props: WithCalendarProps) => {
             areEqualDates(day, new Date(year, month, hDay)),
           );
           if (dayHoliday) {
-            mergeObjects(style, holiday);
+            appliedStyles.push(holiday);
           }
         }
         if (defineStyle) {
-          mergeObjects(style, defineStyle(day));
+          appliedStyles.push(defineStyle(day));
         }
       }
       if (!isInnerDay && viewType === CalendarViewType.Month) {
-        mergeObjects(style, outerDay);
+        appliedStyles.push(outerDay);
       }
-      return style;
+      return mergeObjects(...appliedStyles);
     };
 
     const title =

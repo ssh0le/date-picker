@@ -1,8 +1,9 @@
 import { defaultStyles } from '@/constants';
 import { CalendarStyles } from '@/types/calendar';
 
-export function mergeObjects<T extends object>(object1: T, object2: T) {
-  Object.assign(object1, object2);
+export function mergeObjects<T>(...objects: T[]): T {
+  if (!objects.length) return {} as T;
+  return objects.reduce((acc, cur) => ({ ...acc, ...cur }));
 }
 
 export const mergeWithDefaultStyles = (

@@ -93,21 +93,21 @@ const withRangePicker = (props: WithPickerProps) => {
     };
 
     const defineComponentStyle = (day: Date) => {
-      const style = {};
+      const appliedStyles = [];
       if (defineStyle) {
-        mergeObjects(style, defineStyle(day));
+        appliedStyles.push(defineStyle(day));
       }
       const { selectionHeadDay, selectionTailDay, selectedDay } = styles;
       if (isSelected(day)) {
-        mergeObjects(style, selectedDay);
+        appliedStyles.push(selectedDay);
       }
       if (isEnd(day, selectedFrom)) {
-        mergeObjects(style, selectionHeadDay);
+        appliedStyles.push(selectionHeadDay);
       }
       if (isEnd(day, selectedTo)) {
-        mergeObjects(style, selectionTailDay);
+        appliedStyles.push(selectionTailDay);
       }
-      return style;
+      return mergeObjects(...appliedStyles);
     };
 
     return (
