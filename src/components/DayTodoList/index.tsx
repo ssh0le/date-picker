@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, memo, useCallback, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useState } from 'react';
 
 import { icons } from '@/constants';
 
@@ -24,10 +24,7 @@ const TodoList: FC<TodoListProps> = ({ items, onDelete, onAdd, header }) => {
     setTodo(event.target.value);
   };
 
-  const createDeleteHandler = useCallback(
-    (id: number) => () => onDelete(id),
-    [],
-  );
+  const createDeleteHandler = (id: number) => () => onDelete(id);
 
   const handleAddClick = () => {
     if (todo.trim().length) {
