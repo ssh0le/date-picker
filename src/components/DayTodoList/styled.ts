@@ -22,6 +22,7 @@ export const TodoInput = styled.input`
 
 export const AddButton = styled.button`
   border-radius: 5px;
+  padding: ${({ theme }) => theme.padding.m}px;
 `;
 
 export const TodoListContainer = styled.ul`

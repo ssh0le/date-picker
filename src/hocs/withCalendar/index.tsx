@@ -98,7 +98,12 @@ const withCalendar = (props: WithCalendarProps) => {
     }, [initialDate]);
 
     const filteredHolidays = useMemo(() => {
-      if (viewType === CalendarViewType.Year || !highlightHolidays) return [];
+      if (
+        viewType === CalendarViewType.Year ||
+        !highlightHolidays ||
+        !Array.isArray(holidays)
+      )
+        return [];
       const [firstYear, firstMonth] = getDestructuredDate(firstDay);
       const [lastYear] = getDestructuredDate(lastDay);
       return (holidays ?? []).filter(({ month, day }) =>
