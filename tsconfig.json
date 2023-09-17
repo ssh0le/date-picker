@@ -23,6 +23,6 @@
     // "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src", "src/custom.d.ts", "src/styled.d.ts", "tests"],
+  "include": ["src", "src/declaration.d.ts", "src/styled.d.ts", "tests"],
   "exclude": ["node_modules", "lib", "dist"]
 }
