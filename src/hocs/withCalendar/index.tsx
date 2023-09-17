@@ -74,14 +74,17 @@ const withCalendar = (props: WithCalendarProps) => {
       }
     }, [userHolidays, highlightHolidays]);
 
-    const handleDayClick = useCallback(
-      (day: Date) => () => {
-        if (onDayClick) {
-          onDayClick(day);
-        }
-      },
-      [onDayClick],
-    );
+    const handleDayClick = (day: Date) => () => {
+      if (
+        viewType === CalendarViewType.Month &&
+        areEqualMonthAndYear(currentDate, day)
+      ) {
+        return;
+      }
+      if (onDayClick) {
+        onDayClick(day);
+      }
+    };
 
     const days = useMemo(
       () => getCalendar(currentDate, weekStartDay, viewType, minDate, maxDate),
@@ -129,30 +132,30 @@ const withCalendar = (props: WithCalendarProps) => {
         return style;
       }
       const { today, weekend, outerDay, innerDay, holiday } = styles;
-      mergeObjects(style, innerDay);
-      if (isToday(day)) {
-        mergeObjects(style, today);
-      }
-      if (highlightWeekends && isWeekEnd(day)) {
-        mergeObjects(style, weekend);
-      }
-      if (
-        viewType === CalendarViewType.Month &&
-        !areEqualMonthAndYear(currentDate, day)
-      ) {
-        mergeObjects(style, outerDay);
-      }
-      if (highlightHolidays && filteredHolidays.length) {
-        const [year] = getDestructuredDate(day);
-        const dayHoliday = filteredHolidays.find(({ month, day: hDay }) =>
-          areEqualDates(day, new Date(year, month, hDay)),
-        );
-        if (dayHoliday) {
-          mergeObjects(style, holiday);
+      const isInnerDay = areEqualMonthAndYear(currentDate, day);
+      if (isInnerDay || viewType !== CalendarViewType.Month) {
+        mergeObjects(style, innerDay);
+        if (isToday(day)) {
+          mergeObjects(style, today);
+        }
+        if (highlightWeekends && isWeekEnd(day)) {
+          mergeObjects(style, weekend);
+        }
+        if (highlightHolidays && filteredHolidays.length) {
+          const [year] = getDestructuredDate(day);
+          const dayHoliday = filteredHolidays.find(({ month, day: hDay }) =>
+            areEqualDates(day, new Date(year, month, hDay)),
+          );
+          if (dayHoliday) {
+            mergeObjects(style, holiday);
+          }
+        }
+        if (defineStyle) {
+          mergeObjects(style, defineStyle(day));
         }
       }
-      if (defineStyle) {
-        mergeObjects(style, defineStyle(day));
+      if (!isInnerDay && viewType === CalendarViewType.Month) {
+        mergeObjects(style, outerDay);
       }
       return style;
     };

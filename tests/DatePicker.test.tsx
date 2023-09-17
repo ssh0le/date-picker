@@ -4,6 +4,7 @@ import React from 'react';
 
 import DatePicker from '@/components/DatePicker';
 import { getShortFormattedDate } from '@/helpers';
+import { CalendarViewType } from '@/index';
 
 import '@testing-library/jest-dom';
 import { randomClick } from './helpers/randomClick';
@@ -76,7 +77,13 @@ describe('Date picker', () => {
       jest
         .spyOn(Storage.prototype, 'setItem')
         .mockImplementation((key, value) => (storage[key] = value));
-      render(<DatePicker initialDate={initialDate} withTodo />);
+      render(
+        <DatePicker
+          initialDate={initialDate}
+          withTodo
+          viewType={CalendarViewType.Week}
+        />,
+      );
     });
     it('displays todo list widget', () => {
       randomClick(daysGridId);

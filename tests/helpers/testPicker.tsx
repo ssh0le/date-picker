@@ -119,7 +119,7 @@ export const testPicker = (
         <Picker
           onSelect={selectHandler}
           initialDate={initialDate}
-          viewType={CalendarViewType.Month}
+          viewType={CalendarViewType.Week}
         />,
       );
       randomClick(daysGridId);

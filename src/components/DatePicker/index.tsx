@@ -57,8 +57,8 @@ const DatePicker: FC<DatePickerProps> = (props) => {
       <ErrorBoundary>
         <PickerContainer data-testid="date-picker">
           <WithTodo
-            minDate={minDate}
-            maxDate={maxDate}
+            minDate={minDate && new Date(minDate)}
+            maxDate={maxDate && new Date(maxDate)}
             styles={mergedStyles}
             initialDate={initialDate}
             onSelect={onSelect}

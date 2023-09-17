@@ -49,8 +49,8 @@ const RangeDatePicker: FC<RangeDatePickerProps> = (props) => {
         <PickerContainer data-testid="date-picker">
           <WithRangePicker
             styles={mergedStyles}
-            minDate={minDate}
-            maxDate={maxDate}
+            minDate={minDate && new Date(minDate)}
+            maxDate={maxDate && new Date(maxDate)}
             initialDate={initialDate}
             onSelect={onSelect}
           />
