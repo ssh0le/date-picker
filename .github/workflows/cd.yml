@@ -6,21 +6,21 @@ on:
     branches: [main]
     types: [closed]
 jobs:
-  name: publish
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
-    - name: test
-      run: yarn test
-    - name: install
-      run: yarn
-    - name: prettier
-      run: yarn prettier
-    - name: lint
-      run: yarn lint
-    - name: build
-      run: yarn build
-    - name: publish
-      run: npm publish --access public
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test
+        run: yarn test
+      - name: install
+        run: yarn
+      - name: prettier
+        run: yarn prettier
+      - name: lint
+        run: yarn lint
+      - name: build
+        run: yarn build
+      - name: publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
