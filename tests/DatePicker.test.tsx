@@ -19,8 +19,8 @@ const applyButtonId = 'input-apply-Date';
 const clearButtonId = 'input-clear-Date';
 const todoInputId = 'todo-input';
 const todoAddButtonId = 'todo-add';
-const todoId = (todo: string) => `todo-${todo}`;
-const deleteTodoButtonId = (todo: string) => `delete-todo-${todo}`;
+const getTodoId = (todoTitle: string) => `todo-${todoTitle}`;
+const getDeleteButtonId = (todo: string) => `delete-todo-${todo}`;
 const noTodoId = 'no-todo';
 
 describe('Date picker', () => {
@@ -98,14 +98,14 @@ describe('Date picker', () => {
       randomClick(daysGridId);
       const newTodo = 'Test add todo';
       await addTodo(newTodo);
-      expect(screen.getByTestId(todoId(newTodo))).toBeInTheDocument();
+      expect(screen.getByTestId(getTodoId(newTodo))).toBeInTheDocument();
     });
 
     it('delets todos', async () => {
       randomClick(daysGridId);
       const newTodo = 'Test delete todo';
       await addTodo(newTodo);
-      fireEvent.click(screen.getByTestId(deleteTodoButtonId(newTodo)));
+      fireEvent.click(screen.getByTestId(getDeleteButtonId(newTodo)));
       expect(screen.getByTestId(noTodoId)).toBeInTheDocument();
     });
   });
