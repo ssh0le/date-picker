@@ -10,11 +10,12 @@
   "license": "MIT",
   "husky": {
     "hooks": {
-      "pre-commit": "npx eslint --fix"
+      "pre-commit": "npx eslint --fix && npx prettier . --write"
     }
   },
   "scripts": {
     "lint": "eslint .",
+    "prettier": "prettier . -c",
     "storybook": "storybook dev -p 6006",
     "test": "jest",
     "build": "rollup -c --bundleConfigAsCjs",

@@ -1,57 +1,44 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:storybook/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended",
-        "plugin:storybook/recommended"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "react", "prettier", "simple-import-sort"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
     },
-    "plugins": [
-        "@typescript-eslint",
-        "react",
-        "prettier",
-        "simple-import-sort"
-    ],
-    "settings": {
-        "import/resolver": {
-            "typescript": {}
-        }
-    },
-    "rules": {
-        "simple-import-sort/imports": [
-            "error",
-            {
-                "groups": [
-                    [
-                        "^@?\\w"
-                    ],
-                    [
-                        "@/styles/\\w*.css$",
-                        "^@/"
-                    ],
-                    [
-                        "^\\.\\.(?!/?$)",
-                        "^\\.\\./?$"
-                    ],
-                    [
-                        "^\\u0000",
-                        "^\\./\\w"
-                    ]
-                ]
-            }
-        ],
-        "simple-import-sort/exports": "error"
+    "react": {
+      "version": "detect"
     }
+  },
+  "rules": {
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^@?\\w"],
+          ["@/styles/\\w*.css$", "^@/"],
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          ["^\\u0000", "^\\./\\w"]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "error"
+  }
 }
