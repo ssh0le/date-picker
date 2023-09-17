@@ -27,8 +27,6 @@ export type WithCalendarOmittedProps = Pick<
   | 'renderBody'
 >;
 
-export type asd = Omit<BaseCalendarProps, keyof WithCalendarOmittedProps>;
-
 export type WithCalendarAdditionalProps = {
   initialDate?: Date | null;
   styles: Required<CalendarStyles>;
