@@ -25,9 +25,6 @@ export const AddButton = styled.button`
 `;
 
 export const TodoListContainer = styled.ul`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
   gap: ${({theme}) => theme.gap.m}px;
