@@ -37,7 +37,7 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
       <GlobalStyle />
       <CalendarContent>
         <CalendarHeader>
-          {hasNextPage && (
+          {hasPrevPage && (
             <NavIcon
               data-testid="prev"
               onClick={onPrevClick}
@@ -45,7 +45,7 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
             />
           )}
           <HeaderTitle data-testid="title">{title}</HeaderTitle>
-          {hasPrevPage && (
+          {hasNextPage && (
             <NavIcon
               data-testid="next"
               onClick={onNextClick}
