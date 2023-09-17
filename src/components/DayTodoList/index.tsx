@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, memo, useCallback, useState } from 'react';
 
-import { inputIcons } from '@/constants';
+import { icons } from '@/constants';
 
 import { TodoListProps } from './interfaces';
 import {
@@ -15,7 +15,7 @@ import {
   TodoTitle,
 } from './styled';
 
-const { clear: deleteIcon } = inputIcons;
+const { clearIcon: deleteIcon } = icons;
 
 const TodoList: FC<TodoListProps> = ({ items, onDelete, onAdd, header }) => {
   const [todo, setTodo] = useState<string>('');

@@ -1,6 +1,6 @@
 import React, { FC, memo } from 'react';
 
-import { headerIcons } from '@/constants';
+import { icons } from '@/constants';
 import GlobalStyle from '@/styles/global';
 import { BaseCalendarProps } from '@/types/decorators';
 
@@ -16,7 +16,7 @@ import {
   WeekDayContainer,
 } from './styled';
 
-const { next, prev } = headerIcons;
+const { rightArrows, leftArrows } = icons;
 
 const BaseCalendar: FC<BaseCalendarProps> = (props) => {
   const {
@@ -38,11 +38,19 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
       <CalendarContent>
         <CalendarHeader>
           {hasPrev && (
-            <NavIcon data-testid="prev" onClick={onPrevClick} src={prev} />
+            <NavIcon
+              data-testid="prev"
+              onClick={onPrevClick}
+              src={leftArrows}
+            />
           )}
           <HeaderTitle data-testid="title">{title}</HeaderTitle>
           {hasNext && (
-            <NavIcon data-testid="next" onClick={onNextClick} src={next} />
+            <NavIcon
+              data-testid="next"
+              onClick={onNextClick}
+              src={rightArrows}
+            />
           )}
         </CalendarHeader>
         {weekDayNames && !!weekDayNames.length && (
