@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, memo, useCallback, useState } from 'react';
 
 import { icons } from '@/constants';
-import { convertToDate } from '@/helpers';
+import { convertToDate, isInRange } from '@/helpers';
 
 import { DateInputProps } from './interfaces';
 import {
@@ -17,6 +17,8 @@ const DateInput: FC<DateInputProps> = ({
   label,
   onSubmit,
   onChange,
+  minDate,
+  maxDate,
   value,
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
@@ -37,7 +39,15 @@ const DateInput: FC<DateInputProps> = ({
   const handleApplyClick = () => {
     const date = convertToDate(value);
     if (date) {
-      onSubmit(date);
+      if (minDate && maxDate) {
+        if (isInRange(date, minDate, maxDate)) {
+          onSubmit(date);
+        } else {
+          setIsValid(false);
+        }
+      } else {
+        onSubmit(date);
+      }
     } else {
       setIsValid(false);
     }

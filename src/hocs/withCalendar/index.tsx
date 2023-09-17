@@ -42,8 +42,6 @@ import { MonthWrapper, WrongDatesMessage } from './styled';
 const withCalendar = (props: WithCalendarProps) => {
   const {
     Component,
-    minDate,
-    maxDate,
     weekStartDay = WeekStartDay.Monday,
     highlightWeekends = false,
     highlightHolidays = false,
@@ -57,7 +55,8 @@ const withCalendar = (props: WithCalendarProps) => {
     Omit<ComponentProps<typeof Component>, keyof WithCalendarOmittedProps> &
       WithCalendarAdditionalProps
   > = (nextProps) => {
-    const { initialDate, defineStyle, onDayClick, styles } = nextProps;
+    const { initialDate, defineStyle, onDayClick, styles, minDate, maxDate } =
+      nextProps;
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [holidays, setHolidays] = useState<Holiday[]>([]);
 

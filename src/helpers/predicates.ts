@@ -5,9 +5,7 @@ export const areEqualDates = (
   date2: Date | null,
 ): boolean => {
   if (!date1 || !date2) return false;
-  return (
-    areEqualMonthAndYear(date1, date2) && date1.getDate() === date2.getDate()
-  );
+  return getOnlyDate(date1) === getOnlyDate(date2);
 };
 
 export const areEqualMonthAndYear = (date1: Date, date2: Date): boolean => {
@@ -17,19 +15,20 @@ export const areEqualMonthAndYear = (date1: Date, date2: Date): boolean => {
 };
 
 export const isInRange = (date: Date, start: Date, end: Date): boolean => {
-  return date >= start && date <= end;
+  const strDate = getOnlyDate(date);
+  return strDate >= getOnlyDate(start) && strDate <= getOnlyDate(end);
 };
 
 export const isToday = (date: Date): boolean => {
-  const today = new Date();
-  return (
-    today.getFullYear() === date.getFullYear() &&
-    today.getMonth() === date.getMonth() &&
-    today.getDate() === date.getDate()
-  );
+  return areEqualDates(new Date(), date);
 };
 
 export const isWeekEnd = (date: Date) => {
   const dayIndex = date.getDay();
-  return dayIndex === 0 || dayIndex == 6;
+  return [0, 6].includes(dayIndex);
+};
+
+const getOnlyDate = (date: Date): string => {
+  const datetime = date.toISOString().split('T');
+  return datetime[0];
 };

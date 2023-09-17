@@ -30,24 +30,13 @@ const RangeDatePicker: FC<RangeDatePickerProps> = (props) => {
     () =>
       withCalendar({
         Component: BaseCalendar,
-        minDate,
-        maxDate,
         weekStartDay,
         highlightWeekends,
         highlightHolidays,
         holidays,
         viewType,
       }),
-    [
-      minDate,
-      maxDate,
-      styles,
-      weekStartDay,
-      highlightHolidays,
-      highlightWeekends,
-      viewType,
-      holidays,
-    ],
+    [weekStartDay, highlightHolidays, highlightWeekends, viewType, holidays],
   );
 
   const WithRangePicker = withRangePicker({
@@ -55,17 +44,19 @@ const RangeDatePicker: FC<RangeDatePickerProps> = (props) => {
   });
 
   return (
-    <ErrorBoundary>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <ErrorBoundary>
         <PickerContainer data-testid="date-picker">
           <WithRangePicker
             styles={mergedStyles}
+            minDate={minDate}
+            maxDate={maxDate}
             initialDate={initialDate}
             onSelect={onSelect}
           />
         </PickerContainer>
-      </ThemeProvider>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 };
 

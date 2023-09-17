@@ -21,7 +21,8 @@ const withRangePicker = (props: WithPickerProps) => {
       onSelect?: (from: Date | null, to: Date | null) => void;
     }
   > = (nextProps) => {
-    const { defineStyle, styles, initialDate, onSelect } = nextProps;
+    const { defineStyle, styles, initialDate, onSelect, minDate, maxDate } =
+      nextProps;
     const [selectedFrom, setSelectedFrom] = useState<null | Date>(null);
     const [fromInput, setFromInput] = useState<string>('');
     const [selectedTo, setSelectedTo] = useState<null | Date>(null);
@@ -116,12 +117,16 @@ const withRangePicker = (props: WithPickerProps) => {
           onSubmit={handleFromDateSubmit}
           value={fromInput}
           onChange={createInputHandler(setFromInput)}
+          minDate={minDate}
+          maxDate={maxDate}
         />
         <DateInput
           label="To"
           onSubmit={handleToDateSubmit}
           value={toInput}
           onChange={createInputHandler(setToInput)}
+          minDate={minDate}
+          maxDate={maxDate}
         />
         <Component
           {...nextProps}

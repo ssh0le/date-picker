@@ -34,6 +34,8 @@ export type WithCalendarAdditionalProps = {
   styles: Required<CalendarStyles>;
   onDayClick?: (day: Date) => void;
   defineStyle?: (day: Date) => CalendarDayStyle;
+  minDate?: Date;
+  maxDate?: Date;
 } & Partial<Pick<BaseCalendarProps, 'onClearClick' | 'hasSelection'>>;
 
 export type WithPickerOmittedProps = Pick<BaseCalendarProps, 'onClearClick'> &

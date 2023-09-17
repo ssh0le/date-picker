@@ -6,8 +6,6 @@ import { BaseCalendarProps } from '@/types/decorators';
 export interface WithCalendarProps {
   Component: FC<BaseCalendarProps>;
   initialDate?: Date;
-  minDate?: Date;
-  maxDate?: Date;
   weekStartDay?: WeekStartDay;
   highlightWeekends?: boolean;
   highlightHolidays?: boolean;

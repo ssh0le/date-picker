@@ -26,6 +26,8 @@ const withPicker = (props: WithPickerProps) => {
       defineStyle,
       styles,
       initialDate,
+      minDate,
+      maxDate,
       onSelect,
       onDayClick,
       onClearClick,
@@ -110,6 +112,8 @@ const withPicker = (props: WithPickerProps) => {
           label="Date"
           onSubmit={handleDateSubmit}
           value={inputDate}
+          minDate={minDate}
+          maxDate={maxDate}
           onChange={handleInputChange}
         />
         <Component

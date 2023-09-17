@@ -34,24 +34,13 @@ const DatePicker: FC<DatePickerProps> = (props) => {
     () =>
       withCalendar({
         Component: BaseCalendar,
-        minDate,
-        maxDate,
         weekStartDay,
         highlightWeekends,
         highlightHolidays,
         viewType,
         holidays,
       }),
-    [
-      minDate,
-      maxDate,
-      styles,
-      weekStartDay,
-      highlightWeekends,
-      viewType,
-      holidays,
-      highlightHolidays,
-    ],
+    [weekStartDay, highlightWeekends, viewType, holidays, highlightHolidays],
   );
   const WithPicker = useMemo(
     () => withPicker({ Component: WithCalendar }),
@@ -64,17 +53,19 @@ const DatePicker: FC<DatePickerProps> = (props) => {
   );
 
   return (
-    <ErrorBoundary>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <ErrorBoundary>
         <PickerContainer data-testid="date-picker">
           <WithTodo
+            minDate={minDate}
+            maxDate={maxDate}
             styles={mergedStyles}
             initialDate={initialDate}
             onSelect={onSelect}
           />
         </PickerContainer>
-      </ThemeProvider>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 };
 
