@@ -21,10 +21,10 @@ const { rightArrows, leftArrows } = icons;
 const BaseCalendar: FC<BaseCalendarProps> = (props) => {
   const {
     weekDayNames,
-    hasNext,
-    hasPrev,
-    onNextClick,
-    onPrevClick,
+    hasNextPage,
+    hasPrevPage,
+    onNextPageClick: onNextClick,
+    onPrevPageClick: onPrevClick,
     title,
     hasSelection,
     colors,
@@ -37,7 +37,7 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
       <GlobalStyle />
       <CalendarContent>
         <CalendarHeader>
-          {hasPrev && (
+          {hasNextPage && (
             <NavIcon
               data-testid="prev"
               onClick={onPrevClick}
@@ -45,7 +45,7 @@ const BaseCalendar: FC<BaseCalendarProps> = (props) => {
             />
           )}
           <HeaderTitle data-testid="title">{title}</HeaderTitle>
-          {hasNext && (
+          {hasPrevPage && (
             <NavIcon
               data-testid="next"
               onClick={onNextClick}

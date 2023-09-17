@@ -185,10 +185,10 @@ const withCalendar = (props: WithCalendarProps) => {
       [getNextDate],
     );
 
-    const handleNextClick = useCallback(() => addToCurrentDate(1), []);
-    const handlePrevClick = useCallback(() => addToCurrentDate(-1), []);
+    const handleNextPageClick = useCallback(() => addToCurrentDate(1), []);
+    const handlePrevPageClick = useCallback(() => addToCurrentDate(-1), []);
 
-    const defineHasNext = (
+    const defineHasNextPage = (
       date: Date | undefined,
       limit: Date | undefined,
       isNext: boolean,
@@ -206,8 +206,8 @@ const withCalendar = (props: WithCalendarProps) => {
       }
     };
 
-    const hasNext = defineHasNext(lastDay, maxDate, true);
-    const hasPrev = defineHasNext(firstDay, minDate, false);
+    const hasNextPage = defineHasNextPage(lastDay, maxDate, true);
+    const hasPrevPage = defineHasNextPage(firstDay, minDate, false);
 
     const handleMonthClick = (day: Date) => () => setCurrentDate(day);
 
@@ -255,11 +255,11 @@ const withCalendar = (props: WithCalendarProps) => {
         onDayClick={handleDayClick}
         title={title}
         weekDayNames={weekDaysNames}
-        onNextClick={handleNextClick}
-        onPrevClick={handlePrevClick}
-        hasNext={hasNext}
+        onNextPageClick={handleNextPageClick}
+        onPrevPageClick={handlePrevPageClick}
+        hasNextPage={hasNextPage}
         colors={styles.calendar}
-        hasPrev={hasPrev}
+        hasPrevPage={hasPrevPage}
       />
     );
   };

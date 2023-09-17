@@ -1,12 +1,12 @@
 import { CalendarColors, CalendarDayStyle, CalendarStyles } from './calendar';
 
 export type BaseCalendarProps = {
-  hasNext: boolean;
-  hasPrev: boolean;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
   title: string | number;
   weekDayNames?: string[];
-  onNextClick: () => void;
-  onPrevClick: () => void;
+  onNextPageClick: () => void;
+  onPrevPageClick: () => void;
   onDayClick: (day: Date) => () => void;
   onClearClick: () => void;
   hasSelection: boolean;
@@ -16,12 +16,12 @@ export type BaseCalendarProps = {
 
 export type WithCalendarOmittedProps = Pick<
   BaseCalendarProps,
-  | 'hasNext'
-  | 'hasPrev'
+  | 'hasNextPage'
+  | 'hasPrevPage'
   | 'title'
   | 'weekDayNames'
-  | 'onNextClick'
-  | 'onPrevClick'
+  | 'onNextPageClick'
+  | 'onPrevPageClick'
   | 'onDayClick'
   | 'colors'
   | 'renderBody'
