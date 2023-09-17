@@ -1,43 +1,28 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@/*": [
-                "./src/*"
-            ]
-        },
-        "rootDir": ".",
-        "sourceMap": true,
-        "outDir": "./dist",
-        "noImplicitAny": true,
-        "target": "es5",
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        // "noEmit": true,
-        "jsx": "react",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
     },
-    "include": [
-        "src",
-        "src/custom.d.ts",
-        "src/styled.d.ts",
-        "tests"
-    ],
-    "exclude": [
-        "node_modules",
-        "lib",
-        "dist",
-    ]
+    "rootDir": ".",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    // "noEmit": true,
+    "jsx": "react"
+  },
+  "include": ["src", "src/custom.d.ts", "src/styled.d.ts", "tests"],
+  "exclude": ["node_modules", "lib", "dist"]
 }

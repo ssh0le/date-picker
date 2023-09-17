@@ -14,8 +14,8 @@ jobs:
       run: yarn test
     - name: install
       run: yarn
-    - name: lint
-      run: yarn lint
+    - name: prettier
+      run: yarn prettier
     - name: lint
       run: yarn lint
     - name: build

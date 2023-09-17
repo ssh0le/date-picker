@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import { WithCalendarAdditionalProps } from "@/types/decorators";
+import { WithCalendarAdditionalProps } from '@/types/decorators';
 
 export interface WithTodoProps {
-    Component: FC<Omit<WithCalendarAdditionalProps, 'hasSelection'>>;
+  Component: FC<Omit<WithCalendarAdditionalProps, 'hasSelection'>>;
 }

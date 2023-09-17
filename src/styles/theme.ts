@@ -14,8 +14,8 @@ const padding = {
 };
 
 const width = {
-    m: 250,
-}
+  m: 250,
+};
 
 export const theme = {
   fontSize,

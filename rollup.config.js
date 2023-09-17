@@ -14,71 +14,68 @@ import replace from 'rollup-plugin-replace';
 import { main, module as _module } from './package.json';
 
 const Resolver = resolve({
-    extensions: ['.mjs', '.ts', '.tsx', '.json', '.js', '.jsx'],
-    browser: true,
+  extensions: ['.mjs', '.ts', '.tsx', '.json', '.js', '.jsx'],
+  browser: true,
 });
 
 const resolveAliases = () =>
-    alias({
-        entries: [
-            {
-                find: '@',
-                replacement: _resolve(__dirname, 'src'),
-            },
-        ],
-        Resolver,
-    });
+  alias({
+    entries: [
+      {
+        find: '@',
+        replacement: _resolve(__dirname, 'src'),
+      },
+    ],
+    Resolver,
+  });
 
 export default [
-    {
-        input: 'src/index.ts',
-        output: [
-            {
-                file: main,
-                format: 'cjs',
-                sourcemap: true,
-            },
-            {
-                file: _module,
-                format: 'esm',
-                sourcemap: true,
-            },
-        ],
-        plugins: [
-            peerDepsExternal(),
-            typescript({
-                tsconfig: './tsconfig.json',
-                exclude: ['src/**/*.test.(tsx|ts)', '**/stories/*'],
-            }),
-            resolveAliases(),
-            babel({
-                exclude: 'node_modules/**',
-                presets: ['@babel/preset-react'],
-                babelHelpers: 'runtime',
-                plugins: ['@babel/plugin-transform-runtime'],
-                external: [/@babel\/runtime/, 'react'],
-            }),
-            replace({
-                'process.env.NODE_ENV': JSON.stringify('production'),
-            }),
-            url(),
-            resolve({
-                browser: true,
-            }),
-            svgr({ icon: true }),
-            commonjs(),
-            postcss({
-                extensions: ['.css'],
-            }),
-        ],
-    },
-    {
-        input: ['src/index.ts'],
-        output: [{ file: 'lib/index.d.ts', format: 'es' }],
-        plugins: [
-            resolveAliases(),
-            dts(),
-        ],
-        external: [/\.css$/, 'styled-components'],
-    },
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        file: main,
+        format: 'cjs',
+        sourcemap: true,
+      },
+      {
+        file: _module,
+        format: 'esm',
+        sourcemap: true,
+      },
+    ],
+    plugins: [
+      peerDepsExternal(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        exclude: ['src/**/*.test.(tsx|ts)', '**/stories/*'],
+      }),
+      resolveAliases(),
+      babel({
+        exclude: 'node_modules/**',
+        presets: ['@babel/preset-react'],
+        babelHelpers: 'runtime',
+        plugins: ['@babel/plugin-transform-runtime'],
+        external: [/@babel\/runtime/, 'react'],
+      }),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
+      url(),
+      resolve({
+        browser: true,
+      }),
+      svgr({ icon: true }),
+      commonjs(),
+      postcss({
+        extensions: ['.css'],
+      }),
+    ],
+  },
+  {
+    input: ['src/index.ts'],
+    output: [{ file: 'lib/index.d.ts', format: 'es' }],
+    plugins: [resolveAliases(), dts()],
+    external: [/\.css$/, 'styled-components'],
+  },
 ];

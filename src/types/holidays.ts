@@ -1,18 +1,18 @@
 export interface HolidayResponse {
-    response: {
-        holidays: Holiday[]
-    }
+  response: {
+    holidays: Holiday[];
+  };
 }
 
 export interface Holiday {
-    name: string,
-    date: HolidayDate,
+  name: string;
+  date: HolidayDate;
 }
 export interface HolidayDate {
-    datetime: Datetime
+  datetime: Datetime;
 }
 
 export interface Datetime {
-    month: number
-    day: number
+  month: number;
+  day: number;
 }
