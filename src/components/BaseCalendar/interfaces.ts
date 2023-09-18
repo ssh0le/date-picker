@@ -1,8 +1,4 @@
-import { CalendarColors, CalendarDayStyle } from '@/types/calendar';
-
-export interface DayContainerProps {
-  $styles?: CalendarDayStyle;
-}
+import { CalendarColors } from '@/types/calendar';
 
 export interface CalendarWrapperProps {
   $colors: CalendarColors;

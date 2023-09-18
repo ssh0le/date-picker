@@ -4,7 +4,7 @@ import { flexCenter } from '@/styles/common';
 
 import { GridCell } from '../shared/Grid/GridCell';
 
-import { CalendarWrapperProps, DayContainerProps } from './interfaces';
+import { CalendarWrapperProps } from './interfaces';
 
 export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   border-radius: 10px;
@@ -41,15 +41,6 @@ export const NavIcon = styled.img`
 
 export const WeekDayContainer = styled(GridCell)`
   font-weight: bold;
-`;
-
-export const DayContainer = styled(GridCell)<DayContainerProps>`
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  position: relative;
-  ${(props) => props.$styles}
 `;
 
 export const ClearButton = styled.button`

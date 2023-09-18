@@ -7,7 +7,6 @@ import React, {
   useState,
 } from 'react';
 
-import { DayContainer } from '@/components/BaseCalendar/styled';
 import { Grid } from '@/components/shared/Grid';
 import {
   addMonthsToDate,
@@ -37,6 +36,7 @@ import {
 import { fetchHolidays } from '@/utils/fetchHolidays';
 
 import { WithCalendarProps } from './interfaces';
+import { DayContainer } from './styled';
 import { MonthWrapper, WrongDatesMessage } from './styled';
 
 const withCalendar = (props: WithCalendarProps) => {
@@ -58,6 +58,7 @@ const withCalendar = (props: WithCalendarProps) => {
     const { initialDate, defineStyle, onDayClick, styles, minDate, maxDate } =
       nextProps;
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
+    const [currentViewType, setCurrentViewType] = useState(viewType);
     const [holidays, setHolidays] = useState<Holiday[]>([]);
 
     useEffect(() => {
@@ -76,8 +77,8 @@ const withCalendar = (props: WithCalendarProps) => {
 
     const handleDayClick = (day: Date) => () => {
       if (
-        viewType === CalendarViewType.Month &&
-        areEqualMonthAndYear(currentDate, day)
+        currentViewType === CalendarViewType.Month &&
+        !areEqualMonthAndYear(currentDate, day)
       ) {
         return;
       }
@@ -87,8 +88,15 @@ const withCalendar = (props: WithCalendarProps) => {
     };
 
     const days = useMemo(
-      () => getCalendar(currentDate, weekStartDay, viewType, minDate, maxDate),
-      [currentDate, weekStartDay, viewType, minDate, maxDate],
+      () =>
+        getCalendar(
+          currentDate,
+          weekStartDay,
+          currentViewType,
+          minDate,
+          maxDate,
+        ),
+      [currentDate, weekStartDay, currentViewType, minDate, maxDate],
     );
 
     const firstDay = days.at(0)!;
@@ -102,7 +110,7 @@ const withCalendar = (props: WithCalendarProps) => {
 
     const filteredHolidays = useMemo(() => {
       if (
-        viewType === CalendarViewType.Year ||
+        currentViewType === CalendarViewType.Year ||
         !highlightHolidays ||
         !Array.isArray(holidays)
       )
@@ -111,29 +119,21 @@ const withCalendar = (props: WithCalendarProps) => {
       const [lastYear] = getDestructuredDate(lastDay);
       return (holidays ?? []).filter(({ month, day }) =>
         isInRange(
-          new Date(
-            month < firstMonth ? lastYear : firstYear,
-            month,
-            day,
-            0,
-            0,
-            0,
-            0,
-          ),
+          new Date(month < firstMonth ? lastYear : firstYear, month, day),
           firstDay,
           lastDay,
         ),
       );
-    }, [days, viewType]);
+    }, [days, currentViewType]);
 
     const defineComponentStyle = (day: Date): CalendarDayStyle => {
       const appliedStyles = [];
-      if (viewType === CalendarViewType.Year) {
+      if (currentViewType === CalendarViewType.Year) {
         return {};
       }
       const { today, weekend, outerDay, innerDay, holiday } = styles;
       const isInnerDay = areEqualMonthAndYear(currentDate, day);
-      if (isInnerDay || viewType !== CalendarViewType.Month) {
+      if (isInnerDay || currentViewType !== CalendarViewType.Month) {
         appliedStyles.push(innerDay);
         if (isToday(day)) {
           appliedStyles.push(today);
@@ -154,39 +154,36 @@ const withCalendar = (props: WithCalendarProps) => {
           appliedStyles.push(defineStyle(day));
         }
       }
-      if (!isInnerDay && viewType === CalendarViewType.Month) {
+      if (!isInnerDay && currentViewType === CalendarViewType.Month) {
         appliedStyles.push(outerDay);
       }
       return mergeObjects(...appliedStyles);
     };
 
     const title =
-      viewType === CalendarViewType.Year
+      currentViewType === CalendarViewType.Year
         ? currentDate.getFullYear()
         : getShortFormattedDate(currentDate);
 
     const getNextDate = useCallback(
       (prevDate: Date, amount: number) => {
-        if (viewType === CalendarViewType.Month) {
+        if (currentViewType === CalendarViewType.Month) {
           return addMonthsToDate(prevDate, amount);
-        } else if (viewType === CalendarViewType.Year) {
+        } else if (currentViewType === CalendarViewType.Year) {
           return addMonthsToDate(prevDate, amount * 12);
         } else {
           return addWeeksToDate(prevDate, amount);
         }
       },
-      [viewType],
+      [currentViewType],
     );
 
     const addToCurrentDate = useCallback(
-      (amount: 1 | -1) => {
+      (amount: 1 | -1) => () => {
         setCurrentDate((prevDate) => getNextDate(prevDate, amount));
       },
       [getNextDate],
     );
-
-    const handleNextPageClick = useCallback(() => addToCurrentDate(1), []);
-    const handlePrevPageClick = useCallback(() => addToCurrentDate(-1), []);
 
     const defineHasNextPage = (
       date: Date | undefined,
@@ -199,17 +196,17 @@ const withCalendar = (props: WithCalendarProps) => {
       if (!date) {
         return false;
       }
-      if (viewType === CalendarViewType.Year) {
+      if (currentViewType === CalendarViewType.Year) {
         return !areEqualMonthAndYear(new Date(date), new Date(limit));
       } else {
         return isNext ? date < limit : date > limit;
       }
     };
 
-    const hasNextPage = defineHasNextPage(lastDay, maxDate, true);
-    const hasPrevPage = defineHasNextPage(firstDay, minDate, false);
-
-    const handleMonthClick = (day: Date) => () => setCurrentDate(day);
+    const handleMonthClick = (day: Date) => () => {
+      setCurrentDate(day);
+      setCurrentViewType(CalendarViewType.Month);
+    };
 
     const renderBody = () => {
       if (maxDate && minDate && minDate > maxDate) {
@@ -221,7 +218,7 @@ const withCalendar = (props: WithCalendarProps) => {
           </Grid>
         );
       }
-      if (viewType !== CalendarViewType.Year) {
+      if (currentViewType !== CalendarViewType.Year) {
         return (
           <Grid data-testid="days-grid" $cols={7} $colWidth="32px">
             {days.map((day, index) => (
@@ -255,11 +252,11 @@ const withCalendar = (props: WithCalendarProps) => {
         onDayClick={handleDayClick}
         title={title}
         weekDayNames={weekDaysNames}
-        onNextPageClick={handleNextPageClick}
-        onPrevPageClick={handlePrevPageClick}
-        hasNextPage={hasNextPage}
+        onNextPageClick={addToCurrentDate(1)}
+        onPrevPageClick={addToCurrentDate(-1)}
+        hasNextPage={defineHasNextPage(lastDay, maxDate, true)}
         colors={styles.calendar}
-        hasPrevPage={hasPrevPage}
+        hasPrevPage={defineHasNextPage(firstDay, minDate, false)}
       />
     );
   };
