@@ -22,6 +22,14 @@ const resolveAliases = () =>
   alias({
     entries: [
       {
+        find: '@appTypes',
+        replacement: _resolve(__dirname, 'src/types'),
+      },
+      {
+        find: '@helpers',
+        replacement: _resolve(__dirname, 'src/helpers/index.ts'),
+      },
+      {
         find: '@',
         replacement: _resolve(__dirname, 'src'),
       },

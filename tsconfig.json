@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@appTypes/*": ["./src/types/*"],
+      "@helpers": ["./src/helpers/index.ts"]
     },
     "rootDir": ".",
     "sourceMap": true,
