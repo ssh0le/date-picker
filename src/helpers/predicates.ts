@@ -14,7 +14,10 @@ export const areEqualMonthAndYear = (date1: Date, date2: Date): boolean => {
   return y1 === y2 && m1 == m2;
 };
 
-export const isInRange = (date: Date, start: Date, end: Date): boolean => {
+export const isInRange = (date: Date, start?: Date, end?: Date): boolean => {
+  if (!start || !end) {
+    return true;
+  }
   const strDate = getOnlyDate(date);
   return strDate >= getOnlyDate(start) && strDate <= getOnlyDate(end);
 };
