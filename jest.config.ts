@@ -9,6 +9,8 @@ module.exports = {
   testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^@helpers$': '<rootDir>/src/helpers/index.ts',
+    '^@appTypes/(.*)$': '<rootDir>/src/types/$1',
     '\\.(css|scss)$': 'identity-obj-proxy',
   },
   transform: {
