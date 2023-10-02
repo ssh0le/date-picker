@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, memo, useCallback, useState } from 'react';
 
-import { icons } from '@/constants';
-import { convertToDate, isInRange } from '@/helpers';
+import { dateAllowedChars, icons } from '@/constants';
+import { convertToDate, isInRange } from '@helpers';
 
 import { DateInputProps } from './interfaces';
 import {
@@ -25,7 +25,7 @@ const DateInput: FC<DateInputProps> = ({
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value === '' || (value?.length > 0 && /^[0-9./\\]*$/g.test(value))) {
+    if (value === '' || (value?.length > 0 && dateAllowedChars.test(value))) {
       onChange(value);
       setIsValid(true);
     }
