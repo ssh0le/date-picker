@@ -25,7 +25,10 @@ const DateInput: FC<DateInputProps> = ({
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value === '' || (value?.length > 0 && dateAllowedChars.test(value))) {
+    if (
+      value === '' ||
+      (value?.length > 0 && new RegExp(dateAllowedChars).test(value))
+    ) {
       onChange(value);
       setIsValid(true);
     }
