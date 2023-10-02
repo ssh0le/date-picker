@@ -11,23 +11,9 @@ export enum WeekStartDay {
   Monday,
 }
 
-type DayCssProperties =
-  | 'color'
-  | 'backgroundColor'
-  | 'border'
-  | 'borderTop'
-  | 'borderBottom'
-  | 'borderLeft'
-  | 'borderRight'
-  | 'borderRadius'
-  | 'borderTopLeftRadius'
-  | 'borderTopRightRadius'
-  | 'borderBottomLeftRadius'
-  | 'borderBottomRightRadius';
-
 export type CalendarColors = Pick<CSSProperties, 'color' | 'backgroundColor'>;
 
-export type CalendarDayStyle = Pick<CSSProperties, DayCssProperties>;
+export type CalendarDayStyle = Pick<CSSProperties, keyof CSSProperties>;
 
 export interface CalendarStyles {
   [key: string]: CalendarDayStyle | undefined;

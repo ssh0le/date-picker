@@ -7,7 +7,6 @@ export type BaseCalendarProps = {
   weekDayNames?: string[];
   onNextPageClick: () => void;
   onPrevPageClick: () => void;
-  onDayClick: (day: Date) => () => void;
   onClearClick: () => void;
   hasSelection: boolean;
   renderBody: () => JSX.Element;
@@ -22,7 +21,6 @@ export type WithCalendarOmittedProps = Pick<
   | 'weekDayNames'
   | 'onNextPageClick'
   | 'onPrevPageClick'
-  | 'onDayClick'
   | 'colors'
   | 'renderBody'
 >;
