@@ -37,6 +37,7 @@ export const HeaderTitle = styled.span`
 
 export const NavIcon = styled.img`
   display: flex;
+  cursor: pointer;
 `;
 
 export const WeekDayContainer = styled(GridCell)`
@@ -48,6 +49,7 @@ export const ClearButton = styled.button`
   width: 100%;
   background-color: transparent;
   border: none;
+  cursor: pointer;
   border-top: 1px solid #e1e1e1;
   padding: ${({ theme }) => theme.padding.l}px 0;
 `;
