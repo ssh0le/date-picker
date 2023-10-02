@@ -5,8 +5,8 @@ import {
   CalendarViewType,
   Holiday,
   WeekStartDay,
-} from '@/types/calendar';
-import { BaseCalendarProps } from '@/types/decorators';
+} from '@appTypes/calendar';
+import { BaseCalendarProps } from '@appTypes/decorators';
 
 export interface WithCalendarProps {
   Component: FC<BaseCalendarProps>;
@@ -20,4 +20,5 @@ export interface WithCalendarProps {
 
 export interface DayContainerProps {
   $styles?: CalendarDayStyle;
+  $isInteractive: boolean;
 }

@@ -60,12 +60,12 @@ const withTodos = (props: WithTodoProps) => {
     }, []);
 
     const defineComponentStyle = (day: Date) => {
-      const style = {};
+      const appliedStyles = [];
       const { withTodoDay } = styles;
       if (todos.find(({ date }) => areEqualDates(date, day))) {
-        mergeObjects(style, withTodoDay);
+        appliedStyles.push(withTodoDay);
       }
-      return style;
+      return mergeObjects(...appliedStyles);
     };
 
     const handleAddTodo = (todo: string) => {

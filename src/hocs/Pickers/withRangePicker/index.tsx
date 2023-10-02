@@ -64,21 +64,15 @@ const withRangePicker = (props: WithPickerProps) => {
       setFromInput('');
     };
 
-    const handleFromDateSubmit = useCallback(
-      (day: Date) => {
-        setSelectedFrom(day);
-        handleSelectDate(day, selectedTo);
-      },
-      [handleSelectDate, selectedTo],
-    );
+    const handleFromDateSubmit = (day: Date) => {
+      setSelectedFrom(day);
+      handleSelectDate(day, selectedTo);
+    };
 
-    const handleToDateSubmit = useCallback(
-      (day: Date) => {
-        setSelectedTo(day);
-        handleSelectDate(selectedFrom, day);
-      },
-      [handleSelectDate, selectedFrom],
-    );
+    const handleToDateSubmit = (day: Date) => {
+      setSelectedTo(day);
+      handleSelectDate(selectedFrom, day);
+    };
 
     const isEnd = (day: Date | null, end: Date | null) => {
       if (!day || !end) {

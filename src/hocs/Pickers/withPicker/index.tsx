@@ -7,9 +7,8 @@ import React, {
 } from 'react';
 
 import DateInput from '@/components/DateInput';
-import { areEqualDates } from '@/helpers';
-import { mergeObjects } from '@/helpers/mergeObjects';
-import { WithPickerOmittedProps } from '@/types/decorators';
+import { WithPickerOmittedProps } from '@appTypes/decorators';
+import { areEqualDates, mergeObjects } from '@helpers';
 
 import { WithPickerProps } from '../interfaces';
 
@@ -43,16 +42,16 @@ const withPicker = (props: WithPickerProps) => {
       }
     }, [initialDate]);
 
-    const handleInputChange = (input: string) => setInputDate(input);
-
-    const handleDateSelect = useCallback(
-      (day: Date | null) => {
-        if (onSelect) {
-          onSelect(day);
-        }
-      },
-      [onSelect],
+    const handleInputChange = useCallback(
+      (input: string) => setInputDate(input),
+      [],
     );
+
+    const handleDateSelect = (day: Date | null) => {
+      if (onSelect) {
+        onSelect(day);
+      }
+    };
 
     const handleDateSubmit = useCallback(
       (day: Date) => {
@@ -64,15 +63,12 @@ const withPicker = (props: WithPickerProps) => {
       [handleDateSelect],
     );
 
-    const handleDayClick = useCallback(
-      (day: Date) => {
-        handleDateSubmit(day);
-        if (onDayClick) {
-          onDayClick(day);
-        }
-      },
-      [onDayClick],
-    );
+    const handleDayClick = (day: Date) => {
+      handleDateSubmit(day);
+      if (onDayClick) {
+        onDayClick(day);
+      }
+    };
 
     const isSelected = (day: Date) => {
       if (!selectedDay) return false;
@@ -82,7 +78,7 @@ const withPicker = (props: WithPickerProps) => {
       );
     };
 
-    const defineComponentStyle = (day: Date) => {
+    const defineDayStyle = (day: Date) => {
       const appliedStyle = [];
       if (defineStyle) {
         appliedStyle.push(defineStyle(day));
@@ -96,14 +92,14 @@ const withPicker = (props: WithPickerProps) => {
       return mergeObjects(...appliedStyle);
     };
 
-    const handleClearClick = useCallback(() => {
+    const handleClearClick = () => {
       setSelectedDay(null);
       handleDateSelect(null);
       setInputDate('');
       if (onClearClick) {
         onClearClick();
       }
-    }, [handleDateSelect]);
+    };
 
     return (
       <>
@@ -119,7 +115,7 @@ const withPicker = (props: WithPickerProps) => {
           {...nextProps}
           onDayClick={handleDayClick}
           initialDate={selectedDay}
-          defineStyle={defineComponentStyle}
+          defineStyle={defineDayStyle}
           onClearClick={handleClearClick}
           hasSelection={Boolean(selectedDay) || !!inputDate.length}
         />

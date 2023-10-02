@@ -8,6 +8,17 @@ import React, {
 } from 'react';
 
 import { Grid } from '@/components/shared/Grid';
+import { fetchHolidays } from '@/utils/fetchHolidays';
+import {
+  CalendarDayStyle,
+  CalendarViewType,
+  Holiday,
+  WeekStartDay,
+} from '@appTypes/calendar';
+import {
+  WithCalendarAdditionalProps,
+  WithCalendarOmittedProps,
+} from '@appTypes/decorators';
 import {
   addMonthsToDate,
   addWeeksToDate,
@@ -21,19 +32,8 @@ import {
   isInRange,
   isToday,
   isWeekEnd,
-} from '@/helpers';
-import { mergeObjects } from '@/helpers/mergeObjects';
-import {
-  CalendarDayStyle,
-  CalendarViewType,
-  Holiday,
-  WeekStartDay,
-} from '@/types/calendar';
-import {
-  WithCalendarAdditionalProps,
-  WithCalendarOmittedProps,
-} from '@/types/decorators';
-import { fetchHolidays } from '@/utils/fetchHolidays';
+  mergeObjects,
+} from '@helpers';
 
 import { WithCalendarProps } from './interfaces';
 import { DayContainer } from './styled';
@@ -75,11 +75,8 @@ const withCalendar = (props: WithCalendarProps) => {
       }
     }, [userHolidays, highlightHolidays]);
 
-    const handleDayClick = (day: Date) => () => {
-      if (
-        currentViewType === CalendarViewType.Month &&
-        !areEqualMonthAndYear(currentDate, day)
-      ) {
+    const handleDayClick = (day: Date, isInnerDay: boolean) => () => {
+      if (currentViewType === CalendarViewType.Month && !isInnerDay) {
         return;
       }
       if (onDayClick) {
@@ -126,13 +123,21 @@ const withCalendar = (props: WithCalendarProps) => {
       );
     }, [days, currentViewType]);
 
-    const defineComponentStyle = (day: Date): CalendarDayStyle => {
+    const defineDayStyle = (
+      day: Date,
+      isInnerDay: boolean,
+    ): CalendarDayStyle => {
       const appliedStyles = [];
       if (currentViewType === CalendarViewType.Year) {
         return {};
       }
-      const { today, weekend, outerDay, innerDay, holiday } = styles;
-      const isInnerDay = areEqualMonthAndYear(currentDate, day);
+      const {
+        today,
+        weekend,
+        outerDay,
+        innerDay,
+        holiday: holidayStyle,
+      } = styles;
       if (isInnerDay || currentViewType !== CalendarViewType.Month) {
         appliedStyles.push(innerDay);
         if (isToday(day)) {
@@ -143,11 +148,11 @@ const withCalendar = (props: WithCalendarProps) => {
         }
         if (highlightHolidays && filteredHolidays.length) {
           const [year] = getDestructuredDate(day);
-          const dayHoliday = filteredHolidays.find(({ month, day: hDay }) =>
-            areEqualDates(day, new Date(year, month, hDay)),
+          const holiday = filteredHolidays.find(({ month, day: holidayDay }) =>
+            areEqualDates(day, new Date(year, month, holidayDay)),
           );
-          if (dayHoliday) {
-            appliedStyles.push(holiday);
+          if (holiday) {
+            appliedStyles.push(holidayStyle);
           }
         }
         if (defineStyle) {
@@ -165,24 +170,19 @@ const withCalendar = (props: WithCalendarProps) => {
         ? currentDate.getFullYear()
         : getShortFormattedDate(currentDate);
 
-    const getNextDate = useCallback(
-      (prevDate: Date, amount: number) => {
-        if (currentViewType === CalendarViewType.Month) {
-          return addMonthsToDate(prevDate, amount);
-        } else if (currentViewType === CalendarViewType.Year) {
-          return addMonthsToDate(prevDate, amount * 12);
-        } else {
-          return addWeeksToDate(prevDate, amount);
-        }
-      },
-      [currentViewType],
-    );
-
     const addToCurrentDate = useCallback(
       (amount: 1 | -1) => () => {
-        setCurrentDate((prevDate) => getNextDate(prevDate, amount));
+        setCurrentDate((prevDate) => {
+          if (currentViewType === CalendarViewType.Month) {
+            return addMonthsToDate(prevDate, amount);
+          } else if (currentViewType === CalendarViewType.Year) {
+            return addMonthsToDate(prevDate, amount * 12);
+          } else {
+            return addWeeksToDate(prevDate, amount);
+          }
+        });
       },
-      [getNextDate],
+      [],
     );
 
     const defineHasNextPage = (
@@ -221,15 +221,21 @@ const withCalendar = (props: WithCalendarProps) => {
       if (currentViewType !== CalendarViewType.Year) {
         return (
           <Grid data-testid="days-grid" $cols={7} $colWidth="32px">
-            {days.map((day, index) => (
-              <DayContainer
-                key={index}
-                onClick={handleDayClick(day)}
-                $styles={defineComponentStyle(day)}
-              >
-                {day.getDate()}
-              </DayContainer>
-            ))}
+            {days.map((day, index) => {
+              const isInnerDay =
+                areEqualMonthAndYear(currentDate, day) &&
+                isInRange(day, minDate, maxDate);
+              return (
+                <DayContainer
+                  key={index}
+                  onClick={handleDayClick(day, isInnerDay)}
+                  $isInteractive={isInnerDay}
+                  $styles={defineDayStyle(day, isInnerDay)}
+                >
+                  {day.getDate()}
+                </DayContainer>
+              );
+            })}
           </Grid>
         );
       } else {
@@ -249,7 +255,6 @@ const withCalendar = (props: WithCalendarProps) => {
       <Component
         {...nextProps}
         renderBody={renderBody}
-        onDayClick={handleDayClick}
         title={title}
         weekDayNames={weekDaysNames}
         onNextPageClick={addToCurrentDate(1)}

@@ -17,7 +17,7 @@ export const WrongDatesMessage = styled.p`
 export const DayContainer = styled(GridCell)<DayContainerProps>`
   -moz-user-select: none;
   -webkit-user-select: none;
-  cursor: pointer;
+  ${(props) => props.$isInteractive && 'cursor: pointer;'}
   -ms-user-select: none;
   user-select: none;
   position: relative;
