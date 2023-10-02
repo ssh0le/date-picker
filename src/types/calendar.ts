@@ -11,9 +11,11 @@ export enum WeekStartDay {
   Monday,
 }
 
-export type CalendarColors = Pick<CSSProperties, 'color' | 'backgroundColor'>;
+type ReactCssProperties = Pick<CSSProperties, keyof CSSProperties>;
 
-export type CalendarDayStyle = Pick<CSSProperties, keyof CSSProperties>;
+export type CalendarColors =  ReactCssProperties;
+
+export type CalendarDayStyle = ReactCssProperties;
 
 export interface CalendarStyles {
   [key: string]: CalendarDayStyle | undefined;

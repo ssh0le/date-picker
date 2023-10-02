@@ -4,6 +4,6 @@ export const params = {
   country: 'by',
   api_key: apiKey,
 };
-export const apiUrl = `https://calendarific.com/api/v2/holidays?${new URLSearchParams(
+export const apiUrl = `hhttps://calendarific.com/api/v2/holidays?${new URLSearchParams(
   params,
 )}`;
