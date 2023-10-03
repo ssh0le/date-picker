@@ -1,3 +1,6 @@
+import { colors } from '@/constants/index';
+const { gray, red, black } = colors;
+
 const fontSize = {
   s: 14,
   m: 15,
@@ -6,6 +9,12 @@ const fontSize = {
 const gap = {
   m: 8,
   l: 10,
+};
+
+const themeColors = {
+  gray,
+  red,
+  black,
 };
 
 const padding = {
@@ -22,4 +31,5 @@ export const theme = {
   gap,
   padding,
   width,
+  colors: themeColors,
 };

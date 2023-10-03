@@ -17,8 +17,15 @@ export const LabelContainer = styled.label`
 
 export const InputContainer = styled.div<InputContainerProps>`
   display: flex;
+  box-sizing: border-box;
   gap: ${({ theme }) => theme.gap.m}px;
-  border: 1px solid ${({ $isValid }) => ($isValid ? '#dddddd' : 'red')};
+  border: 1px solid
+    ${({
+      $isValid,
+      theme: {
+        colors: { gray, red },
+      },
+    }) => ($isValid ? gray : red)};
   border-radius: 8px;
   padding: 11px 15px;
 `;

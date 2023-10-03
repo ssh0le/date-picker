@@ -8,8 +8,7 @@ import { CalendarWrapperProps } from './interfaces';
 
 export const CalendarWrapper = styled.div<CalendarWrapperProps>`
   border-radius: 10px;
-  border: 1px solid #e1e1e1;
-  width: ${({ theme }) => theme.width.m}px;
+  border: 1px solid ${({ theme }) => theme.colors.gray};
   ${({ $colors }) => $colors}
 `;
 
@@ -50,6 +49,6 @@ export const ClearButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  border-top: 1px solid #e1e1e1;
+  border-top: 1px solid ${({ theme }) => theme.colors.gray};
   padding: ${({ theme }) => theme.padding.l}px 0;
 `;

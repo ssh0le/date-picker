@@ -15,6 +15,6 @@ export const ErrorMessageContainer = styled.p`
 
 export const ReloadButton = styled.button`
   padding: ${({ theme }) => theme.padding.m}px;
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.colors.black};
   border-radius: 5px;
 `;

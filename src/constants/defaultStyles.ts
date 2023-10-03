@@ -7,7 +7,7 @@ const {
   blue,
   hardBlue,
   lightGray,
-  gray,
+  darkGray: gray,
   orange,
   red,
   white,

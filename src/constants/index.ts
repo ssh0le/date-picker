@@ -1,3 +1,4 @@
+export * from './colors';
 export * from './date';
 export * from './defaultStyles';
 export * from './holidaysApi';
