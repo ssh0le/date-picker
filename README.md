@@ -83,21 +83,9 @@ For define day style you have to use object with following properties:
 ```ts
 import { CSSProperties } from 'react';
 
-type DayCssProperties =
-  | 'color'
-  | 'backgroundColor'
-  | 'border'
-  | 'borderTop'
-  | 'borderBottom'
-  | 'borderLeft'
-  | 'borderRight'
-  | 'borderRadius'
-  | 'borderTopLeftRadius'
-  | 'borderTopRightRadius'
-  | 'borderBottomLeftRadius'
-  | 'borderBottomRightRadius';
+type ReactCssProperties = Pick<CSSProperties, keyof CSSProperties>;
 
-export type CalendarDayStyle = Pick<CSSProperties, DayCssProperties>;
+export type CalendarDayStyle = ReactCssProperties;
 ```
 
 To style calendar itself you need to pass next object:
@@ -105,7 +93,9 @@ To style calendar itself you need to pass next object:
 ```ts
 import { CSSProperties } from 'react';
 
-export type CalendarColors = Pick<CSSProperties, 'color' | 'backgroundColor'>;
+type ReactCssProperties = Pick<CSSProperties, keyof CSSProperties>;
+
+export type CalendarColors = ReactCssProperties;
 ```
 
 **Warning!** To style selected day in DatePicker, you need to pass styles in _selectionTailDay_.
@@ -187,4 +177,5 @@ Add todo list to Picker. This prop is available only for _DatePicker_.
 
 ## Demo
 
+[Storybook](https://65019ce0724191e4f55baf61-ghzxovwcvu.chromatic.com)
 Interactive [example](https://ssh0le.github.io/date-picker-demo/) of library usage
