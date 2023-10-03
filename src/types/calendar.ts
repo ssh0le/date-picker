@@ -13,7 +13,7 @@ export enum WeekStartDay {
 
 type ReactCssProperties = Pick<CSSProperties, keyof CSSProperties>;
 
-export type CalendarColors =  ReactCssProperties;
+export type CalendarColors = ReactCssProperties;
 
 export type CalendarDayStyle = ReactCssProperties;
 
