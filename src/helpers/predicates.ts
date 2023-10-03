@@ -37,6 +37,7 @@ export const isWeekEnd = (date: Date) => {
 };
 
 const getOnlyDate = (date: Date): string => {
-  const datetime = date.toISOString().split('T');
-  return datetime[0];
+  const dateCopy = new Date(date);
+  dateCopy.setHours(0, 0, 0, 0);
+  return dateCopy.toJSON().split('T')[0];
 };
