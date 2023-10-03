@@ -1,7 +1,8 @@
 name: 'Chromatic Deployment'
 on:
   push:
-    types: [develop]
+    branches:
+      - develop
 jobs:
   test:
     runs-on: ubuntu-latest

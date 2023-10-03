@@ -177,5 +177,6 @@ Add todo list to Picker. This prop is available only for _DatePicker_.
 
 ## Demo
 
-[Storybook](https://65019ce0724191e4f55baf61-ghzxovwcvu.chromatic.com)
+[Storybook](https://65019ce0724191e4f55baf61-npduvbicgv.chromatic.com)
+
 Interactive [example](https://ssh0le.github.io/date-picker-demo/) of library usage
