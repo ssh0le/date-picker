@@ -15,11 +15,16 @@ export const areEqualMonthAndYear = (date1: Date, date2: Date): boolean => {
 };
 
 export const isInRange = (date: Date, start?: Date, end?: Date): boolean => {
-  if (!start || !end) {
+  const strDate = getOnlyDate(date);
+  if (start && end) {
+    return strDate >= getOnlyDate(start) && strDate <= getOnlyDate(end);
+  } else if (start && !end) {
+    return strDate >= getOnlyDate(start);
+  } else if (!start && end) {
+    return strDate <= getOnlyDate(end);
+  } else {
     return true;
   }
-  const strDate = getOnlyDate(date);
-  return strDate >= getOnlyDate(start) && strDate <= getOnlyDate(end);
 };
 
 export const isToday = (date: Date): boolean => {
