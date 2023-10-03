@@ -19,7 +19,6 @@ export const fetchHolidays = async () => {
     );
     return responseHolidays;
   } catch (error) {
-    console.error(error);
     return null;
   }
 };
