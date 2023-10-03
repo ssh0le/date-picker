@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, memo, useCallback, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useState } from 'react';
 
 import { dateAllowedChars, icons } from '@/constants';
 import { convertToDate, isInRange } from '@helpers';
@@ -34,10 +34,10 @@ const DateInput: FC<DateInputProps> = ({
     }
   };
 
-  const handleClearClick = useCallback(() => {
+  const handleClearClick = () => {
     onChange('');
     setIsValid(true);
-  }, []);
+  };
 
   const handleApplyClick = () => {
     const date = convertToDate(value);
