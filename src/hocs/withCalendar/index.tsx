@@ -1,11 +1,4 @@
-import React, {
-  ComponentProps,
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { ComponentProps, FC, useEffect, useMemo, useState } from 'react';
 
 import { Grid } from '@/components/shared/Grid';
 import { fetchHolidays } from '@/utils/fetchHolidays';
@@ -170,20 +163,17 @@ const withCalendar = (props: WithCalendarProps) => {
         ? currentDate.getFullYear()
         : getShortFormattedDate(currentDate);
 
-    const addToCurrentDate = useCallback(
-      (amount: 1 | -1) => () => {
-        setCurrentDate((prevDate) => {
-          if (currentViewType === CalendarViewType.Month) {
-            return addMonthsToDate(prevDate, amount);
-          } else if (currentViewType === CalendarViewType.Year) {
-            return addMonthsToDate(prevDate, amount * 12);
-          } else {
-            return addWeeksToDate(prevDate, amount);
-          }
-        });
-      },
-      [],
-    );
+    const addToCurrentDate = (amount: 1 | -1) => () => {
+      setCurrentDate((prevDate) => {
+        if (currentViewType === CalendarViewType.Month) {
+          return addMonthsToDate(prevDate, amount);
+        } else if (currentViewType === CalendarViewType.Year) {
+          return addMonthsToDate(prevDate, amount * 12);
+        } else {
+          return addWeeksToDate(prevDate, amount);
+        }
+      });
+    };
 
     const defineHasNextPage = (
       date: Date | undefined,
