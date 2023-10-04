@@ -1,9 +1,8 @@
-const apiKey = process.env.HOLIDAYS_KEY as string;
 export const params = {
   year: '2023',
   country: 'by',
-  api_key: apiKey,
+  api_key: process.env.HOLIDAY_API_KEY as string,
 };
-export const apiUrl = `https://calendarific.com/api/v2/holidays?${new URLSearchParams(
+export const apiUrl = `${process.env.HOLIDAY_API_URL}${new URLSearchParams(
   params,
 )}`;
