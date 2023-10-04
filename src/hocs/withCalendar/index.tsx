@@ -32,6 +32,8 @@ import { WithCalendarProps } from './interfaces';
 import { DayContainer } from './styled';
 import { MonthWrapper, WrongDatesMessage } from './styled';
 
+const holidaysStorageKey = 'calendarHolidays';
+
 const withCalendar = (props: WithCalendarProps) => {
   const {
     Component,
@@ -55,16 +57,24 @@ const withCalendar = (props: WithCalendarProps) => {
     const [holidays, setHolidays] = useState<Holiday[]>([]);
 
     useEffect(() => {
-      if (highlightHolidays) {
-        const getHolidays = async () => {
-          if (!userHolidays) {
+      if (!highlightHolidays) return;
+      if (userHolidays) {
+        setHolidays(userHolidays);
+      } else {
+        const holidays = sessionStorage.getItem(holidaysStorageKey);
+        if (holidays) {
+          setHolidays(JSON.parse(holidays));
+        } else {
+          const getHolidays = async () => {
             const response = await fetchHolidays();
             setHolidays(response ?? []);
-          } else {
-            setHolidays(userHolidays);
-          }
-        };
-        getHolidays();
+            sessionStorage.setItem(
+              holidaysStorageKey,
+              JSON.stringify(response),
+            );
+          };
+          getHolidays();
+        }
       }
     }, [userHolidays, highlightHolidays]);
 
