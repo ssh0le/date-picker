@@ -7,9 +7,9 @@ Second, RangeDatePicker can pick range between two dates.
 ## Installation
 
 ```
-    yarn add datepicker-pl1fert
+    yarn add @richigo/date-picker-lib
     # or
-    npm install datepicker-pl1fert
+    npm install @richigo/date-picker-lib
 ```
 
 ## API
